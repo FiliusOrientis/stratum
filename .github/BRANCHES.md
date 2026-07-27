@@ -17,6 +17,11 @@ Active and past branches. Delete stale ones after merge.
 | `chore/branch-log` | PR #4 | Branch tracking log, prune enforcement |
 | `fix/ci-failures` | PR #6 | CodeQL triggers, release-please version |
 | `fix/release-please` | PR #7 | Remove invalid package-name param |
+| `docs/branch-log-update` | PR #9 | Add PRs #6, #7 to branch log |
+| `docs/fix-agents-md` | PR #10 | Add BRANCHES.md to gate, fix duplicate numbering |
+| `chore/webstorm-config` | PR #11 | Shared code styles and run configs |
+| `chore/webstorm-todo-tasks` | PR #12 | Tasks config and TODO conventions |
+| `fix/tasks-gitignore` | PR #13 | Allow tasks.xml in gitignore |
 
 ## Procedure
 
