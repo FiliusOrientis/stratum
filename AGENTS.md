@@ -35,6 +35,20 @@ After EVERY code change, verify these docs are still current:
 9. **Caveman by default** — communicate with ultra-compressed style. Only expand when asked for detail.
 10. **PowerShell JSON safety** — never inline JSON in PowerShell commands. Always write JSON to `$env:TEMP\opencode\*.json` and use `gh api ... --input $env:TEMP\opencode\<file>.json`. PowerShell mangling of nested JSON causes silent failures and wastes tokens.
 
+## Post-Merge Audit (EVERY merge to main)
+
+After EVERY merge to main, audit the following BEFORE starting new work:
+
+1. **Dependabot alerts** — check `gh api /repos/FiliusOrientis/stratum/dependabot/alerts` for open vulnerabilities. Address high/critical immediately.
+2. **CI/CD status** — check `gh run list --limit 5` for failures on main. Investigate and fix any red.
+3. **Open PRs** — `gh pr list --state open`. Check:
+   - Dependabot PRs: are they passing CI? If not, fix or merge manually.
+   - Release Please PR: is it up to date with CI checks?
+   - Stale PRs: close or rebase.
+4. **Release Please** — check if a release PR is open and ready to merge. If CI passes, merge to ship new version.
+5. **Branch log** — update `.github/BRANCHES.md` with any new branches from the merge (Dependabot, Release Please).
+6. **Wiki** — check Documentation Gate: did the merge introduce changes that need wiki updates?
+
 ## Git Workflow (MANDATORY — NEVER skip)
 
 1. **Never commit directly to `main`** — always use feature branches
@@ -88,7 +102,7 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 
 - **Node >= 20, pnpm >= 9**
 - **Biome config**: 2-space indent, single quotes, no semicolons, trailing commas, 100 line width
-- **Commit style**: conventional commits via caveman-commit (≤50 char subject, body only when why isn't obvious)
+- **Commit style**: conventional commits via caveman-commit (≤100 char subject, body only when why isn't obvious)
 
 ## Strict Rules (NEVER violate)
 
