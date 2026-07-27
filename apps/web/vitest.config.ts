@@ -23,6 +23,13 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      exclude: [
+        '**/components/ui/**',
+        '**/auto-imports.d.ts',
+        '**/coverage/**',
+        '**/test/**',
+        '**/stores/index.ts',
+      ],
       thresholds: {
         lines: 80,
         functions: 80,

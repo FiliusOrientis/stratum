@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
-import { Home } from './routes/home'
+import { CatalogPage, ReaderPage } from './routes'
 
 const router = createBrowserRouter([
-  // biome-ignore lint/style/useNamingConvention: React Router v7 requires PascalCase Component property
-  { path: '/', Component: Home },
+  // biome-ignore lint/style/useNamingConvention: React Router v8 requires PascalCase Component property
+  { path: '/', Component: CatalogPage },
+  // biome-ignore lint/style/useNamingConvention: React Router v8 requires PascalCase Component property
+  { path: '/reader/:bookId', Component: ReaderPage },
 ])
 
 export function App() {

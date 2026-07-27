@@ -22,8 +22,8 @@ Every module in `apps/web/src/` is documented below. Each doc covers:
 
 | File | Doc | Purpose |
 |------|-----|---------|
-| `routes/catalog-page.tsx` | — | Catalog (3D bookshelf) route at `/` |
-| `routes/reader-page.tsx` | — | Reader (flipbook) route at `/reader/:bookId` |
+| `routes/catalog-page.tsx` | `routes/catalog-page.md` | Catalog page with import button |
+| `routes/reader-page.tsx` | `routes/reader-page.md` | Reader page with toolbar + flipbook |
 
 ## Components
 
@@ -50,8 +50,10 @@ ShadCN React Aria components. Read-only — never modify directly.
 |--------------------|-------|---------|
 | `book-viewer/` | — | R3F flipbook scene: page mesh, cover, turn animation |
 | `book-shelf/` | — | R3F 3D bookshelf catalog scene |
-| `app-shell/` | — | Layout, toolbar, drawers, settings dialog |
-| `import/` | — | Import button, drop zone, URL dialog |
+| `app-shell/` | | |
+| `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper |
+| `reader-toolbar.tsx` | `components/app-shell/reader-toolbar.md` | Edge-anchored reader toolbar |
+| `settings-dialog.tsx` | `components/app-shell/settings-dialog.md` | Settings modal with Gemini keys |
 
 ## Stores (`stores/`)
 
@@ -77,3 +79,4 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `storage/db.ts` | — | Dexie schema (books, config tables) |
 | `storage/opfs.ts` | — | OPFS binary PDF read/write/evict |
 | `math/page-bend.ts` | — | Bezier curve math extracted from DearFlip for page-turn animation |
+| `pdf-import/index.ts` | `lib/pdf-import/index.md` | PDF import pipeline (fingerprint + OPFS save) |
