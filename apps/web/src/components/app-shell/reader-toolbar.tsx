@@ -35,14 +35,14 @@ export function ReaderToolbar() {
 
   return (
     <div
-      className={`${barClasses} z-50 flex items-center justify-center gap-2 border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
+      className={`${barClasses} z-50 flex items-center justify-center border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
     >
-      <div className="flex items-center gap-1">
+      <div className="flex items-center">
         <Button size="icon" variant="ghost" aria-label="Previous page" onPress={prevPage}>
           <CaretLeftIcon />
         </Button>
 
-        <div className="mx-2 flex items-center gap-1 text-sm text-foreground">
+        <div className="flex items-center gap-1 text-sm text-foreground">
           <Input
             type="number"
             value={currentPage}
@@ -62,22 +62,18 @@ export function ReaderToolbar() {
         <Button size="icon" variant="ghost" aria-label="Next page" onPress={nextPage}>
           <CaretRightIcon />
         </Button>
-      </div>
 
-      <Separator orientation="vertical" className="mx-1 h-6" />
+        <Separator orientation="vertical" className="mx-3 h-6" />
 
-      <div className="flex items-center gap-1">
         <Button size="icon" variant="ghost" aria-label="Zoom out" onPress={zoomOut}>
           <MagnifyingGlassMinusIcon />
         </Button>
         <Button size="icon" variant="ghost" aria-label="Zoom in" onPress={zoomIn}>
           <MagnifyingGlassPlusIcon />
         </Button>
-      </div>
 
-      <Separator orientation="vertical" className="mx-1 h-6" />
+        <Separator orientation="vertical" className="mx-3 h-6" />
 
-      <div className="flex items-center gap-1">
         <Button size="icon" variant="ghost" aria-label="Fullscreen" onPress={toggleFullscreen}>
           <CornersOutIcon />
         </Button>
@@ -85,24 +81,24 @@ export function ReaderToolbar() {
           <GearIcon />
         </Button>
 
-        <div className="ml-2 flex items-center border-border border-l pl-2">
-          <Button
-            size="icon"
-            variant="ghost"
-            aria-label={position === 'top' ? 'Move to bottom' : 'Move to top'}
-            onPress={() => setPosition(position === 'top' ? 'bottom' : 'top')}
-          >
-            {position === 'top' ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
-          </Button>
-          <Button
-            size="icon"
-            variant="ghost"
-            aria-label="Hide toolbar"
-            onPress={() => setPosition('hidden')}
-          >
-            <EyeSlashIcon />
-          </Button>
-        </div>
+        <Separator orientation="vertical" className="mx-3 h-6" />
+
+        <Button
+          size="icon"
+          variant="ghost"
+          aria-label={position === 'top' ? 'Move to bottom' : 'Move to top'}
+          onPress={() => setPosition(position === 'top' ? 'bottom' : 'top')}
+        >
+          {position === 'top' ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
+        </Button>
+        <Button
+          size="icon"
+          variant="ghost"
+          aria-label="Hide toolbar"
+          onPress={() => setPosition('hidden')}
+        >
+          <EyeSlashIcon />
+        </Button>
       </div>
     </div>
   )
