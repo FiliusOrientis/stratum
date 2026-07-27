@@ -37,7 +37,7 @@ export function ReaderToolbar() {
     <div
       className={`${barClasses} z-50 flex items-center justify-center border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
     >
-      <div className="flex items-center">
+      <div className="flex items-center gap-3">
         <Button size="icon" variant="ghost" aria-label="Previous page" onPress={prevPage}>
           <CaretLeftIcon />
         </Button>
@@ -63,7 +63,7 @@ export function ReaderToolbar() {
           <CaretRightIcon />
         </Button>
 
-        <Separator orientation="vertical" className="mx-3 h-6" />
+        <Separator orientation="vertical" className="h-7" />
 
         <Button size="icon" variant="ghost" aria-label="Zoom out" onPress={zoomOut}>
           <MagnifyingGlassMinusIcon />
@@ -72,7 +72,7 @@ export function ReaderToolbar() {
           <MagnifyingGlassPlusIcon />
         </Button>
 
-        <Separator orientation="vertical" className="mx-3 h-6" />
+        <Separator orientation="vertical" className="h-7" />
 
         <Button size="icon" variant="ghost" aria-label="Fullscreen" onPress={toggleFullscreen}>
           <CornersOutIcon />
@@ -81,7 +81,7 @@ export function ReaderToolbar() {
           <GearIcon />
         </Button>
 
-        <Separator orientation="vertical" className="mx-3 h-6" />
+        <Separator orientation="vertical" className="h-7" />
 
         <Button
           size="icon"
