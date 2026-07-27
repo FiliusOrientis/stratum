@@ -16,7 +16,7 @@ Requirements: Node >= 20, pnpm >= 9.
 1. Create a branch: `git checkout -b feat/my-feature` or `fix/my-fix`
 2. Make changes, following `docs/conventions.md`
 3. Run verification: `pnpm lint && pnpm typecheck`
-4. Commit using conventional commits (max 50 char subject)
+4. Commit using conventional commits (max 100 char subject)
 5. Push and open a PR against `main`
 
 ## Commit Style
@@ -26,7 +26,7 @@ feat: add PDF drag-and-drop import
 fix: correct page flip animation on edge
 ```
 
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`.
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`. Subject line max 100 chars.
 
 ## PR Guidelines
 

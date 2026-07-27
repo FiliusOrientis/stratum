@@ -80,3 +80,7 @@ src/components/book-viewer/
 - Always handle promise rejections — no floating promises
 - Use `await` in async functions, never ignore the result
 - Prefer `Promise.all` over sequential awaits where independent
+
+## Thinking Tools
+
+When the user faces uncertainty (bug investigation, feature scoping, architecture decisions, prioritization, code review, or system analysis), the AI invokes the `thinking-tools` skill (`.agents/skills/thinking-tools/SKILL.md`). The skill maps the situation to an appropriate untools.co thinking framework and provides structured output. See the skill file for the full decision tree and trigger rules.
