@@ -53,11 +53,18 @@ After EVERY merge to main, audit the following BEFORE starting new work:
 
 1. **Never commit directly to `main`** — always use feature branches
 2. **Branch naming**: `feat/`, `fix/`, `refactor/`, `docs/`, `chore/` prefix (e.g. `feat/pdf-import`)
-3. **Conventional commits only**: `type(scope): subject` — max 50 chars, present tense
+3. **Conventional commits only**: `type(scope): subject` — max 100 chars, present tense
 4. **Commit after verification** — `pnpm lint` + `pnpm typecheck` must pass BEFORE committing
 5. **Push branch + open PR** — never push to main directly (blocked server-side)
 6. **Merge only via squash** — single clean commit per feature
 7. **Check CI** — lint, typecheck, test must all pass before merge
+
+## Release Rules (MANDATORY)
+
+1. **No release before real code** — do NOT ship a release (tag, GitHub Release, version bump) until meaningful end-user functionality exists. Config scaffolding, CI/CD setup, docs, and infrastructure do NOT count.
+2. **Release Please is disabled for now** — configure it to not auto-release. If it creates a release PR, close it without merging. Only merge a release PR when explicitly instructed.
+3. **Version stays at 0.x** — all versions must be 0.x until the first actual feature ship. Breaking changes in pre-1.0 are normal (semver 4.x rule).
+4. **Changelog is pre-release** — maintain a rough changelog but don't treat it as final. It will be rewritten before 1.0.
 
 Violating this is the #1 way to waste tokens. CI will reject non-conventional commits.
 
