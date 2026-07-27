@@ -28,7 +28,7 @@ After EVERY code change, verify these docs are still current:
 2. **Read before edit** — inspect existing code patterns in surrounding files before making changes. Never guess APIs or conventions.
 3. **Use Context7 MCP** — when working with unfamiliar library APIs (Three.js, Dexie, Zustand, Comlink, Vercel AI SDK), use Context7 to look up real docs. Never hallucinate signatures.
 4. **Use `lookup_type` / `list_types`** — before writing TypeScript that touches existing types, use the type-inject MCP tools to verify type signatures.
-5. **Run verification** — after every edit: `biome check --write` then `turbo run typecheck`. Both must pass before declaring done.
+5. **Run verification** — after every edit: `pnpm lint` then `pnpm typecheck`. Both must pass before declaring done.
 6. **No placeholder/dummy code** — every implementation must be working code. If unsure about something, ask. Never use TODO stubs, mock fallbacks, or fake data.
 7. **Prefer edit over create** — always prefer editing existing files rather than creating new ones.
 8. **Use explore subagent** — for multi-file searches, use the explore subagent to save context tokens. Use `rg` (ripgrep) via bash for fast single-pattern searches.
@@ -40,7 +40,7 @@ After EVERY code change, verify these docs are still current:
 1. **Never commit directly to `main`** — always use feature branches
 2. **Branch naming**: `feat/`, `fix/`, `refactor/`, `docs/`, `chore/` prefix (e.g. `feat/pdf-import`)
 3. **Conventional commits only**: `type(scope): subject` — max 50 chars, present tense
-4. **Commit after verification** — `biome check --write` + `turbo run typecheck` must pass BEFORE committing
+4. **Commit after verification** — `pnpm lint` + `pnpm typecheck` must pass BEFORE committing
 5. **Push branch + open PR** — never push to main directly (blocked server-side)
 6. **Merge only via squash** — single clean commit per feature
 7. **Check CI** — lint, typecheck, test must all pass before merge
@@ -90,12 +90,18 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - **Biome config**: 2-space indent, single quotes, no semicolons, trailing commas, 100 line width
 - **Commit style**: conventional commits via caveman-commit (≤50 char subject, body only when why isn't obvious)
 
+## Strict Rules (NEVER violate)
+
+- **Never call binaries directly** — `biome`, `tsc`, `turbo` are not on PATH. Always use pnpm scripts: `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm dev`. No exceptions.
+- **CI must use proper packages, not workarounds** — every CI step that needs a tool must install it as a devDependency and use it via `pnpm exec`. No inline bash patterns that duplicate tool logic.
+- **Link every PR to the GitHub Project** — always pass `--project "Stratum"` when creating PRs via `gh pr create`.
+
 ## Tool Usage
 
 - When you need library docs, use `context7` tools
 - When you need to verify a TypeScript type, use `type-inject` tools (`lookup_type`, `list_types`, `type_check`)
 - When you need to search the codebase, use `rg` via bash or the explore subagent
-- When you finish a task, run `biome check --write` and `turbo run typecheck`
+- When you finish a task, run `pnpm lint` and `pnpm typecheck`
 - Run `/setup-matt-pocock-skills` at project start to configure workflows
 
 ## Code Annotations (WebStorm TODO Integration)
