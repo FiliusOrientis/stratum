@@ -5,8 +5,7 @@ Active and past branches. Delete stale ones after merge.
 | Branch | Status | Purpose |
 |--------|--------|---------|
 | `main` | Active | Production |
-| `dependabot/npm_and_yarn/react-router-8.3.0` | Open | Dependabot: bump react-router 7.18.1→8.3.0 |
-| `chore/post-merge-audit` | PR #21 | Post-merge audit, commitlint 72-char, CI PR-only |
+| `release-please--branches--main--components--stratum` | PR #22 | Release Please auto-tracker (v1.0.0) |
 
 ## Merged (Cleaned)
 
@@ -19,6 +18,7 @@ Active and past branches. Delete stale ones after merge.
 | `chore/update-branch-log` | PR #5 | Update branch log |
 | `fix/ci-failures` | PR #6 | CodeQL triggers, release-please version |
 | `fix/release-please` | PR #7 | Remove invalid package-name param |
+| `release-please--branches--main--components--stratum` | PR #8 | Stale release PR (closed) |
 | `docs/branch-log-update` | PR #9 | Add PRs #6, #7 to branch log |
 | `docs/fix-agents-md` | PR #10 | Add BRANCHES.md to gate, fix duplicate numbering |
 | `chore/webstorm-config` | PR #11 | Shared code styles and run configs |
@@ -29,13 +29,13 @@ Active and past branches. Delete stale ones after merge.
 | `docs/wiki-gate` | PR #16 | Add wiki to documentation gate |
 | `chore/disable-codeql` | PR #17 | Disable CodeQL schedule |
 | `feat/app-web-scaffold` | PR #18 | Scaffold Vite 7 + React 19 + Router 7 |
+| `dependabot/npm_and_yarn/react-router-8.3.0` | PR #19 | Dependabot: bump react-router 7.18.1→8.3.0 |
 | `chore/ci-governance` | PR #20 | Harden CI and governance rules |
+| `chore/post-merge-audit` | PR #21 | Post-merge audit, commitlint 72-char, CI PR-only |
+| `chore/workflow-dispatch` | PR #23 | Add workflow_dispatch trigger |
+| `chore/commitlint-100` | PR #24 | Raise commitlint header limit to 100 chars |
 
 ## Closed
-
-| Branch | Closed | Purpose |
-|--------|--------|---------|
-| `release-please--branches--main--components--stratum` | PR #8 | Stale release PR (recreated on next merge) |
 
 ## Procedure
 
