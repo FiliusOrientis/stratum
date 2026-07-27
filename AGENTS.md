@@ -102,7 +102,7 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 
 - **Node >= 20, pnpm >= 9**
 - **Biome config**: 2-space indent, single quotes, no semicolons, trailing commas, 100 line width
-- **Commit style**: conventional commits via caveman-commit (≤72 char subject, body only when why isn't obvious)
+- **Commit style**: conventional commits via caveman-commit (≤100 char subject, body only when why isn't obvious)
 
 ## Strict Rules (NEVER violate)
 
