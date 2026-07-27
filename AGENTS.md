@@ -45,6 +45,26 @@ After EVERY code change, verify these docs are still current:
 
 Violating this is the #1 way to waste tokens. CI will reject non-conventional commits.
 
+## Git Safety Rules (NEVER skip)
+
+1. **Before destructive actions** — `git reset --hard`, `git clean -fd`, `git push --force`, `git rebase` — confirm there are no uncommitted changes (`git status` must be clean).
+2. **Never force push** — `git push --force` is blocked to `main` server-side. Never use `--force` on any shared branch.
+3. **Never amend pushed commits** — if the commit has left your machine, create a new commit instead.
+4. **Never rebase shared branches** — `git rebase` rewrites history. Only rebase branches you own and haven't pushed.
+5. **Always `git pull --rebase` before pushing** — avoid merge bubbles.
+6. **Clean branches after merge** — delete local and remote feature branches immediately after PR merge.
+7. **Start every task with a fresh branch from `main`** — `git checkout main && git pull && git checkout -b feat/...`
+8. **Commit small, commit often** — no mega-commits spanning multiple features.
+
+## Dependency Stewardship (Future-Proofing)
+
+1. **Before adding ANY dependency** — pause. Check if the project already has a similar package. Check if the dep is actively maintained (>100 stars, recent commits). Ask: "Can this be done without adding a dependency?"
+2. **Node version bumps** — when a new Node LTS ships, propose upgrading `engines.node` in `package.json` and CI `node-version`.
+3. **pnpm version bumps** — when a new pnpm major ships, propose upgrading `packageManager` field.
+4. **Dependabot** — already configured (weekly npm + actions updates). Don't blindly merge — verify changelogs.
+5. **Tech radar check (monthly)** — scan Dependabot PRs. Check if any current dep has been superseded by a better alternative. Check if any Biome rule was added that should be enabled.
+6. **Defer non-critical deps** — "can we build this without it for now?" If yes, add a backlog issue instead.
+
 ## Enforcement
 
 - **Biome only** — lint and format with Biome, never ESLint or Prettier
