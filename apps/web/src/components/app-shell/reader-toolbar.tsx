@@ -10,6 +10,7 @@ import {
   MagnifyingGlassPlusIcon,
 } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { useSettingsStore, useToolbarStore, useViewerStore } from '@/stores'
 
@@ -34,20 +35,20 @@ export function ReaderToolbar() {
 
   return (
     <div
-      className={`${barClasses} z-50 flex items-center justify-center gap-1 border-border bg-background/80 px-3 py-1.5 backdrop-blur-md`}
+      className={`${barClasses} z-50 flex items-center justify-center gap-2 border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
     >
       <div className="flex items-center gap-1">
-        <Button size="icon-xs" variant="ghost" aria-label="Previous page" onPress={prevPage}>
+        <Button size="icon" variant="ghost" aria-label="Previous page" onPress={prevPage}>
           <CaretLeftIcon />
         </Button>
 
-        <div className="mx-1 flex items-center gap-0.5 text-foreground text-xs">
-          <input
+        <div className="mx-2 flex items-center gap-1 text-sm text-foreground">
+          <Input
             type="number"
-            className="h-5 w-8 rounded border border-border bg-background text-center text-xs tabular-nums focus:outline-none focus:ring-1 focus:ring-ring/30"
             value={currentPage}
             min={1}
             max={pageCount}
+            className="h-7 w-12 text-center tabular-nums"
             onChange={e => {
               const v = Number.parseInt(e.target.value, 10)
               if (v >= 1 && v <= pageCount) {
@@ -58,35 +59,35 @@ export function ReaderToolbar() {
           <span className="text-muted-foreground">/ {pageCount}</span>
         </div>
 
-        <Button size="icon-xs" variant="ghost" aria-label="Next page" onPress={nextPage}>
+        <Button size="icon" variant="ghost" aria-label="Next page" onPress={nextPage}>
           <CaretRightIcon />
         </Button>
       </div>
 
-      <Separator orientation="vertical" className="mx-1 h-5" />
+      <Separator orientation="vertical" className="mx-1 h-6" />
 
       <div className="flex items-center gap-1">
-        <Button size="icon-xs" variant="ghost" aria-label="Zoom out" onPress={zoomOut}>
+        <Button size="icon" variant="ghost" aria-label="Zoom out" onPress={zoomOut}>
           <MagnifyingGlassMinusIcon />
         </Button>
-        <Button size="icon-xs" variant="ghost" aria-label="Zoom in" onPress={zoomIn}>
+        <Button size="icon" variant="ghost" aria-label="Zoom in" onPress={zoomIn}>
           <MagnifyingGlassPlusIcon />
         </Button>
       </div>
 
-      <Separator orientation="vertical" className="mx-1 h-5" />
+      <Separator orientation="vertical" className="mx-1 h-6" />
 
       <div className="flex items-center gap-1">
-        <Button size="icon-xs" variant="ghost" aria-label="Fullscreen" onPress={toggleFullscreen}>
+        <Button size="icon" variant="ghost" aria-label="Fullscreen" onPress={toggleFullscreen}>
           <CornersOutIcon />
         </Button>
-        <Button size="icon-xs" variant="ghost" aria-label="Settings" onPress={openSettings}>
+        <Button size="icon" variant="ghost" aria-label="Settings" onPress={openSettings}>
           <GearIcon />
         </Button>
 
-        <div className="ml-1 flex items-center border-border border-l pl-1">
+        <div className="ml-2 flex items-center border-border border-l pl-2">
           <Button
-            size="icon-xs"
+            size="icon"
             variant="ghost"
             aria-label={position === 'top' ? 'Move to bottom' : 'Move to top'}
             onPress={() => setPosition(position === 'top' ? 'bottom' : 'top')}
@@ -94,7 +95,7 @@ export function ReaderToolbar() {
             {position === 'top' ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
           </Button>
           <Button
-            size="icon-xs"
+            size="icon"
             variant="ghost"
             aria-label="Hide toolbar"
             onPress={() => setPosition('hidden')}

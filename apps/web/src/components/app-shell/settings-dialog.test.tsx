@@ -20,15 +20,9 @@ describe('SettingsDialog', () => {
     useSettingsStore.setState({ isDialogOpen: true })
     render(<SettingsDialog />)
     expect(screen.getByText('Settings')).toBeInTheDocument()
-    expect(screen.getByText('Gemini API Keys')).toBeInTheDocument()
-  })
-
-  it('renders key slots when open', () => {
-    useSettingsStore.setState({ isDialogOpen: true })
-    render(<SettingsDialog />)
-    for (let i = 1; i <= 10; i++) {
-      expect(screen.getByText(`Key ${i}`)).toBeInTheDocument()
-    }
+    expect(screen.getByText('Reading')).toBeInTheDocument()
+    expect(screen.getByText('Appearance')).toBeInTheDocument()
+    expect(screen.getByText('Storage')).toBeInTheDocument()
   })
 
   it('closes on close button', () => {
