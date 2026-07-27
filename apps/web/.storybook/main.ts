@@ -14,6 +14,9 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-docs'),
   ],
   framework: getAbsolutePath('@storybook/react-vite'),
+  core: {
+    disableWhatsNewNotifications: true,
+  },
 }
 
 export default config
