@@ -15,6 +15,8 @@ Active and past branches. Delete stale ones after merge.
 | `chore/future-proofing` | PR #2 | Node 24, git safety, dependency stewardship |
 | `chore/upgrade-deps` | PR #3 | Biome 2.5.5, TypeScript 7.0.2 |
 | `chore/branch-log` | PR #4 | Branch tracking log, prune enforcement |
+| `fix/ci-failures` | PR #6 | CodeQL triggers, release-please version |
+| `fix/release-please` | PR #7 | Remove invalid package-name param |
 
 ## Procedure
 
