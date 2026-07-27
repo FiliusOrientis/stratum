@@ -1,3 +1,4 @@
+import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import type { ComponentProps } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from './button'
@@ -29,5 +30,5 @@ export const Small: Story = { args: { size: 'sm', children: 'Small' } }
 export const Large: Story = { args: { size: 'lg', children: 'Large' } }
 export const Icon: Story = {
   args: { size: 'icon', 'aria-label': 'Search' },
-  render: (args: ButtonProps) => <Button {...args}>🔍</Button>,
+  render: (args: ButtonProps) => <Button {...args}><MagnifyingGlassIcon /></Button>,
 }

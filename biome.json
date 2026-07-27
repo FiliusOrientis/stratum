@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
-  "files": { "includes": ["**", "!!**/.idea", "!!**/components/ui"] },
+  "files": { "includes": ["**", "!!**/.idea", "!!**/components/ui", "!!**/auto-imports.d.ts"] },
   "css": { "parser": { "tailwindDirectives": true } },
   "linter": {
     "enabled": true,
