@@ -6,8 +6,7 @@ Active and past branches. Delete stale ones after merge.
 |--------|--------|---------|
 | `main` | Active | Production |
 | `feat/thinking-tools-and-skills-setup` | Active | Integrate untools thinking frameworks, install Matt Pocock skills, wire all 16 skills |
-| `feat/shadcn-testing-infra` | PR #33 | ShadCN UI (React Aria base) + Vitest testing infra |
-| `feat/storybook-ui-board` | Active | Storybook 10 UI board for isolated component development |
+| `feat/storybook-ui-board` | PR #34 → `main` | ShadCN UI + Vitest infra + Storybook 10 board + auto-imports |
 
 ## Merged (Cleaned)
 
@@ -41,6 +40,7 @@ Active and past branches. Delete stale ones after merge.
 | `chore/codeql-labels` | PR #26 | Re-enable CodeQL, add label rules |
 | `docs/branch-log-final` | PR #27 | Update branch log with PR 25-26 |
 | `fix/post-merge-cleanup-3` | PR #28 | Merged — revert v1.0.0, CI perms, rm codeql.yml, release rules |
+| `feat/shadcn-testing-infra` | PR #33 (closed) | Superseded by PR #34 — ShadCN UI + Vitest infra absorbed into storybook-ui-board |
 
 ## Procedure
 

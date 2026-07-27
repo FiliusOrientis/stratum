@@ -46,6 +46,7 @@ src/components/book-viewer/
 - One store file per domain (`viewer.store.ts`, `toolbar.store.ts`, `theme.store.ts`)
 - Stores exposed via typed hooks: `useViewerStore`, `useToolbarStore`, `useThemeStore`
 - Never access store state directly — always through the hook
+- Store actions prefer immer-style mutations over spread returns
 
 ## Comlink Workers
 
