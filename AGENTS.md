@@ -53,6 +53,8 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 4. **Never rebase shared branches** — `git rebase` rewrites history. Only rebase branches you own and haven't pushed.
 5. **Always `git pull --rebase` before pushing** — avoid merge bubbles.
 6. **Clean branches after merge** — delete local and remote feature branches immediately after PR merge.
+7. **Prune stale refs** — run `git remote prune origin` after branch deletions to clean tracking refs.
+8. **Log every branch** — update `.github/BRANCHES.md` when creating or deleting any branch.
 7. **Start every task with a fresh branch from `main`** — `git checkout main && git pull && git checkout -b feat/...`
 8. **Commit small, commit often** — no mega-commits spanning multiple features.
 
