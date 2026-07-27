@@ -1,10 +1,10 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": { "enabled": true },
+  "$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "correctness": {
         "noChildrenProp": "error",
         "noConstAssign": "error",
@@ -13,14 +13,11 @@
         "noConstructorReturn": "error",
         "noEmptyCharacterClassInRegex": "error",
         "noEmptyPattern": "error",
-        "noFlatMapIdentity": "warn",
         "noGlobalObjectCalls": "error",
         "noInnerDeclarations": "error",
         "noInvalidBuiltinInstantiation": "error",
         "noInvalidConstructorSuper": "error",
-        "noInvalidNewBuiltin": "error",
         "noInvalidUseBeforeDeclaration": "error",
-        "noNewSymbol": "error",
         "noNonoctalDecimalEscape": "error",
         "noPrecisionLoss": "error",
         "noRenderReturnValue": "error",
@@ -28,7 +25,6 @@
         "noSetterReturn": "error",
         "noStringCaseMismatch": "error",
         "noSwitchDeclarations": "error",
-        "noUnnecessaryContinue": "warn",
         "noUnreachable": "error",
         "noUnreachableSuper": "error",
         "noUnsafeFinally": "error",
@@ -45,7 +41,11 @@
         "useIsNan": "error",
         "useJsxKeyInIterable": "error",
         "useValidForDirection": "error",
-        "useYield": "error"
+        "useYield": "error",
+        "useValidTypeof": "error",
+        "noUnknownPseudoClass": "warn",
+        "noUnknownPseudoElement": "warn",
+        "noUnknownTypeSelector": "warn"
       },
       "suspicious": {
         "noApproximativeNumericConstant": "warn",
@@ -59,7 +59,6 @@
         "noConfusingLabels": "warn",
         "noConfusingVoidType": "error",
         "noConsole": "off",
-        "noConsoleLog": "off",
         "noConstEnum": "warn",
         "noControlCharactersInRegex": "error",
         "noDebugger": "error",
@@ -101,29 +100,47 @@
         "useIsArray": "warn",
         "useNamespaceKeyword": "warn",
         "useNumberToFixedDigitsArgument": "warn",
-        "useValidTypeof": "error"
+        "noVar": "error",
+        "noWith": "error",
+        "noDocumentCookie": "warn",
+        "noDuplicateElseIf": "warn",
+        "noIrregularWhitespace": "error",
+        "noTemplateCurlyInString": "error",
+        "useGuardForIn": "warn",
+        "useStrictMode": "warn"
       },
       "style": {
-        "noArguments": "error",
-        "noCommaOperator": "error",
         "noDefaultExport": "off",
         "noDoneCallback": "warn",
         "noImplicitBoolean": "warn",
         "noInferrableTypes": "off",
         "noNamespace": "off",
-        "noNamespaceImport": "off",
         "noNegationElse": "warn",
         "noNonNullAssertion": "warn",
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "packages/3d-engine-vendor": "Do not import legacy vendor code directly."
+            }
+          }
+        },
         "noParameterAssign": "warn",
         "noParameterProperties": "warn",
         "noRestrictedGlobals": {
           "level": "warn",
-          "options": { "deniedGlobals": ["event", "name", "status", "length"] }
+          "options": {
+            "deniedGlobals": {
+              "event": "Use a typed event parameter instead",
+              "name": "Use a more descriptive variable name",
+              "status": "Use a more descriptive variable name",
+              "length": "Assign to a named constant first"
+            }
+          }
         },
         "noShoutyConstants": "off",
         "noUnusedTemplateLiteral": "warn",
         "noUselessElse": "warn",
-        "noVar": "error",
         "noYodaExpression": "warn",
         "useAsConstAssertion": "warn",
         "useBlockStatements": "warn",
@@ -166,17 +183,21 @@
         "useNodeAssertStrict": "warn",
         "useNodejsImportProtocol": "warn",
         "useNumberNamespace": "warn",
-        "useNumericLiterals": "warn",
         "useSelfClosingElements": "error",
-        "useShorthandArrayType": "warn",
         "useShorthandAssign": "warn",
         "useShorthandFunctionType": "warn",
-        "useSingleCaseStatement": "warn",
         "useSingleVarDeclarator": "error",
         "useTemplate": "error",
         "useThrowNewError": "error",
         "useThrowOnlyError": "error",
-        "useWhile": "warn"
+        "noEnum": "warn",
+        "noExportedImports": "warn",
+        "noNestedTernary": "warn",
+        "noSubstr": "warn",
+        "useAtIndex": "warn",
+        "useCollapsedIf": "warn",
+        "useConsistentCurlyBraces": "warn",
+        "useTrimStartEnd": "warn"
       },
       "complexity": {
         "noBannedTypes": "error",
@@ -188,7 +209,6 @@
         "noExcessiveNestedTestSuites": "warn",
         "noExtraBooleanCast": "error",
         "noForEach": "warn",
-        "noMultipleSpacesInRegularExpressionLiterals": "warn",
         "noStaticOnlyClass": "warn",
         "noThisInStatic": "warn",
         "noUselessCatch": "error",
@@ -205,7 +225,6 @@
         "noUselessTypeConstraint": "warn",
         "noUselessUndefinedInitialization": "warn",
         "noVoid": "warn",
-        "noWith": "error",
         "useArrowFunction": "error",
         "useDateNow": "warn",
         "useFlatMap": "warn",
@@ -213,26 +232,37 @@
         "useOptionalChain": "warn",
         "useRegexLiterals": "warn",
         "useSimpleNumberKeys": "warn",
-        "useSimplifiedLogicExpression": "warn"
+        "useSimplifiedLogicExpression": "warn",
+        "noFlatMapIdentity": "warn",
+        "noUselessContinue": "warn",
+        "noArguments": "error",
+        "noCommaOperator": "error",
+        "useNumericLiterals": "warn",
+        "useWhile": "warn",
+        "noAdjacentSpacesInRegex": "warn",
+        "noUselessEscapeInRegex": "warn",
+        "noUselessStringRaw": "warn"
       },
       "performance": {
         "noAccumulatingSpread": "warn",
         "noBarrelFile": "off",
         "noDelete": "warn",
         "noReExportAll": "warn",
-        "useTopLevelRegex": "warn"
+        "useTopLevelRegex": "warn",
+        "noNamespaceImport": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "warn",
         "noDangerouslySetInnerHtmlWithChildren": "error",
-        "noGlobalEval": "error"
+        "noGlobalEval": "error",
+        "noBlankTarget": "warn",
+        "noSecrets": "warn"
       },
       "a11y": {
         "noAccessKey": "warn",
         "noAriaHiddenOnFocusable": "warn",
         "noAriaUnsupportedElements": "warn",
         "noAutofocus": "warn",
-        "noBlankTarget": "warn",
         "noDistractingElements": "warn",
         "noHeaderScope": "warn",
         "noInteractiveElementToNoninteractiveRole": "warn",
@@ -261,32 +291,12 @@
         "useValidAriaProps": "error",
         "useValidAriaRole": "error",
         "useValidAriaValues": "error",
-        "useValidLang": "warn"
+        "useValidLang": "warn",
+        "useAriaPropsSupportedByRole": "warn",
+        "useValidAutocomplete": "warn"
       },
       "nursery": {
-        "noDocumentCookie": "warn",
-        "noDuplicateElseIf": "warn",
-        "noEnum": "warn",
-        "noExportedImports": "warn",
-        "noIrregularWhitespace": "error",
-        "noNestedTernary": "warn",
-        "noSecrets": "warn",
-        "noSubstr": "warn",
-        "noTemplateCurlyInString": "error",
-        "noUnknownPseudoClass": "warn",
-        "noUnknownPseudoElement": "warn",
-        "noUnknownTypeSelector": "warn",
-        "noUselessEscapeInRegex": "warn",
-        "noUselessStringRaw": "warn",
-        "useAriaPropsSupportedByRole": "warn",
-        "useAtIndex": "warn",
-        "useCollapsedIf": "warn",
-        "useConsistentCurlyBraces": "warn",
-        "useGuardForIn": "warn",
-        "useSortedClasses": "warn",
-        "useStrictMode": "warn",
-        "useTrimStartEnd": "warn",
-        "useValidAutocomplete": "warn"
+        "useSortedClasses": "warn"
       }
     }
   },
