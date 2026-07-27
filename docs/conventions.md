@@ -76,9 +76,25 @@ src/components/book-viewer/
 - **Framework**: Vitest + @testing-library/react + jsdom
 - **Coverage**: V8 provider, threshold 80% lines/functions, 70% branches
 - **Location**: Co-located `*.test.tsx` next to source files
-- **Behavior-driven**: Test behavior not implementation. Minimize mocks. Use real data where possible (fake-indexeddb for storage tests).
+- **Strategy**: Arrange → Act → Assert (AAA). No shared mutable state between tests.
+  - **Zustand stores**: Unit test every action. Reset store via `beforeEach` to prevent cross-test pollution.
+  - **Components (render)**: Assert elements exist via `getByRole`. Test conditional rendering.
+  - **Components (behavior)**: Simulate interaction, assert state change (store or DOM).
+  - **Pure functions**: Classic input → output unit tests.
+  - **Workers**: Mock Comlink proxy, test main-thread integration.
+  - **Routes**: Render route tree, assert correct component mounts.
 - **No flaky tests**: Each test must be deterministic. No timers, no network calls without proper mocking.
 - **Pre-merge**: Always run `pnpm test:coverage` before PR. Coverage must not degrade.
+
+## Biome / Lint Rules
+
+- **Zero tolerance**: Zero errors, zero warnings allowed at all times.
+- **No `biome-ignore` / eslint-disable / ts-expect-error without explicit approval**:
+  1. First attempt to fix the root cause through code restructuring.
+  2. If no clean fix exists, explain the issue to the user with the options.
+  3. Only apply suppress comment after user approval.
+  4. Log every approved suppression in `docs/lint-suppressions.md` with file, rule, reason, and date.
+- **Safe fixes**: `--unsafe` Biome fixes require user approval before batch application.
 
 ## React Components
 
