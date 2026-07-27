@@ -15,6 +15,7 @@ After EVERY code change, verify these docs are still current:
 | `CODE_OF_CONDUCT.md` | Community standards | Policy changes (rare) |
 | `LICENSE` | MIT license | Copyright year bump (annual) |
 | `.github/CODEOWNERS` | Review ownership | New maintainers, new packages |
+| `.github/BRANCHES.md` | Branch tracking log | Creating or deleting any branch |
 | `.github/ISSUE_TEMPLATE/*` | Bug/feature templates | New required fields, label changes |
 | `.github/PULL_REQUEST_TEMPLATE.md` | PR checklist | New CI steps, changed verification commands |
 
@@ -22,7 +23,7 @@ After EVERY code change, verify these docs are still current:
 
 ## Self-Audit Checklist (EVERY change)
 
-1. **Docs gate first** — check CONTEXT.md, docs/architecture.md, docs/conventions.md, README.md. Update as needed.
+1. **Docs gate first** — check the Documentation Gate table above. Update any doc whose trigger matches the current change.
 2. **Read before edit** — inspect existing code patterns in surrounding files before making changes. Never guess APIs or conventions.
 3. **Use Context7 MCP** — when working with unfamiliar library APIs (Three.js, Dexie, Zustand, Comlink, Vercel AI SDK), use Context7 to look up real docs. Never hallucinate signatures.
 4. **Use `lookup_type` / `list_types`** — before writing TypeScript that touches existing types, use the type-inject MCP tools to verify type signatures.
@@ -55,8 +56,8 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 6. **Clean branches after merge** — delete local and remote feature branches immediately after PR merge.
 7. **Prune stale refs** — run `git remote prune origin` after branch deletions to clean tracking refs.
 8. **Log every branch** — update `.github/BRANCHES.md` when creating or deleting any branch.
-7. **Start every task with a fresh branch from `main`** — `git checkout main && git pull && git checkout -b feat/...`
-8. **Commit small, commit often** — no mega-commits spanning multiple features.
+9. **Start every task with a fresh branch from `main`** — `git checkout main && git pull && git checkout -b feat/...`
+10. **Commit small, commit often** — no mega-commits spanning multiple features.
 
 ## Dependency Stewardship (Future-Proofing)
 

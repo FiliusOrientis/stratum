@@ -10,5 +10,5 @@
       "command": ["npx", "-y", "@nick-vi/type-inject-mcp"]
     }
   },
-  "instructions": ["AGENTS.md", "CONTEXT.md", "docs/architecture.md", "docs/conventions.md"]
+  "instructions": ["AGENTS.md", "CONTEXT.md", "docs/architecture.md", "docs/conventions.md", ".github/BRANCHES.md"]
 }
