@@ -62,6 +62,14 @@ src/components/book-viewer/
 - **React Aria composition.** Use `slot` prop for named children (e.g., `slot="close"`, `slot="title"`). No `asChild` (Radix) or `render` (Base UI) — React Aria uses slot-based composition.
 - **Icons from Phosphor only.** `@phosphor-icons/react`. Use `data-icon="inline-start"` or `data-icon="inline-end"` on icons inside Button.
 
+## Storybook (UI Board)
+
+- **Framework**: Storybook 10 (`@storybook/react-vite`) + addons (a11y, themes, docs)
+- **Server**: `pnpm storybook` → `localhost:6006`
+- **Location**: Co-located `*.stories.tsx` next to source files
+- **Dark mode**: Default is `dark` via `withThemeByClassName` decorator
+- **Workflow**: Build component → Create stories → Verify in Storybook → Write tests → Integrate into routes
+
 ## Testing
 
 - **Framework**: Vitest + @testing-library/react + jsdom

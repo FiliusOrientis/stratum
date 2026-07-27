@@ -6,7 +6,8 @@ Local-first 3D PDF Reader & AI Assistant.
 
 ```bash
 pnpm install
-pnpm dev
+pnpm dev              # App @ localhost:5173
+pnpm storybook        # UI board @ localhost:6006
 pnpm lint
 pnpm typecheck
 pnpm test
@@ -19,7 +20,7 @@ Monorepo: `apps/web` (React 19 SPA) · `apps/api` (Vercel serverless) · `packag
 
 ## Stack
 
-React 19 · Vite 7 · React Router 7 · ShadCN UI (React Aria) · Tailwind CSS v4 · Three.js · Zustand · Dexie.js · Comlink · Vitest · Biome · Turborepo · pnpm
+React 19 · Vite 7 · React Router 7 · Storybook 10 · ShadCN UI (React Aria) · Tailwind CSS v4 · Three.js · Zustand · Dexie.js · Comlink · Vitest · Biome · Turborepo · pnpm
 
 ## Docs
 

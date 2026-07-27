@@ -6,7 +6,8 @@ Active and past branches. Delete stale ones after merge.
 |--------|--------|---------|
 | `main` | Active | Production |
 | `feat/thinking-tools-and-skills-setup` | Active | Integrate untools thinking frameworks, install Matt Pocock skills, wire all 16 skills |
-| `feat/shadcn-testing-infra` | Active | ShadCN UI (React Aria base) + Vitest testing infrastructure |
+| `feat/shadcn-testing-infra` | PR #33 | ShadCN UI (React Aria base) + Vitest testing infra |
+| `feat/storybook-ui-board` | Active | Storybook 10 UI board for isolated component development |
 
 ## Merged (Cleaned)
 
