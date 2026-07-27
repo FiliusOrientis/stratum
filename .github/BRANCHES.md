@@ -31,11 +31,13 @@ Active and past branches. Delete stale ones after merge.
 | `dependabot/npm_and_yarn/react-router-8.3.0` | PR #19 | Dependabot: bump react-router 7.18.1→8.3.0 |
 | `chore/ci-governance` | PR #20 | Harden CI and governance rules |
 | `chore/post-merge-audit` | PR #21 | Post-merge audit, commitlint 72-char, CI PR-only |
-| `release-please--branches--main--components--stratum` | PR #22 | Release Please v1.0.0 |
+| `release-please--branches--main--components--stratum` | PR #22 | chore(main): release 1.0.0 (reverted) |
 | `chore/workflow-dispatch` | PR #23 | Add workflow_dispatch trigger |
 | `chore/commitlint-100` | PR #24 | Raise commitlint header limit to 100 chars |
 | `docs/branch-log-update-2` | PR #25 | Update branch log with PRs 19-24 |
 | `chore/codeql-labels` | PR #26 | Re-enable CodeQL, add label rules |
+| `docs/branch-log-final` | PR #27 | Update branch log with PR 25-26 |
+| `fix/post-merge-cleanup-3` | PR #28 | Revert v1.0.0→0.1.0, CodeQL fix, release rules |
 
 ## Procedure
 
