@@ -31,6 +31,19 @@ After EVERY code change, verify these docs are still current:
 7. **Prefer edit over create** — always prefer editing existing files rather than creating new ones.
 8. **Use explore subagent** — for multi-file searches, use the explore subagent to save context tokens. Use `rg` (ripgrep) via bash for fast single-pattern searches.
 9. **Caveman by default** — communicate with ultra-compressed style. Only expand when asked for detail.
+10. **PowerShell JSON safety** — never inline JSON in PowerShell commands. Always write JSON to `$env:TEMP\opencode\*.json` and use `gh api ... --input $env:TEMP\opencode\<file>.json`. PowerShell mangling of nested JSON causes silent failures and wastes tokens.
+
+## Git Workflow (MANDATORY — NEVER skip)
+
+1. **Never commit directly to `main`** — always use feature branches
+2. **Branch naming**: `feat/`, `fix/`, `refactor/`, `docs/`, `chore/` prefix (e.g. `feat/pdf-import`)
+3. **Conventional commits only**: `type(scope): subject` — max 50 chars, present tense
+4. **Commit after verification** — `biome check --write` + `turbo run typecheck` must pass BEFORE committing
+5. **Push branch + open PR** — never push to main directly (blocked server-side)
+6. **Merge only via squash** — single clean commit per feature
+7. **Check CI** — lint, typecheck, test must all pass before merge
+
+Violating this is the #1 way to waste tokens. CI will reject non-conventional commits.
 
 ## Enforcement
 
