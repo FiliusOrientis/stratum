@@ -14,6 +14,7 @@ After EVERY code change, verify these docs are still current:
 | `SECURITY.md` | Vulnerability reporting, supported versions | New security practices, changed disclosure policy |
 | `CODE_OF_CONDUCT.md` | Community standards | Policy changes (rare) |
 | `LICENSE` | MIT license | Copyright year bump (annual) |
+| `wiki/**` | Developer wiki (separate repo: `stratum.wiki.git`) | New pages needed when architecture, conventions, or setup changes |
 | `.github/CODEOWNERS` | Review ownership | New maintainers, new packages |
 | `.github/BRANCHES.md` | Branch tracking log | Creating or deleting any branch |
 | `.github/ISSUE_TEMPLATE/*` | Bug/feature templates | New required fields, label changes |
