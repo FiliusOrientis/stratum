@@ -5,6 +5,7 @@ Active and past branches. Delete stale ones after merge.
 | Branch | Status | Purpose |
 |--------|--------|---------|
 | `main` | Active | Production |
+| `feat/thinking-tools-and-skills-setup` | Active | Integrate untools thinking frameworks, install Matt Pocock skills, wire all 16 skills |
 
 ## Merged (Cleaned)
 

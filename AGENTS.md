@@ -15,6 +15,9 @@ After EVERY code change, verify these docs are still current:
 | `CODE_OF_CONDUCT.md` | Community standards | Policy changes (rare) |
 | `LICENSE` | MIT license | Copyright year bump (annual) |
 | `wiki/**` | Developer wiki (separate repo: `stratum.wiki.git`) | New pages needed when architecture, conventions, or setup changes |
+| `.agents/skills/*` | AI skills (thinking-tools etc.) | New skill added, existing skill content updated |
+| `docs/agents/*` | Agent config (issue tracker, triage labels, domain docs) | Issue tracker change, label change, domain layout change |
+| `.out-of-scope/*` | Rejected feature request records | New rejection, reopened decision |
 | `.github/CODEOWNERS` | Review ownership | New maintainers, new packages |
 | `.github/BRANCHES.md` | Branch tracking log | Creating or deleting any branch |
 | `.github/ISSUE_TEMPLATE/*` | Bug/feature templates | New required fields, label changes |
@@ -34,6 +37,10 @@ After EVERY code change, verify these docs are still current:
 8. **Use explore subagent** — for multi-file searches, use the explore subagent to save context tokens. Use `rg` (ripgrep) via bash for fast single-pattern searches.
 9. **Caveman by default** — communicate with ultra-compressed style. Only expand when asked for detail.
 10. **PowerShell JSON safety** — never inline JSON in PowerShell commands. Always write JSON to `$env:TEMP\opencode\*.json` and use `gh api ... --input $env:TEMP\opencode\<file>.json`. PowerShell mangling of nested JSON causes silent failures and wastes tokens.
+11. **Work state summary** — after any significant milestone, compile what was done, what's active, what's blocked, and next move. Present this unprompted when finishing a task.
+12. **Skill installation audit** — when adding/modifying skills, verify every `related_skills` reference resolves to an installed skill. Verify every skill's config dependency (e.g. `docs/agents/*`) exists. Report any broken references.
+13. **Cross-skill conflict scan** — when multiple skills could trigger on the same keywords, check for overlap. If two skills share trigger words, note the conflict and report which one should take priority.
+14. **Pre-merge readiness** — before declaring done: (a) all docs up-to-date per gate, (b) verification passes, (c) no stale references/broken imports, (d) all new files tracked in skills-lock.json if applicable. State "Ready for next step: [what comes next]" explicitly.
 
 ## Post-Merge Audit (EVERY merge to main)
 
@@ -130,7 +137,42 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - When you need to verify a TypeScript type, use `type-inject` tools (`lookup_type`, `list_types`, `type_check`)
 - When you need to search the codebase, use `rg` via bash or the explore subagent
 - When you finish a task, run `pnpm lint` and `pnpm typecheck`
-- Run `/setup-matt-pocock-skills` at project start to configure workflows
+
+### Active Skills (auto-invoke)
+
+| Situation | Skill | How to invoke |
+|-----------|-------|--------------|
+| Bug investigation, feature planning, decision, code review, system analysis | `thinking-tools` | Auto-triggers on words: decide, choose, bug, problem, feature, plan, priority, cause, complex |
+| You need an agent to plan a feature for you | `/to-tickets` and `/to-spec` | Trigger via user command |
+| Need to review a diff since a fixed point | `code-review` | Load via `skill load code-review` |
+| State management with Zustand | `zustand-state` | Auto-triggers on zustand, create(), useStore |
+| React hooks extraction / reuse | `hooks-pattern` | Auto-triggers on hooks pattern discussion |
+| Higher-Order Component pattern | `hoc-pattern` | Auto-triggers on HOC pattern discussion |
+| React 2026 stack questions | `react-2026` | Auto-triggers on React stack / build tooling |
+| AI-powered UI patterns (chat, streaming) | `ai-ui-patterns` | Auto-triggers on AI UI / chatbot patterns |
+| Turborepo monorepo management | `turborepo-monorepo` | Auto-triggers on monorepo / turborepo config |
+| Triage issues through state machine | `/triage` | Trigger via user command |
+| Break plans into vertical-slice tickets | `/to-tickets` | Trigger via user command |
+| Synthesize conversation into spec/PRD | `/to-spec` | Trigger via user command |
+| Two-axis review of diff | `/code-review` | Trigger via user command |
+
+### Reference Skills (load manually)
+
+| Skill | When to `skill load` |
+|-------|---------------------|
+| `biome` | When linter/formatter errors appear, load for fix strategies |
+| `github-actions` | When creating or modifying CI/CD workflow files |
+
+## Agent skills
+
+### Issue tracker
+Issues live in GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+Five canonical labels mapped in `docs/agents/triage-labels.md`.
+
+### Domain docs
+Single-context. One CONTEXT.md at root. See `docs/agents/domain.md`.
 
 ## Code Annotations (WebStorm TODO Integration)
 

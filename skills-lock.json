@@ -42,6 +42,54 @@
       "sourceType": "github",
       "skillPath": "plugins/beagle-react/skills/zustand-state/SKILL.md",
       "computedHash": "1d1d9dd665bfd3a311ab1427c73fb648a658daa0b3ecc4b1f8489826ae6c571b"
+    },
+    "hooks-pattern": {
+      "source": "patternsdev/skills",
+      "sourceType": "github",
+      "skillPath": "react/hooks-pattern/SKILL.md",
+      "computedHash": "27bde51f6670766d1ba14174f9e75eda7fe009bccbdcdad8c2eb34a53032ed1b"
+    },
+    "hoc-pattern": {
+      "source": "patternsdev/skills",
+      "sourceType": "github",
+      "skillPath": "react/hoc-pattern/SKILL.md",
+      "computedHash": "8c0af6cf9c3a82cc7f4e51cde6c86135ebaa3ee0b6f3af7488f4bf8e8df56194"
+    },
+    "triage": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/triage/SKILL.md",
+      "computedHash": "a5362bd118449b03795781f9c5e4ef54876acf2ec63af38cb1bbeb5e203abe2a"
+    },
+    "to-tickets": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-tickets/SKILL.md",
+      "computedHash": "14a82245f87204b608893bbc4ec452da8ea4ad1b2041feb6c1ed7bc49b1389d6"
+    },
+    "to-spec": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-spec/SKILL.md",
+      "computedHash": "2bb6ae5a3f43eeff2b314744ddd264fb88a36e4fe8904d8a10215573e1016e8a"
+    },
+    "render-props-pattern": {
+      "source": "patternsdev/skills",
+      "sourceType": "github",
+      "skillPath": "react/render-props-pattern/SKILL.md",
+      "computedHash": "e7cb04518a0ecad7fd153dca022ab6ceb8051928c4af9334df74205c1e767645"
+    },
+    "code-review": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/code-review/SKILL.md",
+      "computedHash": "5eb78b32f8223742d9064784e3a72760fa65fb9197db9d1a617eb501db861931"
+    },
+    "thinking-tools": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "thinking-tools/SKILL.md",
+      "computedHash": "95f322726c358a913cf09b8cdb75f71811ce19ead87dc164bb5d4ed328e3370f"
     }
   }
 }
