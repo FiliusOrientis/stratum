@@ -13,7 +13,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v6
+      - name: Validate conventional commit
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            COMMITS=$(git log --format=%s "${{ github.event.pull_request.base.sha }}".."${{ github.event.pull_request.head.sha }}")
+          else
+            COMMITS=$(git log --format=%s -1 HEAD)
+          fi
+          PATTERN='^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert)(\([a-z0-9-]+\))?: .{1,50}$'
+          echo "$COMMITS" | while IFS= read -r msg; do
+            [ -z "$msg" ] && continue
+            if ! echo "$msg" | grep -qE "$PATTERN"; then
+              echo "Rejected: $msg"
+              echo "Format: type(scope): subject (max 50 chars)"
+              exit 1
+            fi
+          done
 
   lint:
     runs-on: ubuntu-latest
