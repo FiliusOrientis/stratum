@@ -7,6 +7,10 @@ Local-first 3D PDF Reader & AI Assistant.
 ```bash
 pnpm install
 pnpm dev
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm test:coverage
 ```
 
 ## Architecture
@@ -15,7 +19,7 @@ Monorepo: `apps/web` (React 19 SPA) · `apps/api` (Vercel serverless) · `packag
 
 ## Stack
 
-React 19 · Vite 7 · React Router 7 · Three.js · Zustand · Dexie.js · Comlink · Biome · Turborepo · pnpm
+React 19 · Vite 7 · React Router 7 · ShadCN UI (React Aria) · Tailwind CSS v4 · Three.js · Zustand · Dexie.js · Comlink · Vitest · Biome · Turborepo · pnpm
 
 ## Docs
 
@@ -23,6 +27,7 @@ React 19 · Vite 7 · React Router 7 · Three.js · Zustand · Dexie.js · Comli
 - `docs/architecture.md` — architecture decisions & data flow
 - `docs/conventions.md` — code conventions supplementing biome.json
 - `AGENTS.md` — AI assistant rules (for tooling use only)
+- `apps/web/components.json` — ShadCN UI component registry
 
 ## Requirements
 
