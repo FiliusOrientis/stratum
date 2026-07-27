@@ -14,6 +14,7 @@ Active and past branches. Delete stale ones after merge.
 | `chore/git-workflow` | PR #1 | Git hooks, commitlint CI |
 | `chore/future-proofing` | PR #2 | Node 24, git safety, dependency stewardship |
 | `chore/upgrade-deps` | PR #3 | Biome 2.5.5, TypeScript 7.0.2 |
+| `chore/branch-log` | PR #4 | Branch tracking log, prune enforcement |
 
 ## Procedure
 
