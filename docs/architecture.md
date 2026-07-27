@@ -5,7 +5,7 @@
 ```
 stratum/
 ├── apps/
-│   ├── web/          # React 19 SPA (Vite 7, React Router 7)
+│   ├── web/          # React 19 SPA (Vite 7, React Router 8)
 │   │   └── src/
 │   │       ├── routes/        # Route-level components (Home, Catalog, etc.)
 │   │       ├── components/    # Feature components (book-viewer, ai-chat, catalog)
@@ -50,10 +50,13 @@ Zustand stores (no context, no prop drilling):
 
 ## Styling Architecture
 
-- Flat layout, zero border-radius
-- Typography: Instrument Serif (headings) + Instrument Sans (body)
-- High-contrast dark theme with slate-blue accents
-- CSS modules or vanilla CSS (no Tailwind decision yet)
+- **ShadCN UI** (React Aria base) — all UI from shadcn/ui primitives, never raw HTML/CSS
+- **Tailwind CSS v4** — `@tailwindcss/vite` plugin, `@theme` directive for design tokens
+- **Flat layout, small radius** (--radius: 0.45rem)
+- **Typography**: Instrument Serif (headings) + Instrument Sans (body)
+- **High-contrast dark theme** with slate-blue accents (cyan theme in shadcn preset)
+- **Semantic colors only**: `bg-primary`, `text-muted-foreground`, never raw oklch values
+- **Icons**: Phosphor (`@phosphor-icons/react`)
 
 ## Data Architecture
 
@@ -77,9 +80,9 @@ Phase 2 established the `apps/web` skeleton:
 - Biome 2.5.5 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
 - Empty dirs for components, workers, stores, lib
 
-## Decisions to Make (Phase 2+)
+## Decisions Made
 
-- [ ] CSS approach: CSS modules vs vanilla vs Tailwind
-- [ ] Component library: shadcn/ui vs custom
-- [ ] Testing framework: Vitest (likely)
-- [ ] Font loading strategy
+- **Styling**: Tailwind CSS v4 + ShadCN UI (React Aria base), resolved
+- **Component library**: ShadCN UI with React Aria base (b8PjchPDgw preset)
+- **Testing**: Vitest + @testing-library/react + jsdom + v8 coverage, resolved
+- **Font loading**: ShadCN preset handles @fontsource imports

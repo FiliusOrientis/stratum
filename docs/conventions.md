@@ -28,9 +28,8 @@ src/
 ```
 src/components/book-viewer/
 ├── book-viewer.tsx
-├── book-viewer.module.css
 ├── book-viewer.types.ts
-├── book-viewer.test.ts
+├── book-viewer.test.tsx
 ├── book-spine.tsx
 ├── book-page.tsx
 └── index.ts          # barrel export
@@ -53,6 +52,24 @@ src/components/book-viewer/
 - Worker entry file exports typed API: `export const api = { ... }`
 - Main thread gets typed proxy: `const worker = wrap(new Worker(...))`
 - Never `postMessage` / `onmessage` — use Comlink exclusively
+
+## ShadCN UI (React Aria Base)
+
+- **Use existing components first.** Every UI element comes from or composes from `src/components/ui/*` primitives.
+- **No raw HTML/CSS for UI.** No inline styles, no custom `*.module.css`, no styled divs where a component exists.
+- **Never modify primitives.** `src/components/ui/*` files are read-only. Compose with `cn()` for variants.
+- **Semantic colors only.** `bg-primary`, `text-muted-foreground` — never raw oklch values.
+- **React Aria composition.** Use `slot` prop for named children (e.g., `slot="close"`, `slot="title"`). No `asChild` (Radix) or `render` (Base UI) — React Aria uses slot-based composition.
+- **Icons from Phosphor only.** `@phosphor-icons/react`. Use `data-icon="inline-start"` or `data-icon="inline-end"` on icons inside Button.
+
+## Testing
+
+- **Framework**: Vitest + @testing-library/react + jsdom
+- **Coverage**: V8 provider, threshold 80% lines/functions, 70% branches
+- **Location**: Co-located `*.test.tsx` next to source files
+- **Behavior-driven**: Test behavior not implementation. Minimize mocks. Use real data where possible (fake-indexeddb for storage tests).
+- **No flaky tests**: Each test must be deterministic. No timers, no network calls without proper mocking.
+- **Pre-merge**: Always run `pnpm test:coverage` before PR. Coverage must not degrade.
 
 ## React Components
 

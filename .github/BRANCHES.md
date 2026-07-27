@@ -6,6 +6,7 @@ Active and past branches. Delete stale ones after merge.
 |--------|--------|---------|
 | `main` | Active | Production |
 | `feat/thinking-tools-and-skills-setup` | Active | Integrate untools thinking frameworks, install Matt Pocock skills, wire all 16 skills |
+| `feat/shadcn-testing-infra` | Active | ShadCN UI (React Aria base) + Vitest testing infrastructure |
 
 ## Merged (Cleaned)
 

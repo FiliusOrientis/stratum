@@ -60,4 +60,4 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install
-      - run: pnpm run test
+      - run: pnpm run test:coverage
