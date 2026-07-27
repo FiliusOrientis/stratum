@@ -96,3 +96,23 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - When you need to search the codebase, use `rg` via bash or the explore subagent
 - When you finish a task, run `biome check --write` and `turbo run typecheck`
 - Run `/setup-matt-pocock-skills` at project start to configure workflows
+
+## Code Annotations (WebStorm TODO Integration)
+
+Use standard WebStorm-recognized tags with optional GitHub issue links:
+
+```
+// TODO: wire up Gemini streaming for AI assistant
+// TODO(#14): implement zoom-to-fit after camera mode switch
+// FIXME(#8): page flip flickers on Safari Mobile
+// NOTE: Comlink proxy type must match worker export
+// OPTIMIZE: useRequestAnimationFrame for 60fps book renders
+```
+
+Scanner patterns detected by WebStorm (View → Tool Windows → TODO):
+- `TODO:` — planned feature, deferred implementation
+- `FIXME:` — known bug, needs fix before merge
+- `NOTE:` — important context for future readers
+- `OPTIMIZE:` — performance improvement candidate
+
+When I write code and there's a deferred concern, I use these tags. WebStorm's TODO panel lists all of them. Clicking a `TODO(#N)` link opens GitHub issue #N directly in the browser.
