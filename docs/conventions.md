@@ -12,6 +12,17 @@ Supplementary to `biome.json` enforcement. All Biome rules apply; these cover wh
 - Type files: `kebab-case.types.ts`
 - Test files: co-located `*.test.ts` alongside source
 
+## Directory Layout
+
+```
+src/
+├── routes/        # Route-level components (1 per route)
+├── components/    # Feature components (book-viewer, ai-chat, catalog)
+├── workers/       # Comlink web workers
+├── stores/        # Zustand stores
+└── lib/           # Utilities, helpers, types
+```
+
 ## Component Structure
 
 ```
@@ -46,9 +57,10 @@ src/components/book-viewer/
 ## React Components
 
 - Function components only (enforced by Biome `useArrowFunction`)
-- No component definitions nested inside other components (pattern to avoid, not yet enforced by Biome 1.9.4)
+- No component definitions nested inside other components
 - Props interfaces named `ComponentNameProps` and co-located in `.types.ts`
 - Use `<>` fragment syntax, never `<Fragment>` (enforced by Biome `useFragmentSyntax`)
+- Both `PascalCase` (components) and `camelCase` (utilities) accepted for function names
 
 ## Error Handling
 

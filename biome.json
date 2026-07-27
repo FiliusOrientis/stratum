@@ -168,18 +168,7 @@
         "useFragmentSyntax": "error",
         "useImportType": "error",
         "useLiteralEnumMembers": "warn",
-        "useNamingConvention": {
-          "level": "warn",
-          "options": {
-            "strictCase": false,
-            "conventions": [
-              {
-                "selector": { "kind": "function" },
-                "formats": ["camelCase"]
-              }
-            ]
-          }
-        },
+        "useNamingConvention": "warn",
         "useNodeAssertStrict": "warn",
         "useNodejsImportProtocol": "warn",
         "useNumberNamespace": "warn",
