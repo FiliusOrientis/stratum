@@ -9,6 +9,13 @@
       "cache": false,
       "persistent": true
     },
+    "storybook": {
+      "cache": false,
+      "persistent": true
+    },
+    "build-storybook": {
+      "outputs": ["storybook-static/**"]
+    },
     "lint": {
       "dependsOn": ["^build"]
     },
@@ -16,6 +23,9 @@
       "outputs": []
     },
     "test": {
+      "dependsOn": ["^build"]
+    },
+    "test:coverage": {
       "dependsOn": ["^build"]
     },
     "clean": {

@@ -1,0 +1,41 @@
+<script>'use strict';
+  // Storybook 10.5+ replaces HTMLElement.prototype.focus with a getter that
+  // accesses this.ownerDocument, which throws "Illegal invocation" when read
+  // off the prototype (this === HTMLElement.prototype). React Aria's
+  // setupGlobalFocusEvents reads focus off the prototype at module init time.
+  // Intercept Object.defineProperties to wrap the getter with a prototype-safe
+  // guard before it's ever installed. See: https://github.com/storybookjs/storybook/pull/35528
+  ;(() => {
+    const _origDefineProps = Object.defineProperties
+    Object.defineProperties = (obj, properties) => {
+      if (obj === HTMLElement.prototype && properties.focus?.get) {
+        const origGet = properties.focus.get
+        const origSet = properties.focus.set
+        const origFocus = properties.focus
+        properties.focus = {
+          configurable: origFocus.configurable,
+          enumerable: origFocus.enumerable,
+          get() {
+            if (this === HTMLElement.prototype || !(this instanceof HTMLElement)) {
+              const getter = origGet
+              return function focus(...args) {
+                return getter.call(this).call(this, ...args)
+              }
+            }
+            return origGet.call(this)
+          },
+          set(v) {
+            if (origSet) {
+              if (this === HTMLElement.prototype || !(this instanceof HTMLElement)) {
+                origSet(v)
+              } else {
+                origSet.call(this, v)
+              }
+            }
+          },
+        }
+      }
+      return _origDefineProps.call(Object, obj, properties)
+    }
+  })()
+</script>

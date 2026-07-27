@@ -103,6 +103,8 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - **pnpm only** — use `pnpm`, never npm or yarn
 - **Turborepo orchestration** — run tasks via `turbo run <task>` from root
 - **No manual React imports** — `unplugin-auto-import` handles React hooks. Never write `import { useState } from 'react'`
+- **ShadCN-first UI** — never raw HTML/CSS. All UI from `src/components/ui/*` primitives. Check `npx shadcn@latest search` before writing custom UI.
+- **Testing coverage before PR** — `pnpm test:coverage` must pass, coverage must not degrade from 80% lines/functions, 70% branches threshold.
 
 ## Architecture
 
@@ -110,7 +112,7 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - **Legacy isolation**: never import from `packages/3d-engine-vendor` directly in `apps/web` modern React code
 - **Workers via Comlink**: typed RPC for Web Workers — no raw `postMessage`
 - **State via Zustand**: stores for viewer config, active toolbars, theme. No prop drilling.
-- **Styling**: flat layout, zero-rounded-corners, editorial typography (Instrument Serif + Instrument Sans), high-contrast dark theme with slate-blue accents
+- **Styling**: flat layout, small radius (--radius: 0.45rem), editorial typography (Instrument Serif + Instrument Sans), high-contrast dark theme with slate-blue accents
 
 ## DX Rules
 
@@ -125,11 +127,11 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - **Link every PR to the GitHub Project** — always pass `--project "Stratum"` when creating PRs via `gh pr create`.
 - **Label every PR on creation** — always pass `--label` to `gh pr create` with the appropriate labels from the set below. Apply at minimum one `type:`, one `area:`, and one `priority:` label.
 
-  Available labels:
-  - **Type** (pick one): `type:bug`, `type:enhancement`, `type:dependencies`, `type:docs`, or general `bug`, `enhancement`, `documentation`
-  - **Area** (pick any matching): `area:3d-engine`, `area:ai-assistant`, `area:storage`
-  - **Priority** (pick one): `priority:high`, `priority:medium`, `priority:low`
-  - **Other**: `autorelease:pending`, `dependencies`, `duplicate`, `help wanted`, `wontfix`, `invalid`, `question`, `good first issue`
+  Available labels (note: colon has a trailing space):
+  - **Type** (pick one): `type: bug`, `type: enhancement`, `type: dependencies`, `type: docs`, or general `bug`, `enhancement`, `documentation`
+  - **Area** (pick any matching): `area: 3d-engine`, `area: ai-assistant`, `area: storage`
+  - **Priority** (pick one): `priority: high`, `priority: medium`, `priority: low`
+  - **Other**: `autorelease: pending`, `dependencies`, `duplicate`, `help wanted`, `wontfix`, `invalid`, `question`, `good first issue`
 
 ## Tool Usage
 
@@ -137,6 +139,7 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - When you need to verify a TypeScript type, use `type-inject` tools (`lookup_type`, `list_types`, `type_check`)
 - When you need to search the codebase, use `rg` via bash or the explore subagent
 - When you finish a task, run `pnpm lint` and `pnpm typecheck`
+- When working with UI, prefer `npx shadcn@latest docs <component>` for component API reference
 
 ### Active Skills (auto-invoke)
 
@@ -162,6 +165,8 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 |-------|---------------------|
 | `biome` | When linter/formatter errors appear, load for fix strategies |
 | `github-actions` | When creating or modifying CI/CD workflow files |
+| `shadcn` | When working with UI components, ShadCN CLI, or registries |
+| `tailwind-v4` | When writing Tailwind CSS v4 with @theme directives |
 
 ## Agent skills
 

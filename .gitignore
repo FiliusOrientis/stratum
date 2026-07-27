@@ -11,6 +11,9 @@ out/
 # Turbo
 .turbo/
 
+# Storybook
+storybook-static/
+
 # Vite
 vite.config.ts.timestamp-*
 
@@ -38,3 +41,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# coverage reports
+coverage/
+
