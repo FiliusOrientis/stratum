@@ -37,7 +37,7 @@ Active and past branches. Delete stale ones after merge.
 | `docs/branch-log-update-2` | PR #25 | Update branch log with PRs 19-24 |
 | `chore/codeql-labels` | PR #26 | Re-enable CodeQL, add label rules |
 | `docs/branch-log-final` | PR #27 | Update branch log with PR 25-26 |
-| `fix/post-merge-cleanup-3` | PR #28 | Revert v1.0.0→0.1.0, CodeQL fix, release rules |
+| `fix/post-merge-cleanup-3` | PR #28 | Merged — revert v1.0.0, CI perms, rm codeql.yml, release rules |
 
 ## Procedure
 
