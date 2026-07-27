@@ -37,7 +37,7 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `card.tsx` | — | Card container with header, content, footer |
 | `input.tsx` | — | Text input with form integration |
 | `label.tsx` | — | Form label component |
-| `separator.tsx` | — | Visual separator line |
+| `separator.tsx` | `components/ui/separator.md` | Visual divider using border rendering |
 | `skeleton.tsx` | — | Loading placeholder |
 | `badge.tsx` | — | Status/category badge |
 | `avatar.tsx` | — | User/book avatar |
@@ -52,8 +52,8 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `book-shelf/` | — | R3F 3D bookshelf catalog scene |
 | `app-shell/` | | |
 | `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper |
-| `reader-toolbar.tsx` | `components/app-shell/reader-toolbar.md` | Edge-anchored reader toolbar |
-| `settings-dialog.tsx` | `components/app-shell/settings-dialog.md` | Settings modal with Gemini keys |
+| `reader-toolbar.tsx` | `components/app-shell/reader-toolbar.md` | Edge-anchored reader toolbar with nav/zoom/fullscreen/position switcher |
+| `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper |
 
 ## Stores (`stores/`)
 

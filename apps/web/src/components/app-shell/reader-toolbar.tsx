@@ -5,14 +5,13 @@ import {
   CaretRightIcon,
   CornersOutIcon,
   EyeSlashIcon,
-  GearIcon,
   MagnifyingGlassMinusIcon,
   MagnifyingGlassPlusIcon,
 } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { useSettingsStore, useToolbarStore, useViewerStore } from '@/stores'
+import { useToolbarStore, useViewerStore } from '@/stores'
 
 export function ReaderToolbar() {
   const position = useToolbarStore(s => s.position)
@@ -25,7 +24,6 @@ export function ReaderToolbar() {
   const zoomIn = useViewerStore(s => s.zoomIn)
   const zoomOut = useViewerStore(s => s.zoomOut)
   const toggleFullscreen = useViewerStore(s => s.toggleFullscreen)
-  const openSettings = useSettingsStore(s => s.openSettings)
 
   if (position === 'hidden') {
     return null
@@ -37,14 +35,15 @@ export function ReaderToolbar() {
     <div
       className={`${barClasses} z-50 flex items-center justify-center border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <Button size="icon" variant="ghost" aria-label="Previous page" onPress={prevPage}>
           <CaretLeftIcon />
         </Button>
 
-        <div className="flex items-center gap-1 text-sm text-foreground">
+        <div className="flex items-center gap-1 text-foreground text-sm">
           <Input
             type="number"
+            aria-label="Page number"
             value={currentPage}
             min={1}
             max={pageCount}
@@ -76,9 +75,6 @@ export function ReaderToolbar() {
 
         <Button size="icon" variant="ghost" aria-label="Fullscreen" onPress={toggleFullscreen}>
           <CornersOutIcon />
-        </Button>
-        <Button size="icon" variant="ghost" aria-label="Settings" onPress={openSettings}>
-          <GearIcon />
         </Button>
 
         <Separator orientation="vertical" className="h-7" />

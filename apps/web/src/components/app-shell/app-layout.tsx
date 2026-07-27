@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { SettingsDialog } from './settings-dialog'
 
 interface AppLayoutProps {
   header?: ReactNode
@@ -15,7 +14,6 @@ export function AppLayout({ header, children }: AppLayoutProps) {
         </header>
       )}
       <main className="relative flex-1 overflow-hidden">{children}</main>
-      <SettingsDialog />
     </div>
   )
 }

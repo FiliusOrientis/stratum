@@ -9,15 +9,15 @@ Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbar
 | Control | Icon | Action | Store Binding |
 |---------|------|--------|---------------|
 | Previous page | `CaretLeftIcon` | `viewerStore.prevPage()` | disabled at page 1 |
-| Page input | number input | `viewerStore.setPage()` | min=1, max=pageCount |
+| Page input | `Input` (type=number) | `viewerStore.setPage()` | min=1, max=pageCount |
 | Next page | `CaretRightIcon` | `viewerStore.nextPage()` | disabled at last page |
 | Separator | vertical line | — | — |
 | Zoom out | `MagnifyingGlassMinusIcon` | `viewerStore.zoomOut()` | switches to custom mode |
 | Zoom in | `MagnifyingGlassPlusIcon` | `viewerStore.zoomIn()` | switches to custom mode |
 | Separator | vertical line | — | — |
 | Fullscreen | `CornersOutIcon` | `viewerStore.toggleFullscreen()` | — |
-| Settings | `GearIcon` | `settingsStore.openSettings()` | opens settings modal |
-| Position switcher | `ArrowFatLineDownIcon` / `ArrowFatLineUpIcon` | `toolbarStore.setPosition()` | cycles top→bottom→hidden |
+| Separator | vertical line | — | — |
+| Move to top/bottom | `ArrowFatLineDownIcon` / `ArrowFatLineUpIcon` | `toolbarStore.setPosition()` | cycles top↔bottom |
 | Hide toolbar | `EyeSlashIcon` | `toolbarStore.setPosition('hidden')` | — |
 
 ## Position Behavior
@@ -42,8 +42,9 @@ import { AppLayout } from '@/components/app-shell/app-layout'
 ## Styling
 
 - Semi-transparent background: `bg-background/80 backdrop-blur-md`
-- 3px vertical padding, 12px horizontal padding
-- 5px gap between button groups
+- Uniform `gap-2` spacing between all elements
+- All buttons use `size="icon"` for consistent 28px height
+- Separators match button height (`h-7`)
 
 ## Tests
 

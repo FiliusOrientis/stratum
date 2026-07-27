@@ -2,7 +2,7 @@
 
 **File**: `apps/web/src/components/app-shell/app-layout.tsx`
 
-Top-level layout wrapper. Renders header (optional), main content, and SettingsDialog.
+Top-level layout wrapper. Renders header (optional) and main content.
 
 ## Props
 
@@ -17,7 +17,6 @@ Top-level layout wrapper. Renders header (optional), main content, and SettingsD
 <div class="flex h-dvh w-full flex-col bg-background text-foreground">
   {header && <header>...</header>}
   <main class="flex-1 overflow-hidden">{children}</main>
-  <SettingsDialog />
 </div>
 ```
 
@@ -35,11 +34,6 @@ Top-level layout wrapper. Renders header (optional), main content, and SettingsD
   <ReaderToolbar />
 </AppLayout>
 ```
-
-## Dependencies
-
-- `@/stores` — settingsStore for SettingsDialog
-- `@/components/app-shell/settings-dialog` — always-mounted settings modal
 
 ## Responsive
 

@@ -25,10 +25,9 @@ describe('ReaderToolbar', () => {
     expect(screen.getByLabelText('Zoom in')).toBeInTheDocument()
   })
 
-  it('renders fullscreen and settings', () => {
+  it('renders fullscreen button', () => {
     render(<ReaderToolbar />)
     expect(screen.getByLabelText('Fullscreen')).toBeInTheDocument()
-    expect(screen.getByLabelText('Settings')).toBeInTheDocument()
   })
 
   it('renders nothing when position is hidden', () => {
