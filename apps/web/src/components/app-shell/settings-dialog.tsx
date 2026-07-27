@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/dialog'
 import { MAX_KEYS, useSettingsStore } from '@/stores'
 
+const KEY_SLOTS = Array.from({ length: MAX_KEYS }, (_, i) => i)
+
 export function SettingsDialog() {
   const isOpen = useSettingsStore(s => s.isDialogOpen)
   const closeSettings = useSettingsStore(s => s.closeSettings)
@@ -29,22 +31,19 @@ export function SettingsDialog() {
             Bring your own key. Stratum rotates through available keys to maximize rate limits.
           </p>
           <div className="flex flex-col gap-2">
-            {Array.from({ length: MAX_KEYS }, (_, i) => {
-              return (
-                /* biome-ignore lint/suspicious/noArrayIndexKey: list is static */
-                <div key={`key-slot-${i}`} className="flex items-center gap-2">
-                  <KeyIcon className="size-3.5 shrink-0 text-muted-foreground" />
-                  <span className="w-10 shrink-0 text-muted-foreground text-xs">Key {i + 1}</span>
-                  <input
-                    type="password"
-                    className="flex h-7 w-full rounded-md border border-border bg-background px-2 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
-                    placeholder={geminiKeys[i] ? '••••••••' : 'Enter API key'}
-                    value={geminiKeys[i] ?? ''}
-                    onChange={e => setGeminiKey(i, e.target.value || null)}
-                  />
-                </div>
-              )
-            })}
+            {KEY_SLOTS.map(slot => (
+              <div key={`key-slot-${slot}`} className="flex items-center gap-2">
+                <KeyIcon className="size-3.5 shrink-0 text-muted-foreground" />
+                <span className="w-10 shrink-0 text-muted-foreground text-xs">Key {slot + 1}</span>
+                <input
+                  type="password"
+                  className="flex h-7 w-full rounded-md border border-border bg-background px-2 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+                  placeholder={geminiKeys[slot] ? '••••••••' : 'Enter API key'}
+                  value={geminiKeys[slot] ?? ''}
+                  onChange={e => setGeminiKey(slot, e.target.value || null)}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

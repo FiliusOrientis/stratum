@@ -25,7 +25,7 @@ describe('catalogStore', () => {
     store.addBook(mockBook)
     const books = useCatalogStore.getState().books
     expect(books).toHaveLength(1)
-    expect(books[0]!.title).toBe('Test Book')
+    expect(books[0]?.title).toBe('Test Book')
   })
 
   it('removes a book', () => {
@@ -38,14 +38,14 @@ describe('catalogStore', () => {
     useCatalogStore.getState().addBook(mockBook)
     useCatalogStore.getState().updateBook('test-1', { lastPage: 42 })
     const books = useCatalogStore.getState().books
-    expect(books[0]!.lastPage).toBe(42)
+    expect(books[0]?.lastPage).toBe(42)
   })
 
   it('updateBook ignores non-matching id', () => {
     useCatalogStore.getState().addBook(mockBook)
     useCatalogStore.getState().updateBook('nonexistent', { title: 'Changed' })
     const books = useCatalogStore.getState().books
-    expect(books[0]!.title).toBe('Test Book')
+    expect(books[0]?.title).toBe('Test Book')
   })
 
   it('sets loading state', () => {
