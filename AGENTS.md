@@ -109,6 +109,13 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - **Never call binaries directly** — `biome`, `tsc`, `turbo` are not on PATH. Always use pnpm scripts: `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm dev`. No exceptions.
 - **CI must use proper packages, not workarounds** — every CI step that needs a tool must install it as a devDependency and use it via `pnpm exec`. No inline bash patterns that duplicate tool logic.
 - **Link every PR to the GitHub Project** — always pass `--project "Stratum"` when creating PRs via `gh pr create`.
+- **Label every PR on creation** — always pass `--label` to `gh pr create` with the appropriate labels from the set below. Apply at minimum one `type:`, one `area:`, and one `priority:` label.
+
+  Available labels:
+  - **Type** (pick one): `type:bug`, `type:enhancement`, `type:dependencies`, `type:docs`, or general `bug`, `enhancement`, `documentation`
+  - **Area** (pick any matching): `area:3d-engine`, `area:ai-assistant`, `area:storage`
+  - **Priority** (pick one): `priority:high`, `priority:medium`, `priority:low`
+  - **Other**: `autorelease:pending`, `dependencies`, `duplicate`, `help wanted`, `wontfix`, `invalid`, `question`, `good first issue`
 
 ## Tool Usage
 
