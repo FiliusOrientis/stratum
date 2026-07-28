@@ -18,7 +18,7 @@ Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbar
 | Fullscreen | `CornersOutIcon` | `viewerStore.toggleFullscreen()` | — | — |
 | Separator | vertical line | — | — | — |
 | Move to top/bottom | `ArrowFatLineDownIcon` / `ArrowFatLineUpIcon` | `toolbarStore.setPosition()` | cycles top↔bottom | — |
-| Hide toolbar | `EyeSlashIcon` | `toolbarStore.setPosition('hidden')` | — | — |
+| Hide toolbar | `EyeSlashIcon` | `toolbarStore.hide()` | collapses to trigger button | — |
 
 ## Position Behavior
 
@@ -26,7 +26,7 @@ Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbar
 |----------|-----|-----------|
 | `top` | `fixed top-0 inset-x-0` | Anchored to top of viewport |
 | `bottom` | `fixed bottom-0 inset-x-0` | Anchored to bottom of viewport |
-| `hidden` | `display: none` | Not rendered |
+| `hidden` | `fixed (top-0/bottom-0)` | Collapsed to pill trigger at edge. `show()` restores to `previousPosition`. Trigger uses `rounded-t-none` when at top, `rounded-b-none` when at bottom. |
 
 ## Usage
 
