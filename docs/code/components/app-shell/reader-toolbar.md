@@ -25,20 +25,19 @@ The decomposition follows the modularity principle: logic (`getAnimation` in typ
 | Previous page | `CaretLeftIcon` | `viewerStore.prevPage()` | — | `currentPage <= 1` |
 | Page input | `Input` (type=text, inputMode=numeric) | `viewerStore.setPage()` | validates 1..pageCount | — |
 | Next page | `CaretRightIcon` | `viewerStore.nextPage()` | — | `currentPage >= pageCount` |
-| Separator | vertical line | — | — | — |
+| Separator | `variant="soft"` vertical | — | — | — |
 | Fullscreen | `CornersOutIcon` | `viewerStore.toggleFullscreen()` | — | — |
-| Separator | vertical line | — | — | — |
+| Separator | `variant="soft"` vertical | — | — | — |
 | Zoom out | `MagnifyingGlassMinusIcon` | `viewerStore.zoomOut()` | switches to custom mode | — |
 | Zoom in | `MagnifyingGlassPlusIcon` | `viewerStore.zoomIn()` | switches to custom mode | — |
-| Separator | vertical line | — | — | — |
+| Separator | `variant="soft"` vertical | — | — | — |
 | Move to top/bottom | `ArrowFatLineDownIcon` / `ArrowFatLineUpIcon` | `toolbarStore.setPosition()` | cycles top↔bottom | — |
-| Hide toolbar | `EyeSlashIcon` | `toolbarStore.hide()` | collapses to trigger button | — |
+| Hide toolbar | `EyeClosedIcon` | `toolbarStore.hide()` | collapses to trigger button | — |
 
-**Mobile (<768px) — compact layout with overflow menu:**
-- Always visible: Previous page, Page input, Next page, Fullscreen
-- Overflow menu (via `DotsThreeIcon`): Zoom in, Zoom out, Move position, Hide toolbar
-
-The overflow menu uses a ShadCN `DropdownMenu` triggered by a `DotsThreeIcon` button. Menu items include icons and call the same store actions as the desktop inline controls.
+**Mobile (<768px) — three-section layout, no separators:**
+- **Left**: Fullscreen
+- **Center**: Previous page, Page input, Next page (centered via `flex-1 justify-center`)
+- **Right**: `DotsThreeIcon` menu dropdown containing Zoom in, Zoom out, Move position, Hide toolbar
 
 ## Position Behavior
 

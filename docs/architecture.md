@@ -10,7 +10,7 @@ stratum/
 │   │       ├── routes/        # Route-level components (Home, Catalog, etc.)
 │   │       ├── components/    # Feature components (book-viewer, ai-chat, catalog)
 │   │       ├── workers/       # Comlink web workers (PDF, search)
-│   │       ├── stores/        # Zustand stores (viewer, toolbar, theme)
+│   │       ├── stores/        # Zustand stores (viewer, toolbar, catalog, settings)
 │   │       └── lib/           # Utilities, helpers, types
 │   └── api/          # Vercel Serverless Functions
 ├── packages/
@@ -43,9 +43,10 @@ stratum/
 
 ```
 Zustand stores (no context, no prop drilling):
-├── viewerStore    — camera, zoom, page state, spread mode
-├── toolbarStore   — active tools, panels, visibility
-└── themeStore     — dark theme (always), accent colors
+├── viewerStore    — current page, page count, zoom mode/level, cover type, fullscreen
+├── toolbarStore   — edge position (top/bottom/hidden), hide/show, drawer visibility
+├── catalogStore   — book list, import state
+└── settingsStore  — Gemini keys, dialog state
 ```
 
 ## Styling Architecture
@@ -75,7 +76,7 @@ Zustand stores (no context, no prop drilling):
 ## Scaffolding (Phase 2)
 
 Phase 2 established the `apps/web` skeleton:
-- Vite 7 + React 19 + React Router 7 (library mode)
+- Vite 7 + React 19 + React Router 8 (library mode)
 - `createBrowserRouter` + `RouterProvider` for routing
 - TypeScript 7 root config extended by per-app configs
 - Biome 2.5.5 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
