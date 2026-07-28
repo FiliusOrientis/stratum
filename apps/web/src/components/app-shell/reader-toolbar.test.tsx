@@ -30,10 +30,10 @@ describe('ReaderToolbar', () => {
     expect(screen.getByLabelText('Fullscreen')).toBeInTheDocument()
   })
 
-  it('renders nothing when position is hidden', () => {
-    useToolbarStore.setState({ position: 'hidden' })
-    const { container } = render(<ReaderToolbar />)
-    expect(container.innerHTML).toBe('')
+  it('shows trigger button when hidden', () => {
+    useToolbarStore.setState({ position: 'hidden', previousPosition: 'top' })
+    render(<ReaderToolbar />)
+    expect(screen.getByLabelText('Show toolbar')).toBeInTheDocument()
   })
 
   it('shows hide toolbar button', () => {

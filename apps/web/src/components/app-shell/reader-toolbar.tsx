@@ -1,8 +1,10 @@
 import {
   ArrowFatLineDownIcon,
   ArrowFatLineUpIcon,
+  CaretDownIcon,
   CaretLeftIcon,
   CaretRightIcon,
+  CaretUpIcon,
   CornersOutIcon,
   EyeSlashIcon,
   MagnifyingGlassMinusIcon,
@@ -15,7 +17,10 @@ import { useToolbarStore, useViewerStore } from '@/stores'
 
 export function ReaderToolbar() {
   const position = useToolbarStore(s => s.position)
+  const previousPosition = useToolbarStore(s => s.previousPosition)
   const setPosition = useToolbarStore(s => s.setPosition)
+  const show = useToolbarStore(s => s.show)
+  const hide = useToolbarStore(s => s.hide)
   const currentPage = useViewerStore(s => s.currentPage)
   const pageCount = useViewerStore(s => s.pageCount)
   const setPage = useViewerStore(s => s.setPage)
@@ -26,7 +31,20 @@ export function ReaderToolbar() {
   const toggleFullscreen = useViewerStore(s => s.toggleFullscreen)
 
   if (position === 'hidden') {
-    return null
+    const triggerEdge = previousPosition === 'top' ? 'top-0' : 'bottom-0'
+    return (
+      <div className={`fixed ${triggerEdge} inset-x-0 z-50 flex justify-center`}>
+        <Button
+          size="sm"
+          variant="outline"
+          aria-label="Show toolbar"
+          className="rounded-t-none shadow-sm"
+          onPress={show}
+        >
+          {previousPosition === 'top' ? <CaretDownIcon /> : <CaretUpIcon />}
+        </Button>
+      </div>
+    )
   }
 
   const barClasses = position === 'top' ? 'fixed top-0 inset-x-0' : 'fixed bottom-0 inset-x-0'
@@ -98,12 +116,7 @@ export function ReaderToolbar() {
         >
           {position === 'top' ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
         </Button>
-        <Button
-          size="icon"
-          variant="ghost"
-          aria-label="Hide toolbar"
-          onPress={() => setPosition('hidden')}
-        >
+        <Button size="icon" variant="ghost" aria-label="Hide toolbar" onPress={hide}>
           <EyeSlashIcon />
         </Button>
       </div>
