@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --project unit --coverage",
     "clean": "if exist dist rmdir /s /q dist & if exist .turbo rmdir /s /q .turbo",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
