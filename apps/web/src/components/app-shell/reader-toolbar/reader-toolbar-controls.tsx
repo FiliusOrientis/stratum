@@ -91,13 +91,13 @@ export function ToolbarControls({
           <CaretRightIcon />
         </ToolbarButton>
 
-        <Separator orientation="vertical" className="h-7" />
+        <Separator variant="soft" orientation="vertical" className="h-7" />
 
         <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={onToggleFullscreen}>
           <CornersOutIcon />
         </ToolbarButton>
 
-        <Separator orientation="vertical" className="h-7" />
+        <Separator variant="soft" orientation="vertical" className="h-7" />
 
         <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={onZoomOut}>
           <MagnifyingGlassMinusIcon />
@@ -106,7 +106,7 @@ export function ToolbarControls({
           <MagnifyingGlassPlusIcon />
         </ToolbarButton>
 
-        <Separator orientation="vertical" className="h-7" />
+        <Separator variant="soft" orientation="vertical" className="h-7" />
 
         <ToolbarButton
           label={isTop ? 'Move to bottom' : 'Move to top'}
