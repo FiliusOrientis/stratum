@@ -61,14 +61,15 @@ export function CatalogPage() {
         className="hidden"
         onChange={handleInputChange}
       />
-      {books.length === 0 ? (
-        <EmptyState onImport={() => fileInputRef.current?.click()} onOpenUrl={handleUrlImport} />
-      ) : (
-        <div className="flex h-full items-center justify-center">
-          <p className="text-muted-foreground text-sm">{books.length} book(s) imported</p>
-        </div>
-      )}
-      <DropZone onDrop={handleFile} />
+      <DropZone onDrop={handleFile}>
+        {books.length === 0 ? (
+          <EmptyState onImport={() => fileInputRef.current?.click()} onOpenUrl={handleUrlImport} />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-muted-foreground text-sm">{books.length} book(s) imported</p>
+          </div>
+        )}
+      </DropZone>
     </AppLayout>
   )
 }
