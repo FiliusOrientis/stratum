@@ -9,7 +9,7 @@ Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbar
 | Control | Icon | Action | Store Binding |
 |---------|------|--------|---------------|
 | Previous page | `CaretLeftIcon` | `viewerStore.prevPage()` | disabled at page 1 |
-| Page input | `Input` (type=number) | `viewerStore.setPage()` | min=1, max=pageCount |
+| Page input | `Input` (type=text, inputMode=numeric) | `viewerStore.setPage()` | validates 1..pageCount |
 | Next page | `CaretRightIcon` | `viewerStore.nextPage()` | disabled at last page |
 | Separator | vertical line | — | — |
 | Zoom out | `MagnifyingGlassMinusIcon` | `viewerStore.zoomOut()` | switches to custom mode |
@@ -45,6 +45,41 @@ import { AppLayout } from '@/components/app-shell/app-layout'
 - Uniform `gap-2` spacing between all elements
 - All buttons use `size="icon"` for consistent 28px height
 - Separators match button height (`h-7`)
+
+## Storybook
+
+**File**: `reader-toolbar.stories.tsx`
+
+The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props.
+
+### Wrapper pattern
+
+```tsx
+function ToolbarStory({ currentPage = 1, pageCount = 42, position = 'top' }) {
+  useEffect(() => {
+    useViewerStore.setState({ currentPage, pageCount })
+    useToolbarStore.setState({ position })
+  }, [currentPage, pageCount, position])
+  return <ReaderToolbar />
+}
+```
+
+This avoids coupling the component itself to Storybook. The wrapper is co-located in the stories file with no external dependencies.
+
+### Variants
+
+| Name | Args | Description |
+|------|------|-------------|
+| `Default` | page 1/42, top | Default toolbar position |
+| `BottomPosition` | page 5/100, bottom | Toolbar anchored to bottom |
+
+### Controls
+
+| Prop | Control Type | Options | Default |
+|------|-------------|---------|---------|
+| `currentPage` | number | — | 1 |
+| `pageCount` | number | — | 42 |
+| `position` | select | top, bottom, hidden | top |
 
 ## Tests
 

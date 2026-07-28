@@ -42,11 +42,10 @@ export function ReaderToolbar() {
 
         <div className="flex items-center gap-1 text-foreground text-sm">
           <Input
-            type="number"
+            type="text"
+            inputMode="numeric"
             aria-label="Page number"
             value={currentPage}
-            min={1}
-            max={pageCount}
             className="h-7 w-12 text-center tabular-nums"
             onChange={e => {
               const v = Number.parseInt(e.target.value, 10)
