@@ -26,10 +26,10 @@ export function DropZone({ onDrop }: DropZoneProps) {
       })}
     >
       <input {...getInputProps()} />
-      <div className="flex items-center justify-center bg-background/60 backdrop-blur-sm absolute inset-0">
-        <div className="flex flex-col items-center gap-3 rounded-xl border-2 border-dashed border-border p-12">
+      <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-sm">
+        <div className="flex flex-col items-center gap-3 rounded-xl border-2 border-border border-dashed p-12">
           <FilePdfIcon className="size-8 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">Drop your PDF here</p>
+          <p className="text-muted-foreground text-sm">Drop your PDF here</p>
         </div>
       </div>
     </div>

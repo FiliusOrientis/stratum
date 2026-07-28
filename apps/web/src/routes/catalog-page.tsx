@@ -1,7 +1,6 @@
 import { useCallback, useRef } from 'react'
 import { DropZone, EmptyState } from '@/components/app-shell'
 import { AppLayout } from '@/components/app-shell/app-layout'
-import { ImportButton } from '@/components/app-shell/import-button'
 import { importPdf } from '@/lib/pdf-import'
 import { useCatalogStore, useViewerStore } from '@/stores'
 
@@ -54,26 +53,14 @@ export function CatalogPage() {
   }, [handleFile])
 
   return (
-    <AppLayout
-      header={
-        <>
-          <span className="font-heading font-medium text-base">Stratum</span>
-          <div className="flex items-center gap-1">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".pdf,application/pdf"
-              className="hidden"
-              onChange={handleInputChange}
-            />
-            <ImportButton
-              onImportClick={() => fileInputRef.current?.click()}
-              onUrlClick={handleUrlImport}
-            />
-          </div>
-        </>
-      }
-    >
+    <AppLayout>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".pdf,application/pdf"
+        className="hidden"
+        onChange={handleInputChange}
+      />
       {books.length === 0 ? (
         <EmptyState onImport={() => fileInputRef.current?.click()} onOpenUrl={handleUrlImport} />
       ) : (
