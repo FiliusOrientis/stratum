@@ -18,19 +18,27 @@ The decomposition follows the modularity principle: logic (`getAnimation` in typ
 
 ## Controls (left to right)
 
+**Desktop (≥768px) — all controls inline:**
+
 | Control | Icon | Action | Store Binding | Disabled when |
 |---------|------|--------|---------------|---------------|
-| Previous page | `CaretLeftIcon` | `viewerStore.prevPage()` | disabled at page 1 | `currentPage <= 1` |
+| Previous page | `CaretLeftIcon` | `viewerStore.prevPage()` | — | `currentPage <= 1` |
 | Page input | `Input` (type=text, inputMode=numeric) | `viewerStore.setPage()` | validates 1..pageCount | — |
-| Next page | `CaretRightIcon` | `viewerStore.nextPage()` | disabled at last page | `currentPage >= pageCount` |
+| Next page | `CaretRightIcon` | `viewerStore.nextPage()` | — | `currentPage >= pageCount` |
+| Separator | vertical line | — | — | — |
+| Fullscreen | `CornersOutIcon` | `viewerStore.toggleFullscreen()` | — | — |
 | Separator | vertical line | — | — | — |
 | Zoom out | `MagnifyingGlassMinusIcon` | `viewerStore.zoomOut()` | switches to custom mode | — |
 | Zoom in | `MagnifyingGlassPlusIcon` | `viewerStore.zoomIn()` | switches to custom mode | — |
 | Separator | vertical line | — | — | — |
-| Fullscreen | `CornersOutIcon` | `viewerStore.toggleFullscreen()` | — | — |
-| Separator | vertical line | — | — | — |
 | Move to top/bottom | `ArrowFatLineDownIcon` / `ArrowFatLineUpIcon` | `toolbarStore.setPosition()` | cycles top↔bottom | — |
 | Hide toolbar | `EyeSlashIcon` | `toolbarStore.hide()` | collapses to trigger button | — |
+
+**Mobile (<768px) — compact layout with overflow menu:**
+- Always visible: Previous page, Page input, Next page, Fullscreen
+- Overflow menu (via `DotsThreeIcon`): Zoom in, Zoom out, Move position, Hide toolbar
+
+The overflow menu uses a ShadCN `DropdownMenu` triggered by a `DotsThreeIcon` button. Menu items include icons and call the same store actions as the desktop inline controls.
 
 ## Position Behavior
 
@@ -129,7 +137,7 @@ Note: `loaders` initialize the stores synchronously before the first render so t
 
 ## Tests
 
-**File**: `reader-toolbar.test.tsx` — 7 tests covering:
+**File**: `reader-toolbar/reader-toolbar.test.tsx` — 7 tests covering:
 - All control buttons rendered
 - Position switching (top/bottom/hidden)
 - Move-to-top / move-to-bottom labels

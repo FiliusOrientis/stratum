@@ -4,7 +4,7 @@ import {
   CaretLeftIcon,
   CaretRightIcon,
   CornersOutIcon,
-  DotsThreeVerticalIcon,
+  DotsThreeIcon,
   EyeSlashIcon,
   MagnifyingGlassMinusIcon,
   MagnifyingGlassPlusIcon,
@@ -122,7 +122,7 @@ export function ToolbarControls({
       <div className="md:hidden">
         <DropdownMenuTrigger>
           <Button size="icon" variant="ghost" aria-label="More controls">
-            <DotsThreeVerticalIcon />
+            <DotsThreeIcon />
           </Button>
           <DropdownMenu placement="bottom end">
             <DropdownMenuItem onAction={onZoomIn}>
