@@ -126,6 +126,25 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - **Improve existing, don't duplicate**: Extend existing functions/components with parameters instead of creating new ones. Reuse over rewrite.
 - **Flat directories**: Many co-located files in one directory, not deep nesting. Barrel exports via `index.ts`.
 
+## Animation Standards (Emil Kowalski)
+
+All animations MUST follow Emil Kowalski's design engineering principles. Skills installed:
+- `emil-design-eng` (~/.agents/skills/emil-design-eng/) — core philosophy, easing curves, duration rules, component principles
+- `review-animations` — strict animation review checklist
+- `improve-animations` — audit codebase animations, get prioritized fixes
+- `find-animation-opportunities` — find UI that would genuinely benefit from motion
+
+**Key rules enforced for every visual component:**
+- UI animations under 300ms (tooltips 125-200ms, dropdowns 150-250ms, modals 200-300ms)
+- Use `ease-out` (`cubic-bezier(0.23, 1, 0.32, 1)`) for entering elements
+- Never `ease-in` (feels sluggish)
+- Never `scale(0)` — start from `scale(0.95)` with `opacity: 0`
+- `transform` over `x`/`y` for hardware acceleration under load
+- No animation on keyboard-initiated actions (hundreds per day)
+- Springs for interruptible gestures; CSS transitions for rapid toggles
+
+Shared constants in `src/lib/animation.ts`: `easeOut`, `easeInOut`, `easeDrawer`, `springPreset`.
+
 ## Strict Rules (NEVER violate)
 
 - **Never call binaries directly** — `biome`, `tsc`, `turbo` are not on PATH. Always use pnpm scripts: `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm dev`. No exceptions.

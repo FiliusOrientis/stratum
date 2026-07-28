@@ -16,7 +16,7 @@ export function ToolbarTrigger({ isTop, anim, onShow }: TriggerProps) {
       initial={{ y: anim.triggerSlide, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: anim.triggerSlide, opacity: 0 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      transition={{ type: 'spring', duration: 0.25, bounce: 0.1 }}
       className={`fixed ${anim.edge} inset-x-0 z-50 flex justify-center`}
     >
       <Button
