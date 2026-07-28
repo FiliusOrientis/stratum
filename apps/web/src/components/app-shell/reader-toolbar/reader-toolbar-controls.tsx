@@ -5,7 +5,7 @@ import {
   CaretRightIcon,
   CornersOutIcon,
   DotsThreeIcon,
-  EyeSlashIcon,
+  EyeClosedIcon,
   MagnifyingGlassMinusIcon,
   MagnifyingGlassPlusIcon,
 } from '@phosphor-icons/react'
@@ -152,7 +152,7 @@ export function ToolbarControls({
 
         <DropdownMenuTrigger>
           <Button size="icon" variant="ghost" aria-label="More controls">
-            <DotsThreeIcon />
+            <DotsThreeIcon weight="bold" />
           </Button>
           <DropdownMenu placement="bottom end">
             <DropdownMenuItem onAction={onZoomIn}>
@@ -169,7 +169,7 @@ export function ToolbarControls({
               {isTop ? 'Move to bottom' : 'Move to top'}
             </DropdownMenuItem>
             <DropdownMenuItem onAction={onHide}>
-              <EyeSlashIcon />
+          <EyeClosedIcon />
               Hide toolbar
             </DropdownMenuItem>
           </DropdownMenu>
