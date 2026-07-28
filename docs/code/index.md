@@ -80,3 +80,7 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `storage/opfs.ts` | — | OPFS binary PDF read/write/evict |
 | `math/page-bend.ts` | — | Bezier curve math extracted from DearFlip for page-turn animation |
 | `pdf-import/index.ts` | `lib/pdf-import/index.md` | PDF import pipeline (fingerprint + OPFS save) |
+
+## Animation
+
+Component interactions use **Motion** (`motion/react`) — AnimatePresence, spring physics, slide transitions. See `components/app-shell/reader-toolbar.md` for usage patterns. No JS animation library is used for the 3D flipbook (that uses R3F's native animation system).

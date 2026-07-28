@@ -31,7 +31,7 @@ Monorepo: `apps/web` (React 19 SPA) · `apps/api` (Vercel serverless) · `packag
 
 ## Stack
 
-React 19 · Vite 7 · React Router 8 · @react-three/fiber · Storybook 10 · ShadCN UI (React Aria) · Tailwind CSS v4 · Zustand · Dexie.js · Comlink · Vitest · Biome · Turborepo · pnpm
+React 19 · Vite 7 · React Router 8 · @react-three/fiber · Motion · Storybook 10 · ShadCN UI (React Aria) · Tailwind CSS v4 · Zustand · Dexie.js · Comlink · Vitest · Biome · Turborepo · pnpm
 
 ## Docs
 
