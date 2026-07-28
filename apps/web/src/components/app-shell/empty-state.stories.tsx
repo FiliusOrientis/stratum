@@ -12,5 +12,5 @@ export default meta
 type Story = StoryObj<typeof EmptyState>
 
 export const Default: Story = {
-  args: { onImport: () => {}, onOpenUrl: () => {} },
+  args: { onImport: () => undefined, onOpenUrl: () => undefined },
 }

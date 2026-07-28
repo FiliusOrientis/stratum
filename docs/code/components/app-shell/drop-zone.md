@@ -2,7 +2,7 @@
 
 **File**: `apps/web/src/components/app-shell/drop-zone.tsx`
 
-Full-screen drag-and-drop overlay for PDF imports. Appears when a file is dragged over the browser window.
+Full-screen drag-and-drop overlay for PDF imports. Powered by `react-dropzone` (useDropzone hook).
 
 ## Props
 
@@ -12,21 +12,12 @@ Full-screen drag-and-drop overlay for PDF imports. Appears when a file is dragge
 
 ## Behavior
 
-- Listens to `dragenter`, `dragleave`, `dragover`, `drop` events on `document`
-- Uses a `dragCount` ref to handle nested drag events correctly (enter/leave on child elements)
-- Only activates when the drag data contains `Files`
-- Only accepts `application/pdf` type files
+- Uses `react-dropzone`'s `useDropzone` hook — handles drag enter/leave counting, file validation, event prevention
+- Accepts only PDF files: `accept={{ 'application/pdf': ['.pdf'] }}`
+- Single file only: `multiple={false}`
+- Does not open file dialog on click: `noClick={true}` (use `ImportButton` for that)
 - Overlay shows with fade animation (Motion `AnimatePresence`, 150ms)
-
-## Drag counter pattern
-
-```tsx
-const dragCount = useRef(0)
-// Increment on dragenter, decrement on dragleave
-// Only hide when counter reaches 0
-```
-
-This prevents flickering when the cursor moves over child elements of the overlay.
+- `isDragActive` state from react-dropzone drives the overlay visibility
 
 ## Usage
 
@@ -41,3 +32,8 @@ import { DropZone } from '@/components/app-shell'
 - Semi-transparent background: `bg-background/60 backdrop-blur-sm`
 - Dashed border: `border-2 border-dashed border-border`
 - Matching Motion overlay animation: `fade-in/fade-out 150ms`
+
+## Dependencies
+
+- `react-dropzone` — `useDropzone` hook for drag event handling
+- `motion/react` — `AnimatePresence` + `motion.div` for overlay animation
