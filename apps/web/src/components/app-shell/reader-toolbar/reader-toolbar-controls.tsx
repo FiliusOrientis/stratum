@@ -47,9 +47,28 @@ export function ToolbarControls({
   onMovePosition,
   onHide,
 }: ControlsProps) {
+  const pageInput = (
+    <div className="flex items-center gap-1 text-foreground text-sm">
+      <Input
+        type="text"
+        inputMode="numeric"
+        aria-label="Page number"
+        value={currentPage}
+        className="h-7 w-12 text-center tabular-nums"
+        onChange={e => {
+          const v = Number.parseInt(e.target.value, 10)
+          if (v >= 1 && v <= pageCount) {
+            onSetPage(v)
+          }
+        }}
+      />
+      <span className="text-muted-foreground text-xs">/ {pageCount}</span>
+    </div>
+  )
+
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex-1 flex items-center justify-between md:flex-initial md:justify-start md:gap-2">
+    <>
+      <div className="hidden items-center gap-2 md:flex">
         <ToolbarButton
           label="Previous page"
           size="icon"
@@ -60,22 +79,7 @@ export function ToolbarControls({
           <CaretLeftIcon />
         </ToolbarButton>
 
-        <div className="flex items-center gap-1 text-foreground text-sm">
-          <Input
-            type="text"
-            inputMode="numeric"
-            aria-label="Page number"
-            value={currentPage}
-            className="h-7 w-12 text-center tabular-nums"
-            onChange={e => {
-              const v = Number.parseInt(e.target.value, 10)
-              if (v >= 1 && v <= pageCount) {
-                onSetPage(v)
-              }
-            }}
-          />
-          <span className="text-muted-foreground text-xs">/ {pageCount}</span>
-        </div>
+        {pageInput}
 
         <ToolbarButton
           label="Next page"
@@ -86,28 +90,24 @@ export function ToolbarControls({
         >
           <CaretRightIcon />
         </ToolbarButton>
-      </div>
 
-      <Separator orientation="vertical" className="hidden md:block h-7" />
+        <Separator orientation="vertical" className="h-7" />
 
-      <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={onToggleFullscreen}>
-        <CornersOutIcon />
-      </ToolbarButton>
+        <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={onToggleFullscreen}>
+          <CornersOutIcon />
+        </ToolbarButton>
 
-      <Separator orientation="vertical" className="hidden h-7 md:block" />
+        <Separator orientation="vertical" className="h-7" />
 
-      <div className="hidden items-center gap-2 md:flex">
         <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={onZoomOut}>
           <MagnifyingGlassMinusIcon />
         </ToolbarButton>
         <ToolbarButton label="Zoom in" size="icon" variant="ghost" onPress={onZoomIn}>
           <MagnifyingGlassPlusIcon />
         </ToolbarButton>
-      </div>
 
-      <Separator orientation="vertical" className="hidden h-7 md:block" />
+        <Separator orientation="vertical" className="h-7" />
 
-      <div className="hidden items-center gap-2 md:flex">
         <ToolbarButton
           label={isTop ? 'Move to bottom' : 'Move to top'}
           size="icon"
@@ -121,10 +121,38 @@ export function ToolbarControls({
         </ToolbarButton>
       </div>
 
-      <div className="md:hidden">
+      <div className="flex w-full items-center justify-between gap-2 md:hidden">
+        <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={onToggleFullscreen}>
+          <CornersOutIcon />
+        </ToolbarButton>
+
+        <div className="flex flex-1 items-center justify-center gap-2">
+          <ToolbarButton
+            label="Previous page"
+            size="icon"
+            variant="ghost"
+            isDisabled={currentPage <= 1}
+            onPress={onPrevPage}
+          >
+            <CaretLeftIcon />
+          </ToolbarButton>
+
+          {pageInput}
+
+          <ToolbarButton
+            label="Next page"
+            size="icon"
+            variant="ghost"
+            isDisabled={currentPage >= pageCount}
+            onPress={onNextPage}
+          >
+            <CaretRightIcon />
+          </ToolbarButton>
+        </div>
+
         <DropdownMenuTrigger>
           <Button size="icon" variant="ghost" aria-label="More controls">
-            <DotsThreeIcon weight="bold" />
+            <DotsThreeIcon />
           </Button>
           <DropdownMenu placement="bottom end">
             <DropdownMenuItem onAction={onZoomIn}>
@@ -147,6 +175,6 @@ export function ToolbarControls({
           </DropdownMenu>
         </DropdownMenuTrigger>
       </div>
-    </div>
+    </>
   )
 }
