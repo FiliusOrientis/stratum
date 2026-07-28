@@ -53,7 +53,7 @@ The toolbar and its collapsed trigger are wrapped in `AnimatePresence mode="wait
 - **Both**: `opacity` animates from 0 to 1
 
 ```tsx
-<AnimatePresence mode="wait">
+<AnimatePresence mode="wait" initial={false}>
   {position === 'hidden' ? (
     <motion.div key="trigger" initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -62,7 +62,7 @@ The toolbar and its collapsed trigger are wrapped in `AnimatePresence mode="wait
       {/* trigger button */}
     </motion.div>
   ) : (
-    <motion.div key="toolbar" initial={{ y: -80, opacity: 0 }}
+    <motion.div key={`toolbar-${position}`} initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -80, opacity: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
@@ -72,7 +72,7 @@ The toolbar and its collapsed trigger are wrapped in `AnimatePresence mode="wait
 </AnimatePresence>
 ```
 
-The `key` prop differences (`"trigger"` vs `"toolbar"`) enable AnimatePresence to detect the swap. `mode="wait"` ensures the entering element waits for the exiting one to finish. Direction is determined by `previousPosition` in the toolbar store.
+The `key` prop differences (`"trigger"` vs `"toolbar-{position}"`) enable AnimatePresence to detect state swaps. `mode="wait"` ensures the entering element waits for the exiting one to finish. Direction uses `position` when visible (for correct exit direction after top↔bottom moves) and `previousPosition` when hidden (for the trigger). `initial={false}` on AnimatePresence prevents entrance animations on first mount.
 
 ## Styling
 

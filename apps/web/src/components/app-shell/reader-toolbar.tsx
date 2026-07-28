@@ -31,16 +31,16 @@ export function ReaderToolbar() {
   const zoomOut = useViewerStore(s => s.zoomOut)
   const toggleFullscreen = useViewerStore(s => s.toggleFullscreen)
 
-  const isTop = previousPosition === 'top'
+  const isHidden = position === 'hidden'
+  const isTop = isHidden ? previousPosition === 'top' : position === 'top'
   const slideDir = isTop ? -80 : 80
   const triggerSlide = isTop ? -40 : 40
   const triggerEdge = isTop ? 'top-0' : 'bottom-0'
-  const isNowTop = position === 'top'
-  const barEdge = isNowTop ? 'top-0' : 'bottom-0'
+  const barEdge = isTop ? 'top-0' : 'bottom-0'
 
   return (
-    <AnimatePresence mode="wait">
-      {position === 'hidden' ? (
+    <AnimatePresence mode="wait" initial={false}>
+      {isHidden ? (
         <motion.div
           key="trigger"
           initial={{ y: triggerSlide, opacity: 0 }}
@@ -63,7 +63,7 @@ export function ReaderToolbar() {
         </motion.div>
       ) : (
         <motion.div
-          key="toolbar"
+          key={`toolbar-${position}`}
           initial={{ y: slideDir, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: slideDir, opacity: 0 }}
