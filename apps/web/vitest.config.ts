@@ -1,8 +1,8 @@
 import path from 'node:path'
-import tailwindcss from '@tailwindcss/vite'
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
-import { playwright } from '@vitest/browser-playwright'
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
+import { playwright } from '@vitest/browser-playwright'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig } from 'vitest/config'
 
@@ -50,10 +50,7 @@ export default defineConfig({
       },
       {
         extends: true,
-        plugins: [
-          ...plugins,
-          storybookTest({ configDir: path.join(__dirname, '.storybook') }),
-        ],
+        plugins: [...plugins, storybookTest({ configDir: path.join(__dirname, '.storybook') })],
         resolve: { alias },
         test: {
           name: 'storybook',

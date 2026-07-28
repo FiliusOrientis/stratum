@@ -30,6 +30,12 @@ const meta: Meta<typeof ToolbarStory> = {
     currentPage: { control: 'number' },
     pageCount: { control: 'number' },
   },
+  loaders: [
+    () => {
+      useViewerStore.setState({ currentPage: 1, pageCount: 42 })
+      useToolbarStore.setState({ position: 'top' })
+    },
+  ],
   tags: ['autodocs'],
 }
 
@@ -42,4 +48,10 @@ export const Default: Story = {
 
 export const BottomPosition: Story = {
   args: { currentPage: 5, pageCount: 100, position: 'bottom' },
+  loaders: [
+    () => {
+      useViewerStore.setState({ currentPage: 5, pageCount: 100 })
+      useToolbarStore.setState({ position: 'bottom' })
+    },
+  ],
 }

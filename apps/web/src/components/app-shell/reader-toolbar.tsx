@@ -36,7 +36,13 @@ export function ReaderToolbar() {
       className={`${barClasses} z-50 flex items-center justify-center border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
     >
       <div className="flex items-center gap-2">
-        <Button size="icon" variant="ghost" aria-label="Previous page" onPress={prevPage}>
+        <Button
+          size="icon"
+          variant="ghost"
+          aria-label="Previous page"
+          isDisabled={currentPage <= 1}
+          onPress={prevPage}
+        >
           <CaretLeftIcon />
         </Button>
 
@@ -57,7 +63,13 @@ export function ReaderToolbar() {
           <span className="text-muted-foreground">/ {pageCount}</span>
         </div>
 
-        <Button size="icon" variant="ghost" aria-label="Next page" onPress={nextPage}>
+        <Button
+          size="icon"
+          variant="ghost"
+          aria-label="Next page"
+          isDisabled={currentPage >= pageCount}
+          onPress={nextPage}
+        >
           <CaretRightIcon />
         </Button>
 
