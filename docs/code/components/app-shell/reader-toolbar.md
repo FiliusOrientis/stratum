@@ -1,8 +1,20 @@
 # ReaderToolbar
 
-**File**: `apps/web/src/components/app-shell/reader-toolbar.tsx`
+**Directory**: `apps/web/src/components/app-shell/reader-toolbar/`
 
 Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbarStore.
+
+## File Structure
+
+| File | Purpose |
+|------|---------|
+| `reader-toolbar.tsx` | Orchestrator — connects Zustand stores to sub-components, mounts AnimatePresence |
+| `reader-toolbar-controls.tsx` | Full button row — nav, zoom, fullscreen, position switcher, hide. Receives data and callbacks via props |
+| `reader-toolbar-trigger.tsx` | Collapsed pill button shown when toolbar is hidden. Animates in/out with spring |
+| `reader-toolbar-button.tsx` | Wraps ShadCN `Button` + `TooltipTrigger` + `Tooltip`. Reduces repetition in controls |
+| `reader-toolbar.types.ts` | Shared types (`ToolbarButtonProps`) and pure animation math (`getAnimation()`) |
+
+The decomposition follows the modularity principle: logic (`getAnimation` in types file) is separated from UI markup (controls/trigger), and each sub-component is independently testable and improvable.
 
 ## Controls (left to right)
 

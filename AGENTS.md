@@ -120,6 +120,12 @@ Violating this is the #1 way to waste tokens. CI will reject non-conventional co
 - **Biome config**: 2-space indent, single quotes, no semicolons, trailing commas, 100 line width
 - **Commit style**: conventional commits via caveman-commit (≤100 char subject, body only when why isn't obvious)
 
+## Code Style
+
+- **Atomic, modular components**: Decompose into smallest meaningful units. Each file has one responsibility. Logic separated from UI markup. See `docs/conventions.md#modularity--composition`.
+- **Improve existing, don't duplicate**: Extend existing functions/components with parameters instead of creating new ones. Reuse over rewrite.
+- **Flat directories**: Many co-located files in one directory, not deep nesting. Barrel exports via `index.ts`.
+
 ## Strict Rules (NEVER violate)
 
 - **Never call binaries directly** — `biome`, `tsc`, `turbo` are not on PATH. Always use pnpm scripts: `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm dev`. No exceptions.

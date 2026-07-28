@@ -52,8 +52,12 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `book-shelf/` | — | R3F 3D bookshelf catalog scene |
 | `app-shell/` | | |
 | `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper |
-| `reader-toolbar.tsx` | `components/app-shell/reader-toolbar.md` | Edge-anchored reader toolbar with nav/zoom/fullscreen/position switcher |
-| `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper |
+| `reader-toolbar/` | | |
+| `reader-toolbar.tsx` | `components/app-shell/reader-toolbar.md` | Orchestrator — store connections, AnimatePresence |
+| `reader-toolbar-button.tsx` | — | ToolbarButton: Button + Tooltip wrapper |
+| `reader-toolbar-trigger.tsx` | — | Collapsed pill when toolbar is hidden |
+| `reader-toolbar-controls.tsx` | — | Full button row (nav, zoom, tools, position) |
+| `reader-toolbar.types.ts` | — | Types, animation math (`getAnimation`) |
 
 ## Stores (`stores/`)
 

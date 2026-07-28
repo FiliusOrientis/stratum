@@ -96,6 +96,14 @@ src/components/book-viewer/
   4. Log every approved suppression in `docs/lint-suppressions.md` with file, rule, reason, and date.
 - **Safe fixes**: `--unsafe` Biome fixes require user approval before batch application.
 
+## Modularity & Composition
+
+- **One concern per file**: If a file exceeds ~120 lines or requires scrolling to understand, extract sub-components or logic. Each file does one thing.
+- **Logic separated from UI**: Animation math, state derivation, business rules live in pure functions (`.types.ts` or dedicated helpers) — never mixed into JSX markup. Components receive data and callbacks via props.
+- **Composition over configuration**: Sub-components are composed by the parent via children/props, not configured via complex boolean flags. Keep prop interfaces flat.
+- **Improve, don't duplicate**: When behavior is similar, extend the existing function with parameters — do not create a new function. This applies to components, hooks, and utilities.
+- **Flat directories**: Prefer many small co-located files in one directory over deep folder hierarchies. A component directory contains: `component.tsx`, `component.types.ts`, `component.test.tsx`, sub-component files, and `index.ts` barrel.
+
 ## React Components
 
 - Function components only (enforced by Biome `useArrowFunction`)
