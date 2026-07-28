@@ -22,6 +22,7 @@ const preview: Preview = {
         dark: 'dark',
       },
       defaultTheme: 'dark',
+      parentSelector: 'body',
     }),
   ],
 }
