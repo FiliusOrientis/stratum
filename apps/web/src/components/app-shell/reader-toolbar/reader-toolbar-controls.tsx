@@ -117,7 +117,7 @@ export function ToolbarControls({
           {isTop ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
         </ToolbarButton>
         <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={onHide}>
-          <EyeSlashIcon />
+          <EyeClosedIcon />
         </ToolbarButton>
       </div>
 
@@ -169,7 +169,7 @@ export function ToolbarControls({
               {isTop ? 'Move to bottom' : 'Move to top'}
             </DropdownMenuItem>
             <DropdownMenuItem onAction={onHide}>
-          <EyeClosedIcon />
+              <EyeClosedIcon />
               Hide toolbar
             </DropdownMenuItem>
           </DropdownMenu>

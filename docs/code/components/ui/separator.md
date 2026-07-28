@@ -2,15 +2,25 @@
 
 **File**: `apps/web/src/components/ui/separator.tsx`
 
-Visual divider line. ShadCN React Aria component. Renders consistently across contexts by using CSS `border` instead of `background-color`.
+Visual divider line. ShadCN React Aria component with CVA variants. Renders consistently across contexts by using CSS `border` instead of `background-color`.
 
 ## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Line direction |
+| `variant` | `'default' \| 'muted' \| 'soft' \| 'faint'` | `'default'` | Border opacity intensity |
 
 Additional props are passed through to `SeparatorPrimitive` (React Aria).
+
+## Variants
+
+| Variant | Opacity | Use case |
+|---------|---------|----------|
+| `default` | 100% | Default section dividers |
+| `muted` | 75% | Subtle separation |
+| `soft` | 50% | Light visual grouping |
+| `faint` | 25% | Barely visible dividers, decorative |
 
 ## Rendering
 
@@ -29,6 +39,9 @@ import { Separator } from '@/components/ui/separator'
 // Horizontal (default)
 <Separator />
 
+// Muted variant for subtle separation
+<Separator variant="muted" />
+
 // Vertical with custom height
 <Separator orientation="vertical" className="h-7" />
 ```
@@ -39,3 +52,7 @@ For vertical separators, set `h-*` to match adjacent elements:
 ```tsx
 <Separator orientation="vertical" className="h-7" /> {/* matches size="icon" button */}
 ```
+
+## Export
+
+`separatorVariants` is also exported for reuse in custom components that need the same styling.
