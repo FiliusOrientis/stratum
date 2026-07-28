@@ -59,6 +59,9 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `reader-toolbar-trigger.tsx` | — | Collapsed pill when toolbar is hidden |
 | `reader-toolbar-controls.tsx` | — | Button row — desktop (inline) and mobile (left/center/right) layouts |
 | `reader-toolbar.types.ts` | — | Types, animation math (`getAnimation`) |
+| `empty-state.tsx` | `components/app-shell/empty-state.md` | Empty catalog hero with import CTAs |
+| `drop-zone.tsx` | `components/app-shell/drop-zone.md` | Drag-and-drop PDF overlay with animation |
+| `import-button.tsx` | — | Import PDF / Open from URL trigger buttons |
 
 ## Stores (`stores/`)
 
