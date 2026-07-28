@@ -26,6 +26,7 @@
     "comlink": "^4.4.2",
     "dexie": "^4.4.4",
     "minisearch": "^7.2.0",
+    "motion": "^12.42.2",
     "pdfjs-dist": "^6.1.200",
     "react": "^19.0.0",
     "react-aria-components": "^1.19.0",

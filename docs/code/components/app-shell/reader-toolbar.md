@@ -39,6 +39,41 @@ import { AppLayout } from '@/components/app-shell/app-layout'
 </AppLayout>
 ```
 
+## Motion Animations
+
+Imports from `motion/react`.
+
+### Hide/Show Slide
+
+The toolbar and its collapsed trigger are wrapped in `AnimatePresence mode="wait"`. When `position` changes to `'hidden'`, the toolbar slides out (up if at top, down if at bottom) with a spring transition. After the exit completes, the trigger button slides in from the same edge. Clicking the trigger reverses the sequence.
+
+- **Transition**: `{ type: 'spring', stiffness: 300, damping: 30 }`
+- **Toolbar slide**: 80px in the direction of the edge
+- **Trigger slide**: 40px in the direction of the edge
+- **Both**: `opacity` animates from 0 to 1
+
+```tsx
+<AnimatePresence mode="wait">
+  {position === 'hidden' ? (
+    <motion.div key="trigger" initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -40, opacity: 0 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
+      {/* trigger button */}
+    </motion.div>
+  ) : (
+    <motion.div key="toolbar" initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -80, opacity: 0 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
+      {/* toolbar controls */}
+    </motion.div>
+  )}
+</AnimatePresence>
+```
+
+The `key` prop differences (`"trigger"` vs `"toolbar"`) enable AnimatePresence to detect the swap. `mode="wait"` ensures the entering element waits for the exiting one to finish. Direction is determined by `previousPosition` in the toolbar store.
+
 ## Styling
 
 - Semi-transparent background: `bg-background/80 backdrop-blur-md`
@@ -50,7 +85,7 @@ import { AppLayout } from '@/components/app-shell/app-layout'
 
 **File**: `reader-toolbar.stories.tsx`
 
-The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props. Use **Open canvas in new tab** to preview the toolbar — the Docs tab shows controls and source but the toolbar's `fixed` positioning renders it outside the docs canvas.
+The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props. Use **Open canvas in new tab** to preview the toolbar — the Docs tab shows controls and source but the toolbar's `fixed` positioning renders it outside the docs canvas. `loaders` initialize the stores synchronously before the first render so the preview shows the toolbar immediately.
 
 ### Wrapper pattern
 
@@ -60,11 +95,10 @@ function ToolbarStory({ currentPage = 1, pageCount = 42, position = 'top' }) {
     useViewerStore.setState({ currentPage, pageCount })
     useToolbarStore.setState({ position })
   }, [currentPage, pageCount, position])
-  return <ReaderToolbar embedded />
+  return <ReaderToolbar />
 }
-```
 
-Note: the story passes `embedded` to disable `fixed` positioning. Without this, the toolbar renders at the browser viewport edge, invisible inside the Storybook docs canvas. `loaders` initialize the stores synchronously before the first render so the docs preview shows the toolbar immediately.
+Note: `loaders` initialize the stores synchronously before the first render so the docs preview shows the toolbar immediately.
 
 ### Variants
 
