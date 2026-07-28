@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react'
+import { springPreset } from '@/lib/animation'
 import { useToolbarStore, useViewerStore } from '@/stores'
 import { getAnimation } from './reader-toolbar.types'
 import { ToolbarControls } from './reader-toolbar-controls'
@@ -33,7 +34,7 @@ export function ReaderToolbar() {
           initial={{ y: anim.slideDir, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: anim.slideDir, opacity: 0 }}
-          transition={{ type: 'spring', duration: 0.25, bounce: 0.1 }}
+          transition={springPreset}
           className={`fixed ${anim.edge} inset-x-0 z-50 flex items-center justify-center border-border bg-background/80 p-2 backdrop-blur-md`}
         >
           <ToolbarControls

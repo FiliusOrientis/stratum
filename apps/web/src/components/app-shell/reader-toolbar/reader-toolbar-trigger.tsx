@@ -1,6 +1,7 @@
 import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react'
 import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
+import { springPreset } from '@/lib/animation'
 import type { ToolbarAnimation } from './reader-toolbar.types'
 
 interface TriggerProps {
@@ -16,7 +17,7 @@ export function ToolbarTrigger({ isTop, anim, onShow }: TriggerProps) {
       initial={{ y: anim.triggerSlide, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: anim.triggerSlide, opacity: 0 }}
-      transition={{ type: 'spring', duration: 0.25, bounce: 0.1 }}
+      transition={springPreset}
       className={`fixed ${anim.edge} inset-x-0 z-50 flex justify-center`}
     >
       <Button
