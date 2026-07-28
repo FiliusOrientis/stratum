@@ -84,10 +84,11 @@ ShadCN React Aria components. Read-only — never modify directly.
 | File | Doc | Purpose |
 |------|-----|---------|
 | `utils.ts` | `lib/utils.md` | `cn()` className merge utility |
+| `animation.ts` | — | Animation constants: `easeOut`, `easeInOut`, `easeDrawer`, `springPreset` |
 | `storage/db.ts` | `lib/storage/db.md` | Dexie schema (books, config tables) |
 | `storage/opfs.ts` | `lib/storage/opfs.md` | OPFS binary PDF read/write/evict |
 | `pdf-import/index.ts` | `lib/pdf-import/index.md` | PDF import pipeline (fingerprint + OPFS save) |
 
 ## Animation
 
-Component interactions use **Motion** (`motion/react`) — AnimatePresence, spring physics, slide transitions. See `components/app-shell/reader-toolbar.md` for usage patterns. No JS animation library is used for the 3D flipbook (that uses R3F's native animation system).
+Component interactions use **Motion** (`motion/react`) — AnimatePresence, spring physics, slide transitions. Shared constants in `lib/animation.ts` (`easeOut`, `easeInOut`, `easeDrawer`, `springPreset`). See `components/app-shell/reader-toolbar.md` for usage patterns. No JS animation library is used for the 3D flipbook (that uses R3F's native animation system).
