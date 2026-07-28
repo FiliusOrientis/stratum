@@ -49,44 +49,46 @@ export function ToolbarControls({
 }: ControlsProps) {
   return (
     <div className="flex items-center gap-2">
-      <ToolbarButton
-        label="Previous page"
-        size="icon"
-        variant="ghost"
-        isDisabled={currentPage <= 1}
-        onPress={onPrevPage}
-      >
-        <CaretLeftIcon />
-      </ToolbarButton>
+      <div className="flex-1 flex items-center justify-between md:flex-initial md:justify-start md:gap-2">
+        <ToolbarButton
+          label="Previous page"
+          size="icon"
+          variant="ghost"
+          isDisabled={currentPage <= 1}
+          onPress={onPrevPage}
+        >
+          <CaretLeftIcon />
+        </ToolbarButton>
 
-      <div className="flex items-center gap-1 text-foreground text-sm">
-        <Input
-          type="text"
-          inputMode="numeric"
-          aria-label="Page number"
-          value={currentPage}
-          className="h-7 w-12 text-center tabular-nums"
-          onChange={e => {
-            const v = Number.parseInt(e.target.value, 10)
-            if (v >= 1 && v <= pageCount) {
-              onSetPage(v)
-            }
-          }}
-        />
-        <span className="text-muted-foreground text-xs">/ {pageCount}</span>
+        <div className="flex items-center gap-1 text-foreground text-sm">
+          <Input
+            type="text"
+            inputMode="numeric"
+            aria-label="Page number"
+            value={currentPage}
+            className="h-7 w-12 text-center tabular-nums"
+            onChange={e => {
+              const v = Number.parseInt(e.target.value, 10)
+              if (v >= 1 && v <= pageCount) {
+                onSetPage(v)
+              }
+            }}
+          />
+          <span className="text-muted-foreground text-xs">/ {pageCount}</span>
+        </div>
+
+        <ToolbarButton
+          label="Next page"
+          size="icon"
+          variant="ghost"
+          isDisabled={currentPage >= pageCount}
+          onPress={onNextPage}
+        >
+          <CaretRightIcon />
+        </ToolbarButton>
       </div>
 
-      <ToolbarButton
-        label="Next page"
-        size="icon"
-        variant="ghost"
-        isDisabled={currentPage >= pageCount}
-        onPress={onNextPage}
-      >
-        <CaretRightIcon />
-      </ToolbarButton>
-
-      <Separator orientation="vertical" className="h-7" />
+      <Separator orientation="vertical" className="hidden md:block h-7" />
 
       <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={onToggleFullscreen}>
         <CornersOutIcon />
@@ -122,7 +124,7 @@ export function ToolbarControls({
       <div className="md:hidden">
         <DropdownMenuTrigger>
           <Button size="icon" variant="ghost" aria-label="More controls">
-            <DotsThreeIcon />
+            <DotsThreeIcon weight="bold" />
           </Button>
           <DropdownMenu placement="bottom end">
             <DropdownMenuItem onAction={onZoomIn}>
