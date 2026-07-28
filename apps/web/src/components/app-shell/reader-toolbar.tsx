@@ -38,7 +38,7 @@ export function ReaderToolbar() {
           size="sm"
           variant="outline"
           aria-label="Show toolbar"
-          className="rounded-t-none shadow-sm"
+          className={previousPosition === 'top' ? 'rounded-t-none shadow-sm' : 'rounded-b-none shadow-sm'}
           onPress={show}
         >
           {previousPosition === 'top' ? <CaretDownIcon /> : <CaretUpIcon />}
