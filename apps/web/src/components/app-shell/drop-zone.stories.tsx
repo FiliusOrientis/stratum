@@ -12,5 +12,12 @@ export default meta
 type Story = StoryObj<typeof DropZone>
 
 export const Default: Story = {
-  args: { onDrop: () => undefined, children: <div className="flex h-40 items-center justify-center text-muted-foreground text-sm">Drop zone area</div> },
+  args: {
+    onDrop: () => undefined,
+    children: (
+      <div className="flex h-40 items-center justify-center text-muted-foreground text-sm">
+        Drop zone area
+      </div>
+    ),
+  },
 }

@@ -13,7 +13,7 @@ export function AppLayout({ header, children }: AppLayoutProps) {
           {header}
         </header>
       )}
-      <main className="relative flex-1 overflow-hidden">{children}</main>
+      <main className="relative flex flex-1 flex-col overflow-hidden">{children}</main>
     </div>
   )
 }
