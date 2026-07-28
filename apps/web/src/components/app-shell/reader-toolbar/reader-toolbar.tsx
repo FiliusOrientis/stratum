@@ -34,7 +34,7 @@ export function ReaderToolbar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: anim.slideDir, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className={`fixed ${anim.edge} inset-x-0 z-50 flex items-center justify-center border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
+          className={`fixed ${anim.edge} inset-x-0 z-50 flex items-center justify-center border-border bg-background/80 px-2 md:px-4 py-1.5 md:py-2 backdrop-blur-md`}
         >
           <ToolbarControls
             currentPage={currentPage}

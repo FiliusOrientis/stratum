@@ -40,7 +40,7 @@ export function ToolbarControls({
   onHide,
 }: ControlsProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1 md:gap-2">
       <ToolbarButton
         label="Previous page"
         size="icon"
@@ -57,7 +57,7 @@ export function ToolbarControls({
           inputMode="numeric"
           aria-label="Page number"
           value={currentPage}
-          className="h-7 w-12 text-center tabular-nums"
+          className="h-7 w-10 md:w-12 text-center tabular-nums"
           onChange={e => {
             const v = Number.parseInt(e.target.value, 10)
             if (v >= 1 && v <= pageCount) {
@@ -78,14 +78,16 @@ export function ToolbarControls({
         <CaretRightIcon />
       </ToolbarButton>
 
-      <Separator orientation="vertical" className="h-7" />
+      <Separator orientation="vertical" className="hidden md:block h-7" />
 
-      <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={onZoomOut}>
-        <MagnifyingGlassMinusIcon />
-      </ToolbarButton>
-      <ToolbarButton label="Zoom in" size="icon" variant="ghost" onPress={onZoomIn}>
-        <MagnifyingGlassPlusIcon />
-      </ToolbarButton>
+      <div className="hidden md:flex items-center gap-1 md:gap-2">
+        <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={onZoomOut}>
+          <MagnifyingGlassMinusIcon />
+        </ToolbarButton>
+        <ToolbarButton label="Zoom in" size="icon" variant="ghost" onPress={onZoomIn}>
+          <MagnifyingGlassPlusIcon />
+        </ToolbarButton>
+      </div>
 
       <Separator orientation="vertical" className="h-7" />
 
@@ -93,19 +95,21 @@ export function ToolbarControls({
         <CornersOutIcon />
       </ToolbarButton>
 
-      <Separator orientation="vertical" className="h-7" />
+      <Separator orientation="vertical" className="hidden md:block h-7" />
 
-      <ToolbarButton
-        label={isTop ? 'Move to bottom' : 'Move to top'}
-        size="icon"
-        variant="ghost"
-        onPress={onMovePosition}
-      >
-        {isTop ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
-      </ToolbarButton>
-      <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={onHide}>
-        <EyeSlashIcon />
-      </ToolbarButton>
+      <div className="hidden md:flex items-center gap-1 md:gap-2">
+        <ToolbarButton
+          label={isTop ? 'Move to bottom' : 'Move to top'}
+          size="icon"
+          variant="ghost"
+          onPress={onMovePosition}
+        >
+          {isTop ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
+        </ToolbarButton>
+        <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={onHide}>
+          <EyeSlashIcon />
+        </ToolbarButton>
+      </div>
     </div>
   )
 }
