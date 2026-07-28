@@ -4,21 +4,27 @@
 
 Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbarStore.
 
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `embedded` | `boolean` | `false` | When true, renders without fixed positioning (in-flow). Used in Storybook docs. |
+
 ## Controls (left to right)
 
-| Control | Icon | Action | Store Binding |
-|---------|------|--------|---------------|
-| Previous page | `CaretLeftIcon` | `viewerStore.prevPage()` | disabled at page 1 |
-| Page input | `Input` (type=text, inputMode=numeric) | `viewerStore.setPage()` | validates 1..pageCount |
-| Next page | `CaretRightIcon` | `viewerStore.nextPage()` | disabled at last page |
-| Separator | vertical line | — | — |
-| Zoom out | `MagnifyingGlassMinusIcon` | `viewerStore.zoomOut()` | switches to custom mode |
-| Zoom in | `MagnifyingGlassPlusIcon` | `viewerStore.zoomIn()` | switches to custom mode |
-| Separator | vertical line | — | — |
-| Fullscreen | `CornersOutIcon` | `viewerStore.toggleFullscreen()` | — |
-| Separator | vertical line | — | — |
-| Move to top/bottom | `ArrowFatLineDownIcon` / `ArrowFatLineUpIcon` | `toolbarStore.setPosition()` | cycles top↔bottom |
-| Hide toolbar | `EyeSlashIcon` | `toolbarStore.setPosition('hidden')` | — |
+| Control | Icon | Action | Store Binding | Disabled when |
+|---------|------|--------|---------------|---------------|
+| Previous page | `CaretLeftIcon` | `viewerStore.prevPage()` | disabled at page 1 | `currentPage <= 1` |
+| Page input | `Input` (type=text, inputMode=numeric) | `viewerStore.setPage()` | validates 1..pageCount | — |
+| Next page | `CaretRightIcon` | `viewerStore.nextPage()` | disabled at last page | `currentPage >= pageCount` |
+| Separator | vertical line | — | — | — |
+| Zoom out | `MagnifyingGlassMinusIcon` | `viewerStore.zoomOut()` | switches to custom mode | — |
+| Zoom in | `MagnifyingGlassPlusIcon` | `viewerStore.zoomIn()` | switches to custom mode | — |
+| Separator | vertical line | — | — | — |
+| Fullscreen | `CornersOutIcon` | `viewerStore.toggleFullscreen()` | — | — |
+| Separator | vertical line | — | — | — |
+| Move to top/bottom | `ArrowFatLineDownIcon` / `ArrowFatLineUpIcon` | `toolbarStore.setPosition()` | cycles top↔bottom | — |
+| Hide toolbar | `EyeSlashIcon` | `toolbarStore.setPosition('hidden')` | — | — |
 
 ## Position Behavior
 
@@ -34,9 +40,15 @@ Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbar
 import { ReaderToolbar } from '@/components/app-shell'
 import { AppLayout } from '@/components/app-shell/app-layout'
 
+// Normal usage — fixed at viewport edge
 <AppLayout>
   <ReaderToolbar />
 </AppLayout>
+```
+
+```tsx
+// Embedded usage — rendered in-flow (e.g. Storybook, testing)
+<ReaderToolbar embedded />
 ```
 
 ## Styling
@@ -60,11 +72,11 @@ function ToolbarStory({ currentPage = 1, pageCount = 42, position = 'top' }) {
     useViewerStore.setState({ currentPage, pageCount })
     useToolbarStore.setState({ position })
   }, [currentPage, pageCount, position])
-  return <ReaderToolbar />
+  return <ReaderToolbar embedded />
 }
 ```
 
-This avoids coupling the component itself to Storybook. The wrapper is co-located in the stories file with no external dependencies.
+Note: the story passes `embedded` to disable `fixed` positioning. Without this, the toolbar renders at the browser viewport edge, invisible inside the Storybook docs canvas. `loaders` initialize the stores synchronously before the first render so the docs preview shows the toolbar immediately.
 
 ### Variants
 

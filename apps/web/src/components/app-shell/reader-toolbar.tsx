@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { useToolbarStore, useViewerStore } from '@/stores'
 
-export function ReaderToolbar() {
+export function ReaderToolbar({ embedded }: { embedded?: boolean } = {}) {
   const position = useToolbarStore(s => s.position)
   const setPosition = useToolbarStore(s => s.setPosition)
   const currentPage = useViewerStore(s => s.currentPage)
@@ -29,7 +29,10 @@ export function ReaderToolbar() {
     return null
   }
 
-  const barClasses = position === 'top' ? 'fixed top-0 inset-x-0' : 'fixed bottom-0 inset-x-0'
+  let barClasses = ''
+  if (!embedded) {
+    barClasses = position === 'top' ? 'fixed top-0 inset-x-0' : 'fixed bottom-0 inset-x-0'
+  }
 
   return (
     <div

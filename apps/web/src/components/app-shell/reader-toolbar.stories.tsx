@@ -15,7 +15,7 @@ function ToolbarStory({ currentPage = 1, pageCount = 42, position = 'top' }: Too
     useToolbarStore.setState({ position })
   }, [currentPage, pageCount, position])
 
-  return <ReaderToolbar />
+  return <ReaderToolbar embedded={true} />
 }
 
 const meta: Meta<typeof ToolbarStory> = {
