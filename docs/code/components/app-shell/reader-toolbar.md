@@ -50,7 +50,7 @@ import { AppLayout } from '@/components/app-shell/app-layout'
 
 **File**: `reader-toolbar.stories.tsx`
 
-The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props. Use the **Canvas** tab to preview the toolbar — the Docs tab shows controls and source but the toolbar's `fixed` positioning renders it outside the docs canvas.
+The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props. Use **Open canvas in new tab** to preview the toolbar — the Docs tab shows controls and source but the toolbar's `fixed` positioning renders it outside the docs canvas.
 
 ### Wrapper pattern
 
