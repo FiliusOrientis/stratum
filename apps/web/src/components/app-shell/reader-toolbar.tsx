@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { useToolbarStore, useViewerStore } from '@/stores'
 
-export function ReaderToolbar({ embedded }: { embedded?: boolean } = {}) {
+export function ReaderToolbar() {
   const position = useToolbarStore(s => s.position)
   const setPosition = useToolbarStore(s => s.setPosition)
   const currentPage = useViewerStore(s => s.currentPage)
@@ -29,10 +29,7 @@ export function ReaderToolbar({ embedded }: { embedded?: boolean } = {}) {
     return null
   }
 
-  let barClasses = ''
-  if (!embedded) {
-    barClasses = position === 'top' ? 'fixed top-0 inset-x-0' : 'fixed bottom-0 inset-x-0'
-  }
+  const barClasses = position === 'top' ? 'fixed top-0 inset-x-0' : 'fixed bottom-0 inset-x-0'
 
   return (
     <div
@@ -63,7 +60,7 @@ export function ReaderToolbar({ embedded }: { embedded?: boolean } = {}) {
               }
             }}
           />
-          <span className="text-muted-foreground">/ {pageCount}</span>
+          <span className="text-muted-foreground text-xs">/ {pageCount}</span>
         </div>
 
         <Button

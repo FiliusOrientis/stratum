@@ -4,12 +4,6 @@
 
 Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbarStore.
 
-## Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `embedded` | `boolean` | `false` | When true, renders without fixed positioning (in-flow). Used in Storybook docs. |
-
 ## Controls (left to right)
 
 | Control | Icon | Action | Store Binding | Disabled when |
@@ -40,15 +34,9 @@ Edge-anchored toolbar for the 3D flipbook reader. Position controlled by toolbar
 import { ReaderToolbar } from '@/components/app-shell'
 import { AppLayout } from '@/components/app-shell/app-layout'
 
-// Normal usage — fixed at viewport edge
 <AppLayout>
   <ReaderToolbar />
 </AppLayout>
-```
-
-```tsx
-// Embedded usage — rendered in-flow (e.g. Storybook, testing)
-<ReaderToolbar embedded />
 ```
 
 ## Styling
@@ -62,7 +50,7 @@ import { AppLayout } from '@/components/app-shell/app-layout'
 
 **File**: `reader-toolbar.stories.tsx`
 
-The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props.
+The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props. Use the **Canvas** tab to preview the toolbar — the Docs tab shows controls and source but the toolbar's `fixed` positioning renders it outside the docs canvas.
 
 ### Wrapper pattern
 
