@@ -11,10 +11,21 @@ import {
   MagnifyingGlassPlusIcon,
 } from '@phosphor-icons/react'
 import { AnimatePresence, motion } from 'motion/react'
+import type { ComponentProps } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToolbarStore, useViewerStore } from '@/stores'
+
+function ToolbarButton({ label, ...props }: { label: string } & ComponentProps<typeof Button>) {
+  return (
+    <TooltipTrigger delay={700}>
+      <Button {...props} aria-label={label} />
+      <Tooltip placement="bottom">{label}</Tooltip>
+    </TooltipTrigger>
+  )
+}
 
 export function ReaderToolbar() {
   const position = useToolbarStore(s => s.position)
@@ -71,15 +82,15 @@ export function ReaderToolbar() {
           className={`fixed ${barEdge} inset-x-0 z-50 flex items-center justify-center border-border bg-background/80 px-4 py-2 backdrop-blur-md`}
         >
           <div className="flex items-center gap-2">
-            <Button
+            <ToolbarButton
+              label="Previous page"
               size="icon"
               variant="ghost"
-              aria-label="Previous page"
               isDisabled={currentPage <= 1}
               onPress={prevPage}
             >
               <CaretLeftIcon />
-            </Button>
+            </ToolbarButton>
 
             <div className="flex items-center gap-1 text-foreground text-sm">
               <Input
@@ -98,44 +109,49 @@ export function ReaderToolbar() {
               <span className="text-muted-foreground text-xs">/ {pageCount}</span>
             </div>
 
-            <Button
+            <ToolbarButton
+              label="Next page"
               size="icon"
               variant="ghost"
-              aria-label="Next page"
               isDisabled={currentPage >= pageCount}
               onPress={nextPage}
             >
               <CaretRightIcon />
-            </Button>
+            </ToolbarButton>
 
             <Separator orientation="vertical" className="h-7" />
 
-            <Button size="icon" variant="ghost" aria-label="Zoom out" onPress={zoomOut}>
+            <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={zoomOut}>
               <MagnifyingGlassMinusIcon />
-            </Button>
-            <Button size="icon" variant="ghost" aria-label="Zoom in" onPress={zoomIn}>
+            </ToolbarButton>
+            <ToolbarButton label="Zoom in" size="icon" variant="ghost" onPress={zoomIn}>
               <MagnifyingGlassPlusIcon />
-            </Button>
+            </ToolbarButton>
 
             <Separator orientation="vertical" className="h-7" />
 
-            <Button size="icon" variant="ghost" aria-label="Fullscreen" onPress={toggleFullscreen}>
-              <CornersOutIcon />
-            </Button>
-
-            <Separator orientation="vertical" className="h-7" />
-
-            <Button
+            <ToolbarButton
+              label="Fullscreen"
               size="icon"
               variant="ghost"
-              aria-label={position === 'top' ? 'Move to bottom' : 'Move to top'}
+              onPress={toggleFullscreen}
+            >
+              <CornersOutIcon />
+            </ToolbarButton>
+
+            <Separator orientation="vertical" className="h-7" />
+
+            <ToolbarButton
+              label={position === 'top' ? 'Move to bottom' : 'Move to top'}
+              size="icon"
+              variant="ghost"
               onPress={() => setPosition(position === 'top' ? 'bottom' : 'top')}
             >
               {position === 'top' ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
-            </Button>
-            <Button size="icon" variant="ghost" aria-label="Hide toolbar" onPress={hide}>
+            </ToolbarButton>
+            <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={hide}>
               <EyeSlashIcon />
-            </Button>
+            </ToolbarButton>
           </div>
         </motion.div>
       )}
