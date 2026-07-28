@@ -6,7 +6,14 @@ const meta: Meta<typeof DropZone> = {
   title: 'App Shell/DropZone',
   component: DropZone,
   parameters: { layout: 'fullscreen' },
-  decorators: [(Story: () => ReactNode) => <div className="flex h-dvh flex-col">{<Story />}</div>],
+  decorators: [
+    (Story: () => ReactNode, { viewMode }: { viewMode: string }) =>
+      viewMode === 'docs' ? (
+        <div className="p-8">{<Story />}</div>
+      ) : (
+        <div className="flex h-dvh flex-col">{<Story />}</div>
+      ),
+  ],
   tags: ['autodocs'],
 }
 

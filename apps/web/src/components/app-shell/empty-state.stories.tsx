@@ -6,7 +6,14 @@ const meta: Meta<typeof EmptyState> = {
   title: 'App Shell/EmptyState',
   component: EmptyState,
   parameters: { layout: 'fullscreen' },
-  decorators: [(Story: () => ReactNode) => <div className="h-dvh">{<Story />}</div>],
+  decorators: [
+    (Story: () => ReactNode, { viewMode }: { viewMode: string }) =>
+      viewMode === 'docs' ? (
+        <div className="p-8">{<Story />}</div>
+      ) : (
+        <div className="h-dvh">{<Story />}</div>
+      ),
+  ],
   tags: ['autodocs'],
 }
 
