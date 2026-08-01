@@ -1,7 +1,7 @@
-import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react'
 import { motion } from 'motion/react'
-import { Button } from '@/components/ui/button'
 import { springPreset } from '@/lib/animation'
+import { cn } from '@/lib/utils'
+import { CollapseToggle } from '../collapse-toggle'
 import type { ToolbarAnimation } from './reader-toolbar.types'
 
 interface TriggerProps {
@@ -18,17 +18,15 @@ export function ToolbarTrigger({ isTop, anim, onShow }: TriggerProps) {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: anim.triggerSlide, opacity: 0 }}
       transition={springPreset}
-      className={`fixed ${anim.edge} inset-x-0 z-50 flex justify-center`}
+      className={cn('fixed inset-x-0 z-50 flex justify-center', anim.edge)}
     >
-      <Button
-        size="sm"
-        variant="outline"
-        aria-label="Show toolbar"
-        className={isTop ? 'rounded-t-none shadow-sm' : 'rounded-b-none shadow-sm'}
+      <CollapseToggle
+        edge={isTop ? 'top' : 'bottom'}
+        isOpen={false}
+        labelClosed="Show toolbar"
         onPress={onShow}
-      >
-        {isTop ? <CaretDownIcon /> : <CaretUpIcon />}
-      </Button>
+        className="shadow-sm"
+      />
     </motion.div>
   )
 }

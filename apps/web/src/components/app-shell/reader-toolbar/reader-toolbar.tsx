@@ -1,24 +1,16 @@
 import { AnimatePresence, motion } from 'motion/react'
+import { useShallow } from 'zustand/react/shallow'
 import { springPreset } from '@/lib/animation'
-import { useToolbarStore, useViewerStore } from '@/stores'
+import { cn } from '@/lib/utils'
+import { useToolbarStore } from '@/stores/toolbar.store'
 import { getAnimation } from './reader-toolbar.types'
 import { ToolbarControls } from './reader-toolbar-controls'
 import { ToolbarTrigger } from './reader-toolbar-trigger'
 
 export function ReaderToolbar() {
-  const position = useToolbarStore(s => s.position)
-  const previousPosition = useToolbarStore(s => s.previousPosition)
-  const setPosition = useToolbarStore(s => s.setPosition)
-  const show = useToolbarStore(s => s.show)
-  const hide = useToolbarStore(s => s.hide)
-  const currentPage = useViewerStore(s => s.currentPage)
-  const pageCount = useViewerStore(s => s.pageCount)
-  const setPage = useViewerStore(s => s.setPage)
-  const nextPage = useViewerStore(s => s.nextPage)
-  const prevPage = useViewerStore(s => s.prevPage)
-  const zoomIn = useViewerStore(s => s.zoomIn)
-  const zoomOut = useViewerStore(s => s.zoomOut)
-  const toggleFullscreen = useViewerStore(s => s.toggleFullscreen)
+  const { position, previousPosition, show } = useToolbarStore(
+    useShallow(s => ({ position: s.position, previousPosition: s.previousPosition, show: s.show })),
+  )
 
   const isHidden = position === 'hidden'
   const isTop = isHidden ? previousPosition === 'top' : position === 'top'
@@ -27,7 +19,7 @@ export function ReaderToolbar() {
   return (
     <AnimatePresence mode="wait" initial={false}>
       {isHidden ? (
-        <ToolbarTrigger isTop={isTop} anim={anim} onShow={show} />
+        <ToolbarTrigger key="trigger" isTop={isTop} anim={anim} onShow={show} />
       ) : (
         <motion.div
           key={`toolbar-${position}`}
@@ -35,21 +27,12 @@ export function ReaderToolbar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: anim.slideDir, opacity: 0 }}
           transition={springPreset}
-          className={`fixed ${anim.edge} inset-x-0 z-50 flex items-center justify-center border-border bg-background/80 p-2 backdrop-blur-md`}
+          className={cn(
+            'fixed inset-x-0 z-50 flex items-center justify-center border-border bg-background/80 p-2 backdrop-blur-md',
+            anim.edge,
+          )}
         >
-          <ToolbarControls
-            currentPage={currentPage}
-            pageCount={pageCount}
-            isTop={isTop}
-            onPrevPage={prevPage}
-            onNextPage={nextPage}
-            onSetPage={setPage}
-            onZoomOut={zoomOut}
-            onZoomIn={zoomIn}
-            onToggleFullscreen={toggleFullscreen}
-            onMovePosition={() => setPosition(isTop ? 'bottom' : 'top')}
-            onHide={hide}
-          />
+          <ToolbarControls isTop={isTop} />
         </motion.div>
       )}
     </AnimatePresence>

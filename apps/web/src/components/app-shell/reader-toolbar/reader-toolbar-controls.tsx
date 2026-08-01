@@ -1,14 +1,13 @@
 import {
   ArrowFatLineDownIcon,
   ArrowFatLineUpIcon,
-  CaretLeftIcon,
-  CaretRightIcon,
   CornersOutIcon,
   DotsThreeIcon,
   EyeClosedIcon,
   MagnifyingGlassMinusIcon,
   MagnifyingGlassPlusIcon,
 } from '@phosphor-icons/react'
+import { useShallow } from 'zustand/react/shallow'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -16,160 +15,108 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { useToolbarStore } from '@/stores/toolbar.store'
+import { useViewerStore } from '@/stores/viewer.store'
+import { PageNavigation } from './page-navigation'
 import { ToolbarButton } from './reader-toolbar-button'
 
-interface ControlsProps {
-  currentPage: number
-  pageCount: number
-  isTop: boolean
-  onPrevPage: () => void
-  onNextPage: () => void
-  onSetPage: (page: number) => void
-  onZoomOut: () => void
-  onZoomIn: () => void
-  onToggleFullscreen: () => void
-  onMovePosition: () => void
-  onHide: () => void
-}
-
-export function ToolbarControls({
-  currentPage,
-  pageCount,
-  isTop,
-  onPrevPage,
-  onNextPage,
-  onSetPage,
-  onZoomOut,
-  onZoomIn,
-  onToggleFullscreen,
-  onMovePosition,
-  onHide,
-}: ControlsProps) {
-  const pageInput = (
-    <div className="flex items-center gap-1 text-foreground text-sm">
-      <Input
-        type="text"
-        inputMode="numeric"
-        aria-label="Page number"
-        value={currentPage}
-        className="h-7 w-12 text-center tabular-nums"
-        onChange={e => {
-          const v = Number.parseInt(e.target.value, 10)
-          if (v >= 1 && v <= pageCount) {
-            onSetPage(v)
-          }
-        }}
-      />
-      <span className="text-muted-foreground text-xs">/ {pageCount}</span>
-    </div>
+export function ToolbarControls({ isTop }: { isTop: boolean }) {
+  const { currentPage, pageCount, setPage, prevPage, nextPage, zoomIn, zoomOut, toggleFullscreen } =
+    useViewerStore(
+      useShallow(s => ({
+        currentPage: s.currentPage,
+        pageCount: s.pageCount,
+        setPage: s.setPage,
+        prevPage: s.prevPage,
+        nextPage: s.nextPage,
+        zoomIn: s.zoomIn,
+        zoomOut: s.zoomOut,
+        toggleFullscreen: s.toggleFullscreen,
+      })),
+    )
+  const { setPosition, hide } = useToolbarStore(
+    useShallow(s => ({ setPosition: s.setPosition, hide: s.hide })),
   )
 
   return (
     <>
       <div className="hidden items-center gap-2 md:flex">
-        <ToolbarButton
-          label="Previous page"
-          size="icon"
-          variant="ghost"
-          isDisabled={currentPage <= 1}
-          onPress={onPrevPage}
-        >
-          <CaretLeftIcon />
-        </ToolbarButton>
-
-        {pageInput}
-
-        <ToolbarButton
-          label="Next page"
-          size="icon"
-          variant="ghost"
-          isDisabled={currentPage >= pageCount}
-          onPress={onNextPage}
-        >
-          <CaretRightIcon />
-        </ToolbarButton>
-
+        <PageNavigation
+          currentPage={currentPage}
+          pageCount={pageCount}
+          onPrev={prevPage}
+          onNext={nextPage}
+          onPageChange={setPage}
+        />
         <Separator variant="soft" orientation="vertical" className="h-7" />
-
-        <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={onToggleFullscreen}>
-          <CornersOutIcon />
+        <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={toggleFullscreen}>
+          <CornersOutIcon aria-hidden="true" />
         </ToolbarButton>
-
         <Separator variant="soft" orientation="vertical" className="h-7" />
-
-        <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={onZoomOut}>
-          <MagnifyingGlassMinusIcon />
+        <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={zoomOut}>
+          <MagnifyingGlassMinusIcon aria-hidden="true" />
         </ToolbarButton>
-        <ToolbarButton label="Zoom in" size="icon" variant="ghost" onPress={onZoomIn}>
-          <MagnifyingGlassPlusIcon />
+        <ToolbarButton label="Zoom in" size="icon" variant="ghost" onPress={zoomIn}>
+          <MagnifyingGlassPlusIcon aria-hidden="true" />
         </ToolbarButton>
-
         <Separator variant="soft" orientation="vertical" className="h-7" />
-
         <ToolbarButton
           label={isTop ? 'Move to bottom' : 'Move to top'}
           size="icon"
           variant="ghost"
-          onPress={onMovePosition}
+          onPress={() => setPosition(isTop ? 'bottom' : 'top')}
         >
-          {isTop ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
+          {isTop ? (
+            <ArrowFatLineDownIcon aria-hidden="true" />
+          ) : (
+            <ArrowFatLineUpIcon aria-hidden="true" />
+          )}
         </ToolbarButton>
-        <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={onHide}>
-          <EyeClosedIcon />
+        <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={hide}>
+          <EyeClosedIcon aria-hidden="true" />
         </ToolbarButton>
       </div>
 
       <div className="flex w-full items-center justify-between gap-2 md:hidden">
-        <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={onToggleFullscreen}>
-          <CornersOutIcon />
+        <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={toggleFullscreen}>
+          <CornersOutIcon aria-hidden="true" />
         </ToolbarButton>
 
         <div className="flex flex-1 items-center justify-center gap-2">
-          <ToolbarButton
-            label="Previous page"
-            size="icon"
-            variant="ghost"
-            isDisabled={currentPage <= 1}
-            onPress={onPrevPage}
-          >
-            <CaretLeftIcon />
-          </ToolbarButton>
-
-          {pageInput}
-
-          <ToolbarButton
-            label="Next page"
-            size="icon"
-            variant="ghost"
-            isDisabled={currentPage >= pageCount}
-            onPress={onNextPage}
-          >
-            <CaretRightIcon />
-          </ToolbarButton>
+          <PageNavigation
+            currentPage={currentPage}
+            pageCount={pageCount}
+            onPrev={prevPage}
+            onNext={nextPage}
+            onPageChange={setPage}
+          />
         </div>
 
         <DropdownMenuTrigger>
           <Button size="icon" variant="ghost" aria-label="More controls">
-            <DotsThreeIcon weight="bold" />
+            <DotsThreeIcon aria-hidden="true" weight="bold" />
           </Button>
           <DropdownMenu placement="bottom end">
-            <DropdownMenuItem onAction={onZoomIn}>
-              <MagnifyingGlassPlusIcon />
+            <DropdownMenuItem onAction={zoomIn}>
+              <MagnifyingGlassPlusIcon aria-hidden="true" />
               Zoom in
             </DropdownMenuItem>
-            <DropdownMenuItem onAction={onZoomOut}>
-              <MagnifyingGlassMinusIcon />
+            <DropdownMenuItem onAction={zoomOut}>
+              <MagnifyingGlassMinusIcon aria-hidden="true" />
               Zoom out
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onAction={onMovePosition}>
-              {isTop ? <ArrowFatLineDownIcon /> : <ArrowFatLineUpIcon />}
+            <DropdownMenuItem onAction={() => setPosition(isTop ? 'bottom' : 'top')}>
+              {isTop ? (
+                <ArrowFatLineDownIcon aria-hidden="true" />
+              ) : (
+                <ArrowFatLineUpIcon aria-hidden="true" />
+              )}
               {isTop ? 'Move to bottom' : 'Move to top'}
             </DropdownMenuItem>
-            <DropdownMenuItem onAction={onHide}>
-              <EyeClosedIcon />
+            <DropdownMenuItem onAction={hide}>
+              <EyeClosedIcon aria-hidden="true" />
               Hide toolbar
             </DropdownMenuItem>
           </DropdownMenu>

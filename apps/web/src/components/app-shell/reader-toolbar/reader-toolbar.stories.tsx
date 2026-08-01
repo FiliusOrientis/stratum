@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useEffect } from 'react'
-import { useToolbarStore, useViewerStore } from '@/stores'
+import { useToolbarStore } from '@/stores/toolbar.store'
+import { useViewerStore } from '@/stores/viewer.store'
 import { ReaderToolbar } from './reader-toolbar'
 
 interface ToolbarStoryProps {

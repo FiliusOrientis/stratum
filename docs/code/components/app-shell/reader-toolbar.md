@@ -136,9 +136,12 @@ Note: `loaders` initialize the stores synchronously before the first render so t
 
 ## Tests
 
-**File**: `reader-toolbar/reader-toolbar.test.tsx` — 7 tests covering:
-- All control buttons rendered
+**File**: `reader-toolbar/reader-toolbar.test.tsx` — 13 tests covering:
+- All control buttons rendered (nav, zoom, fullscreen, hide, position)
+- Trigger button shown when hidden
 - Position switching (top/bottom/hidden)
 - Move-to-top / move-to-bottom labels
+- First-page / last-page disabled states (prev/next buttons)
+- nextPage/prevPage action calls
 
 Coverage: 83.87% statements, 57.14% branches, 80% functions, 75% lines.
