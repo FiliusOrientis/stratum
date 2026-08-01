@@ -24,6 +24,10 @@ DropZone wraps its children in a div that serves as the **dropzone root** via `g
 - **`multiple: false`** — single file per drop
 - **`isDragGlobal`** — drives overlay visibility (document-level, not dependent on root `pointer-events`)
 
+## Accessibility
+
+The hidden file input is wrapped in a `<label className="sr-only">` for screen reader association.
+
 ## Usage
 
 ```tsx
@@ -38,7 +42,7 @@ import { DropZone } from '@/components/app-shell'
 
 - Semi-transparent background: `bg-background/60 backdrop-blur-sm`
 - Dashed border: `border-2 border-dashed border-border`
-- No animation library — uses react-dropzone's built-in state management
+- Motion (`AnimatePresence` + `motion.div`) for the overlay fade entrance/exit (150ms, easeOut)
 
 ## Dependencies
 
