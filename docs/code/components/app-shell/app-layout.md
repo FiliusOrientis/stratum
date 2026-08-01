@@ -2,7 +2,7 @@
 
 **File**: `apps/web/src/components/app-shell/app-layout.tsx`
 
-Top-level layout wrapper. Renders header (optional) and main content.
+Top-level layout wrapper. Renders header (optional), main content, and the ThemeToggle (default top-right position).
 
 ## Props
 
@@ -14,11 +14,18 @@ Top-level layout wrapper. Renders header (optional) and main content.
 ## Structure
 
 ```
-<div class="flex h-dvh w-full flex-col bg-background text-foreground">
-  {header && <header>...</header>}
-  <main class="flex-1 overflow-hidden">{children}</main>
-</div>
+<MotionConfig reducedMotion="user">
+  <div class="flex h-dvh w-full flex-col bg-background text-foreground">
+    {header && <header>...</header>}
+    <main>{children}</main>
+    <ThemeToggle />                          ← default top-right position
+  </div>
+</MotionConfig>
 ```
+
+## Keyboard
+
+- **`d`** — toggle dark/light theme (ignores input/textarea/select/contenteditable targets)
 
 ## Usage
 
