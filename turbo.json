@@ -17,7 +17,7 @@
       "outputs": ["storybook-static/**"]
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "outputs": []
     },
     "typecheck": {
       "outputs": []

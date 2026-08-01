@@ -21,8 +21,6 @@ export default defineConfig({
   plugins,
   resolve: { alias },
   test: {
-    setupFiles: ['./src/test/setup.ts'],
-    css: true,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -40,6 +38,8 @@ export default defineConfig({
         statements: 80,
       },
     },
+    setupFiles: ['./src/test/setup.ts'],
+    css: true,
     projects: [
       {
         extends: true,
