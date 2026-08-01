@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react'
+import type { SubmitEvent } from 'react'
 import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest'
 import { useUrlImport } from './use-url-import'
 
@@ -39,7 +40,7 @@ describe('useUrlImport', () => {
     await act(async () => {
       await result.current.handleUrlSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>)
+      } as unknown as SubmitEvent<HTMLFormElement>)
     })
 
     expect(onUrlImport).toHaveBeenCalledOnce()
@@ -57,7 +58,7 @@ describe('useUrlImport', () => {
     await act(async () => {
       await result.current.handleUrlSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>)
+      } as unknown as SubmitEvent<HTMLFormElement>)
     })
 
     expect(fetchSpy).toHaveBeenCalledWith('https://example.com/document.pdf')
@@ -69,7 +70,7 @@ describe('useUrlImport', () => {
     await act(async () => {
       await result.current.handleUrlSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>)
+      } as unknown as SubmitEvent<HTMLFormElement>)
     })
 
     expect(fetchSpy).not.toHaveBeenCalled()
@@ -83,7 +84,7 @@ describe('useUrlImport', () => {
     await act(async () => {
       await result.current.handleUrlSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>)
+      } as unknown as SubmitEvent<HTMLFormElement>)
     })
 
     expect(result.current.urlError).toBe('Server responded with 500')
@@ -102,7 +103,7 @@ describe('useUrlImport', () => {
     await act(async () => {
       await result.current.handleUrlSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>)
+      } as unknown as SubmitEvent<HTMLFormElement>)
     })
 
     expect(result.current.urlError).toBe('URL does not point to a PDF')
@@ -116,7 +117,7 @@ describe('useUrlImport', () => {
     await act(async () => {
       await result.current.handleUrlSubmit({
         preventDefault: vi.fn(),
-      } as unknown as React.FormEvent<HTMLFormElement>)
+      } as unknown as SubmitEvent<HTMLFormElement>)
     })
 
     expect(result.current.urlError).toBe('Could not reach this URL')

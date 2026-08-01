@@ -1,6 +1,6 @@
 import { ArrowRightIcon, ClipboardIcon, SpinnerGapIcon, XIcon } from '@phosphor-icons/react'
 import { motion } from 'motion/react'
-import type { FormEvent } from 'react'
+import type { RefObject, SubmitEvent } from 'react'
 import { FieldError } from '@/components/ui/field-error'
 import {
   InputGroup,
@@ -13,11 +13,11 @@ import { Label } from '@/components/ui/label'
 import { easeOut } from '@/lib/animation'
 
 export interface UrlImportPanelProps {
-  scope: React.RefObject<HTMLDivElement | null>
+  scope: RefObject<HTMLDivElement | null>
   urlValue: string
   urlError: string | null
   isLoading: boolean
-  handleUrlSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
+  handleUrlSubmit: (e: SubmitEvent<HTMLFormElement>) => Promise<void>
   handlePaste: () => Promise<void>
   handleClear: () => void
   setUrlValue: (value: string) => void
@@ -29,7 +29,7 @@ function importAddonIcon(urlError: string | null, urlValue: string, isLoading: b
     return <XIcon aria-hidden="true" />
   }
   if (isLoading) {
-    return <SpinnerGapIcon aria-hidden="true" className="size-4 animate-spin" />
+    return <SpinnerGapIcon aria-hidden="true" className="-mr-0.5 size-4 animate-spin" />
   }
   if (urlValue.trim()) {
     return <ArrowRightIcon aria-hidden="true" />

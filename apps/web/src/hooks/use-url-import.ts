@@ -1,4 +1,5 @@
 import { useAnimate } from 'motion/react'
+import type { SubmitEvent } from 'react'
 import { easeOut } from '@/lib/animation'
 
 const URL_PROTOCOL_RE = /^https?:\/\//i
@@ -36,7 +37,7 @@ export function useUrlImport(onUrlImport: (file: File) => void) {
   }, [animate, scope])
 
   const handleUrlSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
+    async (e: SubmitEvent<HTMLFormElement>) => {
       e.preventDefault()
       setUrlError(null)
       const url = normaliseUrl(urlValue)

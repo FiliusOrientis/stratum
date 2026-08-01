@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
-import type { FormEvent } from 'react'
+import type { ComponentProps, SubmitEvent } from 'react'
 import { useState } from 'react'
 import { UrlImportPanel } from './url-import-panel'
 
-function PanelWrapper(props: Partial<React.ComponentProps<typeof UrlImportPanel>>) {
+function PanelWrapper(props: Partial<ComponentProps<typeof UrlImportPanel>>) {
   const [urlValue, setUrlValue] = useState('')
   return (
     <div className="w-80">
@@ -14,7 +14,7 @@ function PanelWrapper(props: Partial<React.ComponentProps<typeof UrlImportPanel>
         urlError={null}
         isLoading={false}
         isUrlOpen={true}
-        handleUrlSubmit={(e: FormEvent<HTMLFormElement>) => {
+        handleUrlSubmit={(e: SubmitEvent<HTMLFormElement>) => {
           e.preventDefault()
           return Promise.resolve()
         }}
