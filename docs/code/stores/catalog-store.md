@@ -26,6 +26,8 @@ Manages the user's book collection.
 | `addedAt` | `Date` | yes | Timestamp of import |
 | `tags` | `string[] \| undefined` | no | User-defined tags/categories |
 
+Note: `opfsPath` exists only on the Dexie `BookEntity` (in `lib/storage/db.ts`), not on the Zustand `Book` interface. OPFS path is stored persistently but not loaded into the in-memory store.
+
 ## Actions
 
 | Action | Signature | Description |
