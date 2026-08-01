@@ -43,8 +43,8 @@ src/components/book-viewer/
 
 ## Zustand Stores
 
-- One store file per domain (`viewer.store.ts`, `toolbar.store.ts`, `theme.store.ts`)
-- Stores exposed via typed hooks: `useViewerStore`, `useToolbarStore`, `useThemeStore`
+- One store file per domain (`viewer.store.ts`, `toolbar.store.ts`, `settings.store.ts`)
+- Stores exposed via typed hooks: `useViewerStore`, `useToolbarStore`, `useCatalogStore`, `useSettingsStore`
 - Never access store state directly — always through the hook
 - Store actions prefer immer-style mutations over spread returns
 
@@ -69,6 +69,7 @@ src/components/book-viewer/
 - **Server**: `pnpm storybook` → `localhost:6006`
 - **Location**: Co-located `*.stories.tsx` next to source files
 - **Dark mode**: Default is `dark` via `withThemeByClassName` decorator
+- **Scope**: Stories only for app components (`routes/`, `components/` excluding `ui/`). Vendored `ui/` primitives get no stories — shadcn registry is their source of truth
 - **Workflow**: Build component → Create stories → Verify in Storybook → Write tests → Integrate into routes
 
 ## Testing

@@ -19,6 +19,7 @@ Shared language between developers and AI. Use these terms — never synonyms.
 - **Page Zoom** — Three modes: `fit` (page fills viewport height), `width` (page fills viewport width), `custom` (free zoom slider).
 - **Page Turn** — LTR only. Bezier curve animation driven by vertex math extracted from DearFlip's `stratum-engine-legacy.js`.
 - **Toolbar** — Edge-anchored bar movable between `top`, `bottom`, and `hidden`. Position persisted in toolbarStore.
+- **Theme Toggle** — Sun/moon icon toggle. Positionable via `position` prop (9 named spots; default `top-right` in app shell). `d` key shortcut. Uses `next-themes` and class-based dark mode.
 
 ## Entities
 
@@ -41,7 +42,7 @@ Shared language between developers and AI. Use these terms — never synonyms.
 - `catalogStore` — book list, import state, sort/filter
 - `viewerStore` — current page, page count, zoom mode and level, cover type, isFullscreen
 - `toolbarStore` — position (top/bottom/hidden), active drawers
-- `settingsStore` — BYOK Gemini keys, reading preferences, theme accent
+- `settingsStore` — BYOK Gemini keys, dialog open state
 
 ## Workers (Comlink RPC)
 
@@ -58,7 +59,7 @@ PDF import → OPFS (binary bytes) → PDF Worker → thumbnail (Blob) + metadat
 Reader opens → Dexie (Book) → OPFS (PDF bytes) → PDF Worker → page textures → R3F mesh
                                                               → text items → Projected Text Layer
 User search → Search Worker (MiniSearch) → ranked results → highlight matches
-Settings → settingsStore → Dexie (config table)
+Settings → settingsStore (in-memory, no Dexie persistence)
 ```
 
 ## Responsiveness

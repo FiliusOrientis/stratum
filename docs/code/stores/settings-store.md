@@ -29,7 +29,7 @@ Application settings including Gemini API key management.
 
 ## Key Rotation Strategy
 
-10 slots allow round-robin key rotation. When a request fails with 429 (rate limit), the coordinator moves to the next slot. See `lib/ai/gemini-coordinator.ts` for the full rotation logic.
+10 slots allow round-robin key rotation. When a request fails with 429 (rate limit), the coordinator moves to the next slot. (AI coordinator not yet built — planned.)
 
 ## Usage
 

@@ -65,13 +65,13 @@ Zustand stores (no context, no prop drilling):
 ```
 ┌──────────┐  raw bytes   ┌──────────┐  parsed   ┌───────────┐
 │   OPFS   │ ◄────────── ► │  Worker  │ ────────► │  Dexie    │
-│  (PDFs)  │               │          │           │ (9 tables)│
+│  (PDFs)  │               │          │           │ (2 tables)│
 └──────────┘               └──────────┘           └───────────┘
 ```
 
 - OPFS: Origin Private File System for binary PDF storage
-- Dexie.js: 9-table IndexedDB wrapper for metadata, history, annotations
-- Dual search: client IndexedDB FTS + serverless HuggingFace embeddings (apps/api/embed.ts)
+- Dexie.js: 2-table IndexedDB wrapper (`books`, `config`)
+- Dual search: client IndexedDB FTS + serverless HuggingFace embeddings (planned)
 
 ## Scaffolding (Phase 2)
 
@@ -80,12 +80,11 @@ Phase 2 established the `apps/web` skeleton:
 - `createBrowserRouter` + `RouterProvider` for routing
 - TypeScript 7 root config extended by per-app configs
 - Biome 2.5.5 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
-- Empty dirs for components, workers, stores, lib
 
 ## Decisions Made
 
 - **Styling**: Tailwind CSS v4 + ShadCN UI (React Aria base), resolved
-- **Component library**: ShadCN UI with React Aria base (b8PjchPDgw preset)
+- **Component library**: ShadCN UI with React Aria base (b8PjeSPBdi preset)
 - **Testing**: Vitest + @testing-library/react + jsdom + v8 coverage, resolved
 - **UI board**: Storybook 10 (react-vite), resolved
 - **Font loading**: ShadCN preset handles @fontsource imports

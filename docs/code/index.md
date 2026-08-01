@@ -22,8 +22,16 @@ Every module in `apps/web/src/` is documented below. Each doc covers:
 
 | File | Doc | Purpose |
 |------|-----|---------|
-| `catalog-page.tsx` | — | Catalog page with import button (placeholder) |
+| `catalog-page.tsx` | — | Catalog page: empty state + document import card |
 | `reader-page.tsx` | — | Reader page with toolbar (flipbook placeholder) |
+
+## Shared Components
+
+| File | Doc | Purpose |
+|------|-----|---------|
+| `theme-toggle.tsx` | — | Dark/light toggle, 9-position placement (default top-right) |
+| `stratum-wordmark.tsx` | — | Theme-aware Stratum wordmark (light/dark SVG swap) |
+| `error-boundary.tsx` | — | Error boundary with reset buttons |
 
 ## Components
 
@@ -45,6 +53,11 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `sheet.tsx` | — | Slide-in panel (drawer) |
 | `tooltip.tsx` | — | Tooltip with overlay arrow, placement options |
 | `dropdown-menu.tsx` | — | Dropdown menu with items, separators, submenus |
+| `field-error.tsx` | — | Inline form error message (`role="alert"`) |
+| `input-group.tsx` | — | InputGroup composite (input + inline addons/buttons) |
+| `kbd.tsx` | — | Keyboard key hint |
+| `sonner.tsx` | — | Sonner toast provider + themed toaster |
+| `textarea.tsx` | — | Multiline text input |
 
 ### Feature Components
 
@@ -52,16 +65,20 @@ ShadCN React Aria components. Read-only — never modify directly.
 |--------------------|-------|---------|
 | `book-viewer/` | — | R3F flipbook scene (placeholder — not yet built) |
 | `app-shell/` | | |
-| `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper |
+| `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper (MotionConfig, ThemeToggle, d-key shortcut) |
+| `collapse-toggle.tsx` | — | Shared caret pill for edge-attached expand/collapse (URL panel toggle, toolbar trigger); vertical flip animation on toggle |
+| `empty-state.tsx` | `components/app-shell/empty-state.md` | Empty catalog hero with import CTAs |
+| `empty-state.types.ts` | — | `EmptyStateProps` interface |
+| `document-import.tsx` | `components/app-shell/empty-state.md` | Import card organism (card + URL panel + toggle) |
+| `url-import-panel.tsx` | — | URL input form molecule (InputGroup + FieldError + shake, autofocus on expand) |
+| `drop-zone.tsx` | `components/app-shell/drop-zone.md` | Drag-and-drop PDF overlay with animation |
 | `reader-toolbar/` | | |
 | `reader-toolbar.tsx` | `components/app-shell/reader-toolbar.md` | Orchestrator — store connections, AnimatePresence |
+| `reader-toolbar-controls.tsx` | — | Desktop (inline) and mobile (dropdown) layout |
 | `reader-toolbar-button.tsx` | — | ToolbarButton: Button + Tooltip wrapper |
 | `reader-toolbar-trigger.tsx` | — | Collapsed pill when toolbar is hidden |
-| `reader-toolbar-controls.tsx` | — | Button row — desktop (inline) and mobile (left/center/right) layouts |
+| `page-navigation.tsx` | — | Prev/next/page-input molecule |
 | `reader-toolbar.types.ts` | — | Types, animation math (`getAnimation`) |
-| `empty-state.tsx` | `components/app-shell/empty-state.md` | Empty catalog hero with import CTAs |
-| `drop-zone.tsx` | `components/app-shell/drop-zone.md` | Drag-and-drop PDF overlay with animation |
-| `import-button.tsx` | — | Import PDF / Open from URL trigger buttons |
 
 ## Stores (`stores/`)
 
@@ -72,10 +89,34 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `toolbar.store.ts` | `stores/toolbar-store.md` | Edge-anchored position, hide/show, drawer visibility |
 | `settings.store.ts` | `stores/settings-store.md` | Gemini keys, dialog state |
 
+## Hooks (`hooks/`)
+
+| File | Doc | Purpose |
+|------|-----|---------|
+| `use-file-import.ts` | — | File picker input → catalog import, input value reset |
+| `use-keyboard-shortcut.ts` | — | Global keydown listener with input-target guard |
+| `use-url-import.ts` | — | URL fetch, content-type validation, File conversion, paste/clear |
+
+Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (9).
+
+## Story Files
+
+| File | Component | States |
+|------|-----------|--------|
+| `app-shell/document-import.stories.tsx` | DocumentImport | Closed, Cleared, Open, WithUrl, Loading, ErrorState |
+| `app-shell/url-import-panel.stories.tsx` | UrlImportPanel | Collapsed, Open, WithUrl, Loading, ErrorState |
+| `app-shell/empty-state.stories.tsx` | EmptyState | Initial, Cleared |
+| `app-shell/drop-zone.stories.tsx` | DropZone | Default |
+| `app-shell/reader-toolbar/reader-toolbar.stories.tsx` | ReaderToolbar | Default, BottomPosition |
+| `app-shell/reader-toolbar/page-navigation.stories.tsx` | PageNavigation | FirstPage, LastPage, Interactive |
+| `theme-toggle.stories.tsx` | ThemeToggle | Default (position: center, theme controls) |
+| `error-boundary.stories.tsx` | ErrorBoundary | ErrorState, NormalState |
+
 ## Workers (`workers/`)
 
 | File | Doc | Purpose |
 |------|-----|---------|
+| `index.ts` | — | Comlink placeholder (empty) |
 | `pdf.worker.ts` | — | Comlink RPC: pdfjs-dist document loading (not yet built) |
 | `search.worker.ts` | — | Comlink RPC: MiniSearch indexing (not yet built) |
 
@@ -84,11 +125,11 @@ ShadCN React Aria components. Read-only — never modify directly.
 | File | Doc | Purpose |
 |------|-----|---------|
 | `utils.ts` | `lib/utils.md` | `cn()` className merge utility |
-| `animation.ts` | — | Animation constants: `easeOut`, `easeInOut`, `easeDrawer`, `springPreset` |
+| `animation.ts` | — | Animation constants: `easeOut`, `easeInOut`, `springPreset`, `toolbarAnimation` |
 | `storage/db.ts` | `lib/storage/db.md` | Dexie schema (books, config tables) |
 | `storage/opfs.ts` | `lib/storage/opfs.md` | OPFS binary PDF read/write/evict |
 | `pdf-import/index.ts` | `lib/pdf-import/index.md` | PDF import pipeline (fingerprint + OPFS save) |
 
 ## Animation
 
-Component interactions use **Motion** (`motion/react`) — AnimatePresence, spring physics, slide transitions. Shared constants in `lib/animation.ts` (`easeOut`, `easeInOut`, `easeDrawer`, `springPreset`). See `components/app-shell/reader-toolbar.md` for usage patterns. No JS animation library is used for the 3D flipbook (that uses R3F's native animation system).
+Component interactions use **Motion** (`motion/react`) — AnimatePresence, spring physics, slide transitions. Shared constants in `lib/animation.ts` (`easeOut`, `easeInOut`, `springPreset`, `toolbarAnimation`). See `components/app-shell/reader-toolbar.md` for usage patterns. No JS animation library is used for the 3D flipbook (that uses R3F's native animation system).
