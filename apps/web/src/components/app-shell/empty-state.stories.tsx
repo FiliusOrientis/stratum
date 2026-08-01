@@ -20,6 +20,12 @@ const meta: Meta<typeof EmptyState> = {
 export default meta
 type Story = StoryObj<typeof EmptyState>
 
-export const Default: Story = {
-  args: { onImport: () => undefined, onOpenUrl: () => undefined },
+const noop = () => undefined
+
+export const Initial: Story = {
+  args: { onImport: noop, onUrlImport: noop },
+}
+
+export const Cleared: Story = {
+  args: { variant: 'cleared', onImport: noop, onUrlImport: noop },
 }
