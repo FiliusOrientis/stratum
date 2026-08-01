@@ -47,7 +47,7 @@ export function DocumentImport({
             <h3 className="font-heading text-base text-foreground">
               {variant === 'cleared' ? 'Start again?' : 'Open a document'}
             </h3>
-            <p className="text-xs">Drop a PDF or click to browse</p>
+            <p className="font-light text-[11px]">Drop a PDF or click to browse</p>
           </div>
         </div>
       </Button>
