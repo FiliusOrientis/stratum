@@ -69,6 +69,8 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `collapse-toggle.tsx` | — | Shared caret pill for edge-attached expand/collapse (URL panel toggle, toolbar trigger); vertical flip animation on toggle |
 | `empty-state.tsx` | `components/app-shell/empty-state.md` | Empty catalog hero with import CTAs |
 | `empty-state.types.ts` | — | `EmptyStateProps` interface |
+| `keyboard-hint.tsx` | `components/app-shell/keyboard-hint.md` | Presentational "Press [keys] to ..." row (Kbd keycaps) |
+| `keyboard-shortcuts.tsx` | `components/app-shell/keyboard-shortcuts.md` | "Keyboard shortcuts" panel — stacked hints, owns entrance + mobile hide |
 | `document-import.tsx` | `components/app-shell/empty-state.md` | Import card organism (card + URL panel + toggle) |
 | `url-import-panel.tsx` | — | URL input form molecule (InputGroup + FieldError + shake, autofocus on expand) |
 | `drop-zone.tsx` | `components/app-shell/drop-zone.md` | Drag-and-drop PDF overlay with animation |

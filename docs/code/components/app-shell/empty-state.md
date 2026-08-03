@@ -4,7 +4,7 @@
 **Types**: `apps/web/src/components/app-shell/empty-state.types.ts`
 **Sub-component**: `apps/web/src/components/app-shell/document-import.tsx` — merged card + toggleable URL import form as one visual unit
 
-Full-page empty state shown when the catalog has no books. Features a clickable import card with integrated URL import toggle, and keyboard shortcut hint.
+Full-page empty state shown when the catalog has no books. Features a clickable import card with integrated URL import toggle.
 
 ## Props
 
@@ -26,7 +26,7 @@ Full-page empty state shown when the catalog has no books. Features a clickable 
 
 ┌────────────────────────────────────┐
 │ 📖  Open a document               │  ← card, rounded-lg, border-border/50
-│     Drop a PDF or click to browse │
+│     Drop a PDF or click here to browse │
 └────────────────────────────────────┘
 
              ⌄ Import from URL        ← standalone centered toggle
@@ -44,7 +44,7 @@ Toggle open:
              ▲ Hide URL input          ← toggle changes icon + label
 ```
 
-Container fits content width, centered via `mx-auto`. No fixed max-width — no viewport-driven resizing. Padding: `px-6` → `md:px-10` → `lg:px-16`. Keyboard shortcut hint hidden on mobile (<768px) via `max-md:hidden`.
+Container fits content width, centered via `mx-auto`. No fixed max-width — no viewport-driven resizing. Padding: `px-6` → `md:px-10` → `lg:px-16`. Keyboard shortcut hints live in the `KeyboardShortcuts` panel at the page bottom (see `keyboard-shortcuts.md`).
 
 ## Animation
 
@@ -55,7 +55,7 @@ Staggered entrance using `motion/react` variants:
 
 ## Keyboard Shortcut
 
-Listens for `Ctrl+O` (or `Cmd+O` on Mac) via a `keydown` event listener. Calls `onImport` when triggered. Hint displayed via `Kbd` + `KbdGroup` UI primitives.
+Listens for `Ctrl+O` (or `Cmd+O` on Mac) via a `keydown` event listener. Calls `onImport` when triggered. Visible hints (open file, theme toggle) live in the `KeyboardShortcuts` panel at the page bottom.
 
 ## URL Import
 
@@ -117,9 +117,8 @@ import { EmptyState } from '@/components/app-shell'
 
 ## Dependencies
 
-- `@phosphor-icons/react` — InfoIcon, BooksIcon (via DocumentImport)
+- `@phosphor-icons/react` — BooksIcon (via DocumentImport)
 - `motion/react` — `motion` for staggered entrance animation
-- `@/components/ui/kbd` — Kbd, KbdGroup for shortcut hint
 - `@/lib/animation` — `easeOut` constant
 - `@/components/stratum-wordmark` — `StratumWordmark` (theme-aware logo, replaces the heading text)
 - `@/components/app-shell/document-import` — `DocumentImport` (merged card + URL input)

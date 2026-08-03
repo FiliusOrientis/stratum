@@ -1,7 +1,5 @@
-import { InfoIcon } from '@phosphor-icons/react'
 import { motion } from 'motion/react'
 import { StratumWordmark } from '@/components/stratum-wordmark'
-import { Kbd, KbdGroup } from '@/components/ui/kbd'
 import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut'
 import { easeOut } from '@/lib/animation'
 import { DocumentImport } from './document-import'
@@ -41,20 +39,6 @@ export function EmptyState({ variant = 'initial', onImport, onUrlImport }: Empty
       <motion.div variants={fadeUp} className="w-full">
         <DocumentImport variant={variant} onImport={onImport} onUrlImport={onUrlImport} />
       </motion.div>
-
-      <motion.p
-        variants={fadeUp}
-        className="items-center gap-1.5 text-xs italic max-md:hidden md:flex"
-      >
-        <InfoIcon aria-hidden="true" className="size-3.5 shrink-0" />
-        <span>Press</span>
-        <KbdGroup>
-          <Kbd variant="click">Ctrl</Kbd>
-          <span className="not-italic">+</span>
-          <Kbd variant="click">O</Kbd>
-        </KbdGroup>
-        <span>to open a file</span>
-      </motion.p>
     </motion.div>
   )
 }

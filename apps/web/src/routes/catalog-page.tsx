@@ -1,4 +1,4 @@
-import { AppLayout, DropZone, EmptyState } from '@/components/app-shell'
+import { AppLayout, DropZone, EmptyState, KeyboardShortcuts } from '@/components/app-shell'
 import { useFileImport } from '@/hooks/use-file-import'
 import { useCatalogStore } from '@/stores/catalog.store'
 
@@ -25,6 +25,16 @@ export function CatalogPage() {
           </div>
         )}
       </DropZone>
+      {books.length === 0 && (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-start pb-5 pl-5">
+          <KeyboardShortcuts
+            shortcuts={[
+              { keys: ['Ctrl', 'O'], description: 'to open a file' },
+              { keys: ['D'], description: 'to toggle dark mode' },
+            ]}
+          />
+        </div>
+      )}
     </AppLayout>
   )
 }

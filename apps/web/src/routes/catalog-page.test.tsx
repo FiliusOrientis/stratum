@@ -27,6 +27,12 @@ describe('CatalogPage', () => {
     expect(screen.getByRole('button', { name: 'Open or drop a PDF file' })).toBeInTheDocument()
   })
 
+  it('renders keyboard hints when no books', () => {
+    render(<CatalogPage />)
+    expect(screen.getByText('to open a file')).toBeInTheDocument()
+    expect(screen.getByText('to toggle dark mode')).toBeInTheDocument()
+  })
+
   it('renders book count when books exist', () => {
     useCatalogStore.setState({
       books: [
