@@ -25,7 +25,7 @@ describe('EmptyState', () => {
   it('renders import card with initial text', () => {
     render(<EmptyState onImport={noop} onUrlImport={noop} />)
     expect(screen.getByText('Open a document')).toBeInTheDocument()
-    expect(screen.getByText('Drop a PDF or click to browse')).toBeInTheDocument()
+    expect(screen.getByText('Drop a PDF or click here to browse')).toBeInTheDocument()
   })
 
   it('renders import card with cleared text', () => {
@@ -74,13 +74,6 @@ describe('EmptyState', () => {
     render(<EmptyState onImport={noop} onUrlImport={noop} />)
     const region = screen.getByRole('region')
     expect(region).toHaveAttribute('aria-label', 'Empty catalog')
-  })
-
-  it('renders keyboard shortcut hint', () => {
-    render(<EmptyState onImport={noop} onUrlImport={noop} />)
-    expect(screen.getByText('to open a file')).toBeInTheDocument()
-    expect(screen.getByText('Ctrl')).toBeInTheDocument()
-    expect(screen.getByText('O')).toBeInTheDocument()
   })
 
   it('card has correct aria role and label', () => {

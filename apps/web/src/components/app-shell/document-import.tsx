@@ -42,12 +42,12 @@ export function DocumentImport({
         )}
       >
         <div className="flex flex-row items-center gap-3 text-muted-foreground">
-          <BooksIcon aria-hidden="true" weight="thin-duotone" className="size-12" />
+          <BooksIcon aria-hidden="true" weight="thin-duotone" className="size-11" />
           <div className="text-left">
             <h3 className="font-heading text-base text-foreground">
               {variant === 'cleared' ? 'Start again?' : 'Open a document'}
             </h3>
-            <p className="font-light text-[11px]">Drop a PDF or click to browse</p>
+            <p className="font-light text-[11px]">Drop a PDF or click here to browse</p>
           </div>
         </div>
       </Button>

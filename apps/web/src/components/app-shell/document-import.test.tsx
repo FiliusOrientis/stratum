@@ -10,7 +10,7 @@ describe('DocumentImport', () => {
     const h = handlers()
     render(<DocumentImport {...h} />)
     expect(screen.getByText('Open a document')).toBeInTheDocument()
-    expect(screen.getByText('Drop a PDF or click to browse')).toBeInTheDocument()
+    expect(screen.getByText('Drop a PDF or click here to browse')).toBeInTheDocument()
   })
 
   it('renders the cleared variant', () => {
