@@ -66,6 +66,7 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - Motion for UI animations. R3F for 3D. Never mix.
 - `aria-hidden="true"` on all decorative icons.
 - `MotionConfig reducedMotion="user"` wraps the entire app (in `app-layout.tsx`).
+- **No `uppercase` styling without user approval** — ask before applying `uppercase`/`text-transform` classes.
 
 ## Testing
 
