@@ -12,25 +12,15 @@ function getSubmitButton(): HTMLButtonElement {
 }
 
 describe('EmptyState', () => {
-  it('renders the wordmark in the initial variant', () => {
+  it('renders the wordmark', () => {
     render(<EmptyState onImport={noop} onUrlImport={noop} />)
     expect(screen.getAllByAltText('Stratum')).toHaveLength(2)
   })
 
-  it('renders the wordmark in the cleared variant', () => {
-    render(<EmptyState variant="cleared" onImport={noop} onUrlImport={noop} />)
-    expect(screen.getAllByAltText('Stratum')).toHaveLength(2)
-  })
-
-  it('renders import card with initial text', () => {
+  it('renders import card', () => {
     render(<EmptyState onImport={noop} onUrlImport={noop} />)
     expect(screen.getByText('Open a document')).toBeInTheDocument()
     expect(screen.getByText('Drop a PDF or click here to browse')).toBeInTheDocument()
-  })
-
-  it('renders import card with cleared text', () => {
-    render(<EmptyState variant="cleared" onImport={noop} onUrlImport={noop} />)
-    expect(screen.getByText('Start again?')).toBeInTheDocument()
   })
 
   it('calls onImport when card is clicked', async () => {

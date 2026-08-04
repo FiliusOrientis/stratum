@@ -1,7 +1,7 @@
 import { motion } from 'motion/react'
 import { StratumWordmark } from '@/components/stratum-wordmark'
 import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut'
-import { easeOut } from '@/lib/animation'
+import { fadeUp } from '@/lib/animation'
 import { DocumentImport } from './document-import'
 import type { EmptyStateProps } from './empty-state.types'
 
@@ -10,17 +10,7 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.05 } },
 }
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 8, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.28, ease: easeOut },
-  },
-}
-
-export function EmptyState({ variant = 'initial', onImport, onUrlImport }: EmptyStateProps) {
+export function EmptyState({ onImport, onUrlImport }: EmptyStateProps) {
   useKeyboardShortcut({ key: 'o', ctrlOrMeta: true }, onImport)
 
   return (
@@ -37,7 +27,7 @@ export function EmptyState({ variant = 'initial', onImport, onUrlImport }: Empty
       </motion.div>
 
       <motion.div variants={fadeUp} className="w-full">
-        <DocumentImport variant={variant} onImport={onImport} onUrlImport={onUrlImport} />
+        <DocumentImport onImport={onImport} onUrlImport={onUrlImport} />
       </motion.div>
     </motion.div>
   )

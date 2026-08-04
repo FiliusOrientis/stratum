@@ -65,12 +65,12 @@ Zustand stores (no context, no prop drilling):
 ```
 ┌──────────┐  raw bytes   ┌──────────┐  parsed   ┌───────────┐
 │   OPFS   │ ◄────────── ► │  Worker  │ ────────► │  Dexie    │
-│  (PDFs)  │               │          │           │ (2 tables)│
+│  (PDFs)  │               │          │           │ (1 table) │
 └──────────┘               └──────────┘           └───────────┘
 ```
 
 - OPFS: Origin Private File System for binary PDF storage
-- Dexie.js: 2-table IndexedDB wrapper (`books`, `config`)
+- Dexie.js: 1-table IndexedDB wrapper (`books`)
 - Dual search: client IndexedDB FTS + serverless HuggingFace embeddings (planned)
 
 ## Scaffolding (Phase 2)

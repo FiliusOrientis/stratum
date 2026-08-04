@@ -4,20 +4,14 @@ import { useUrlImport } from '@/hooks/use-url-import'
 import { cn } from '@/lib/utils'
 
 import { CollapseToggle } from './collapse-toggle'
-import type { EmptyStateVariant } from './empty-state.types'
 import { UrlImportPanel } from './url-import-panel'
 
 interface DocumentImportProps {
-  variant?: EmptyStateVariant
   onImport: () => void
   onUrlImport: (file: File) => void
 }
 
-export function DocumentImport({
-  variant = 'initial',
-  onImport,
-  onUrlImport,
-}: DocumentImportProps) {
+export function DocumentImport({ onImport, onUrlImport }: DocumentImportProps) {
   const [isUrlOpen, setIsUrlOpen] = useState(false)
   const {
     scope,
@@ -44,9 +38,7 @@ export function DocumentImport({
         <div className="flex flex-row items-center gap-3 text-muted-foreground">
           <BooksIcon aria-hidden="true" weight="thin-duotone" className="size-11" />
           <div className="text-left">
-            <h3 className="font-heading text-base text-foreground">
-              {variant === 'cleared' ? 'Start again?' : 'Open a document'}
-            </h3>
+            <h3 className="font-heading text-base text-foreground">Open a document</h3>
             <p className="font-light text-[11px]">Drop a PDF or click here to browse</p>
           </div>
         </div>

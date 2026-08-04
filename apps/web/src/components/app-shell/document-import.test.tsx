@@ -6,17 +6,11 @@ import { DocumentImport } from './document-import'
 describe('DocumentImport', () => {
   const handlers = () => ({ onImport: vi.fn(), onUrlImport: vi.fn() })
 
-  it('renders the initial variant', () => {
+  it('renders', () => {
     const h = handlers()
     render(<DocumentImport {...h} />)
     expect(screen.getByText('Open a document')).toBeInTheDocument()
     expect(screen.getByText('Drop a PDF or click here to browse')).toBeInTheDocument()
-  })
-
-  it('renders the cleared variant', () => {
-    const h = handlers()
-    render(<DocumentImport variant="cleared" {...h} />)
-    expect(screen.getByText('Start again?')).toBeInTheDocument()
   })
 
   it('calls onImport when the card is clicked', async () => {

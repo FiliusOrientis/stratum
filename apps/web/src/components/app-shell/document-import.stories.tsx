@@ -25,10 +25,6 @@ export const Closed: Story = {
   args: { onImport: noop, onUrlImport: noop },
 }
 
-export const Cleared: Story = {
-  args: { variant: 'cleared', onImport: noop, onUrlImport: noop },
-}
-
 export const Open: Story = {
   args: { onImport: noop, onUrlImport: noop },
   play: async ({ canvasElement }) => {
