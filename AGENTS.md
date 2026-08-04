@@ -2,19 +2,19 @@
 
 ## Commands
 
-| Command | What |
-|---------|------|
-| `pnpm dev` | Vite dev server (`apps/web`) |
-| `pnpm lint` | Biome check + write (only linter, NOT formatter) |
-| `pnpm typecheck` | `tsc --noEmit` across monorepo |
-| `pnpm test:coverage` | Vitest unit tests + v8 coverage (thresholds: 80% lines/funcs, 70% branches) |
-| `pnpm test` | Vitest run (no coverage) |
-| `pnpm storybook` | Storybook 10 dev server, port 6006 |
-| `pnpm build` | Vite build via turbo |
-| `pnpm clean` | Removes `dist/`, `.turbo/` |
-| `pnpm audit:all` | knip (dead code/deps) + dependency-cruiser (structure rules) — `pnpm audit` is pnpm's built-in security audit, do not shadow |
-| `pnpm audit:deps` | knip only |
-| `pnpm audit:structure` | dependency-cruiser only (config: `.dependency-cruiser.cjs`) |
+| Command                                                                                          | What                                                                                                                         |
+|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `pnpm dev`                                                                                       | Vite dev server (`apps/web`)                                                                                                 |
+| `pnpm lint`                                                                                      | Biome check + write (only linter, NOT formatter)                                                                             |
+| `pnpm typecheck`                                                                                 | `tsc --noEmit` across monorepo                                                                                               |
+| `pnpm test:coverage`                                                                             | Vitest unit tests + v8 coverage (thresholds: 80% lines/funcs, 70% branches)                                                  |
+| `pnpm test`                                                                                      | Vitest run (no coverage)                                                                                                     |
+| `pnpm storybook`                                                                                 | Storybook 10 dev server, port 6006                                                                                           |
+| `pnpm build`                                                                                     | Vite build via turbo                                                                                                         |
+| `pnpm clean`                                                                                     | Removes `dist/`, `.turbo/`                                                                                                   |
+| `pnpm audit:all`                                                                                 | knip (dead code/deps) + dependency-cruiser (structure rules) — `pnpm audit` is pnpm's built-in security audit, do not shadow |
+| `pnpm audit:deps`                                                                                | knip only                                                                                                                    |
+| `pnpm audit:structure`                                                                           | dependency-cruiser only (config: `.dependency-cruiser.cjs`)                                                                  |
 | **Verification order**: `pnpm lint` → `pnpm typecheck` → `pnpm test:coverage` → `pnpm audit:all` |
 
 **Never call binaries directly** — `biome`, `tsc`, `turbo` are not on PATH. Use pnpm scripts.
@@ -25,14 +25,14 @@ Triggered by real processes, never agent discretion. Source of truth: `.agents/p
 
 **Always-on layers** (shape every pipeline, not stages): **Ponytail** (existential ladder — decides WHAT gets built; default `full`; `@dietrichgebert/ponytail` plugin in opencode.json) and **Caveman** (terse prose). Balance rule: ponytail's rungs gate everything — craft skills apply only to what survives; `ponytail-review` catches anything over-built during polish.
 
-| Trigger | Mechanism | Pipeline |
-|---|---|---|
-| `pre-commit` | lefthook (mechanical gate: lint) | Commit (hard gate) |
-| `/commit` command | `.opencode/command/commit.md` | Commit: `shadscan-pre-commit` → biome → `caveman-commit` |
-| `pre-push` | lefthook (mechanical: typecheck + test + audit) | PR (hard gate) |
-| `/review` command | `.opencode/command/review.md` | Review: `code-review` ∥ → `understand-diff` → `ponytail-review` → `caveman-review` → `review-animations` |
-| staged files match scope | `.opencode/plugin/pipelines.ts` (once per session) or `/pipeline` | UI Change / Architecture / Dependency / Infra |
-| merge to main | CI | Post-Merge: docs gate → housekeeping (+`ponytail-debt`) → `ponytail-audit` → `triage`/`to-spec`/`to-tickets` |
+| Trigger                  | Mechanism                                                         | Pipeline                                                                                                     |
+|--------------------------|-------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `pre-commit`             | lefthook (mechanical gate: lint)                                  | Commit (hard gate)                                                                                           |
+| `/commit` command        | `.opencode/command/commit.md`                                     | Commit: `shadscan-pre-commit` → biome → `caveman-commit`                                                     |
+| `pre-push`               | lefthook (mechanical: typecheck + test + audit)                   | PR (hard gate)                                                                                               |
+| `/review` command        | `.opencode/command/review.md`                                     | Review: `code-review` ∥ → `understand-diff` → `ponytail-review` → `caveman-review` → `review-animations`     |
+| staged files match scope | `.opencode/plugin/pipelines.ts` (once per session) or `/pipeline` | UI Change / Architecture / Dependency / Infra                                                                |
+| merge to main            | CI                                                                | Post-Merge: docs gate → housekeeping (+`ponytail-debt`) → `ponytail-audit` → `triage`/`to-spec`/`to-tickets` |
 
 ## Monorepo
 
@@ -61,7 +61,7 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **ShadCN preset**: `b8PjeSPBdi` — style=aria-mira, base=mist, icon=phosphor, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code) and `badge.tsx`, `skeleton.tsx` (explicit React type imports replacing UMD globals)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
-- **TypeScript split**: root `typescript` is **v6** (dependency-cruiser can't transpile TS≥7) — the app's TS7 lives in `apps/web` via `npm:typescript@7.0.2` alias. Never bump root typescript past 6.x or `pnpm audit:structure` dies.
+- **TypeScript split**: root `typescript` is **v6** (dependency-cruiser can't transpile TS≥7) — the app's TS7 lives in `apps/web` via `npm:typescript@7.0.2` alias. Never bump root TypeScript past 6.x or `pnpm audit:structure` dies.
 - **Audit tools**: `knip.json` (dead code config) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
 - **CI**: Node 24, pnpm@9, Ubuntu. Jobs: commitlint (PR only), lint, typecheck, test:coverage, audit. Runs in parallel.
 
@@ -112,13 +112,13 @@ One approved suppression: `apps/web/src/routes/catalog-page.test.tsx` line 60 �
 
 After every code change, verify these docs are current. Update BEFORE running verification.
 
-| Doc | Update When |
-|-----|-------------|
-| `CONTEXT.md` | New concepts, renamed entities, new subsystems |
-| `docs/architecture.md` | New packages, worker boundaries, state flow changes |
-| `docs/conventions.md` | New patterns, naming rules, file structure rules |
-| `docs/code/**` | Per-module docs — update when module exports/interfaces change |
-| `AGENTS.md` | New toolchain quirks, commands, or conventions |
+| Doc                    | Update When                                                    |
+|------------------------|----------------------------------------------------------------|
+| `CONTEXT.md`           | New concepts, renamed entities, new subsystems                 |
+| `docs/architecture.md` | New packages, worker boundaries, state flow changes            |
+| `docs/conventions.md`  | New patterns, naming rules, file structure rules               |
+| `docs/code/**`         | Per-module docs — update when module exports/interfaces change |
+| `AGENTS.md`            | New toolchain quirks, commands, or conventions                 |
 
 ## Skills Loaded
 
