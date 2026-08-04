@@ -15,7 +15,8 @@
     "clean": "turbo run clean",
     "audit:deps": "knip",
     "audit:structure": "depcruise --config .dependency-cruiser.cjs apps/web/src",
-    "audit:all": "pnpm run audit:deps && pnpm run audit:structure"
+    "audit:all": "pnpm run audit:deps && pnpm run audit:structure",
+    "postinstall": "node scripts/build-thin-duotone.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.5",

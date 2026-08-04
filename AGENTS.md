@@ -52,7 +52,7 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 ## Toolchain Quirks
 
 - **unplugin-auto-import** handles React hooks — never write `import { useState } from 'react'`
-- **Phosphor thin-duotone**: `scripts/build-thin-duotone.mjs` patches dist icon defs (`opacity="0.2"` bg path) — manual run after `pnpm install`
+- **Phosphor thin-duotone**: `scripts/build-thin-duotone.mjs` patches dist icon defs (`opacity="0.2"` bg path) — runs automatically via root `postinstall`
 - **Biome force-ignores**: `components/ui/`, `auto-imports.d.ts`, `coverage/`, `dist/`
 - **Biome nursery rules**: `useSortedClasses` (unsafe fix) — must get user approval before applying unsafe
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
