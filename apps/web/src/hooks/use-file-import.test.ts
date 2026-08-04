@@ -1,4 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
+import type { ChangeEvent } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { importPdf } from '@/lib/pdf-import'
 import { useCatalogStore } from '@/stores/catalog.store'
@@ -15,7 +16,7 @@ function changeEvent(value: string, files: File[]) {
   const input = document.createElement('input')
   input.value = value
   Object.defineProperty(input, 'files', { configurable: true, value: files })
-  return { target: input } as unknown as React.ChangeEvent<HTMLInputElement>
+  return { target: input } as unknown as ChangeEvent<HTMLInputElement>
 }
 
 describe('useFileImport', () => {

@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
+import type { ReactNode } from 'react'
 import { afterEach, vi } from 'vitest'
 
 afterEach(() => cleanup())
@@ -20,7 +21,7 @@ Object.defineProperty(window, 'matchMedia', {
 
 vi.mock('next-themes', () => ({
   // biome-ignore lint/style/useNamingConvention: mock key must match next-themes PascalCase export
-  ThemeProvider: ({ children }: { children: React.ReactNode }) => children,
+  ThemeProvider: ({ children }: { children: ReactNode }) => children,
   useTheme: vi.fn(() => ({
     theme: 'dark',
     setTheme: vi.fn(),

@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { type ChangeEvent, useCallback, useRef } from 'react'
 import { importPdf } from '@/lib/pdf-import'
 import { useCatalogStore } from '@/stores/catalog.store'
 import { useViewerStore } from '@/stores/viewer.store'
@@ -24,7 +24,7 @@ export function useFileImport() {
   )
 
   const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0]
       if (file) {
         handleFile(file)

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import type { ReactNode } from 'react'
 import { ErrorBoundary } from './error-boundary'
 
 const meta: Meta<typeof ErrorBoundary> = {
@@ -11,7 +12,7 @@ const meta: Meta<typeof ErrorBoundary> = {
 export default meta
 type Story = StoryObj<typeof ErrorBoundary>
 
-function ThrowOnRender(): React.ReactNode {
+function ThrowOnRender(): ReactNode {
   throw new Error('Something went wrong while rendering this component')
 }
 
