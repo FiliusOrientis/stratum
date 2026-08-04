@@ -8,7 +8,7 @@ export interface KeyboardHintProps {
 
 export function KeyboardHint({ keys, description }: KeyboardHintProps) {
   return (
-    <p className="flex items-center gap-1.5 text-xs italic">
+    <p className="flex items-center gap-1.5 text-xs">
       <span>Press</span>
       <KbdGroup>
         {keys.map((key, index) => (

@@ -11,6 +11,12 @@ const fadeUp = {
     scale: 1,
     transition: { duration: 0.28, ease: easeOut },
   },
+  exit: {
+    opacity: 0,
+    y: 8,
+    scale: 0.98,
+    transition: { duration: 0.15, ease: easeOut },
+  },
 }
 
 interface KeyboardShortcutsProps {
@@ -22,8 +28,9 @@ export function KeyboardShortcuts({ shortcuts }: KeyboardShortcutsProps) {
     <motion.div
       initial="hidden"
       animate="visible"
+      exit="exit"
       variants={fadeUp}
-      className="pointer-events-auto overflow-hidden rounded-lg border border-border bg-card/50 px-4 py-3 max-md:hidden"
+      className="overflow-hidden rounded-lg border border-border bg-card/50 px-4 py-3 max-md:hidden"
     >
       <div className="flex flex-col gap-1.5">
         {shortcuts.map(shortcut => (

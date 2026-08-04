@@ -27,8 +27,15 @@ describe('CatalogPage', () => {
     expect(screen.getByRole('button', { name: 'Open or drop a PDF file' })).toBeInTheDocument()
   })
 
-  it('renders keyboard hints when no books', () => {
+  it('renders shortcuts FAB when no books', () => {
     render(<CatalogPage />)
+    expect(screen.getByRole('button', { name: 'Keyboard shortcuts' })).toBeInTheDocument()
+    expect(screen.queryByText('to open a file')).not.toBeInTheDocument()
+  })
+
+  it('opens the shortcuts panel from the FAB', async () => {
+    render(<CatalogPage />)
+    await userEvent.click(screen.getByRole('button', { name: 'Keyboard shortcuts' }))
     expect(screen.getByText('to open a file')).toBeInTheDocument()
     expect(screen.getByText('to toggle dark mode')).toBeInTheDocument()
   })

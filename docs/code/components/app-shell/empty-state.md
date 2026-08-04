@@ -44,7 +44,7 @@ Toggle open:
              ▲ Hide URL input          ← toggle changes icon + label
 ```
 
-Container fits content width, centered via `mx-auto`. No fixed max-width — no viewport-driven resizing. Padding: `px-6` → `md:px-10` → `lg:px-16`. Keyboard shortcut hints live in the `KeyboardShortcuts` panel at the page bottom (see `keyboard-shortcuts.md`).
+Container fits content width, centered via `mx-auto`. No fixed max-width — no viewport-driven resizing. Padding: `px-6` → `md:px-10` → `lg:px-16`. Keyboard shortcut hints live behind a `?` FAB toggle at the page bottom-left (see `keyboard-shortcuts-fab.md`).
 
 ## Animation
 
@@ -55,7 +55,7 @@ Staggered entrance using `motion/react` variants:
 
 ## Keyboard Shortcut
 
-Listens for `Ctrl+O` (or `Cmd+O` on Mac) via a `keydown` event listener. Calls `onImport` when triggered. Visible hints (open file, theme toggle) live in the `KeyboardShortcuts` panel at the page bottom.
+Listens for `Ctrl+O` (or `Cmd+O` on Mac) via a `keydown` event listener. Calls `onImport` when triggered. Visible hints (open file, theme toggle) live behind the `KeyboardShortcutsFab` `?` FAB at the page bottom-left.
 
 ## URL Import
 
