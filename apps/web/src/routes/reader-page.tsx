@@ -1,5 +1,4 @@
-import { AppLayout } from '@/components/app-shell/app-layout'
-import { ReaderToolbar } from '@/components/app-shell/reader-toolbar'
+import { AppLayout, ReaderToolbar } from '@/components/app-shell'
 
 export function ReaderPage() {
   return (
