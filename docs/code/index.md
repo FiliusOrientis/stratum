@@ -29,7 +29,8 @@ Every module in `apps/web/src/` is documented below. Each doc covers:
 
 | File | Doc | Purpose |
 |------|-----|---------|
-| `theme-toggle.tsx` | — | Dark/light toggle, 9-position placement (default top-right) |
+| `theme-toggle.tsx` | — | Dark/light toggle FAB, 9-position placement (default top-right); composes `Fab` |
+| `fab.tsx` | `components/fab.md` | Generic FAB — ghost icon button + 9-position placement |
 | `stratum-wordmark.tsx` | — | Theme-aware Stratum wordmark (light/dark SVG swap) |
 | `error-boundary.tsx` | — | Error boundary with reset buttons |
 
@@ -70,7 +71,8 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `empty-state.tsx` | `components/app-shell/empty-state.md` | Empty catalog hero with import CTAs |
 | `empty-state.types.ts` | — | `EmptyStateProps` interface |
 | `keyboard-hint.tsx` | `components/app-shell/keyboard-hint.md` | Presentational "Press [keys] to ..." row (Kbd keycaps) |
-| `keyboard-shortcuts.tsx` | `components/app-shell/keyboard-shortcuts.md` | "Keyboard shortcuts" panel — stacked hints, owns entrance + mobile hide |
+| `keyboard-shortcuts.tsx` | `components/app-shell/keyboard-shortcuts.md` | Hint card — stacked rows, fadeUp in/out variants |
+| `keyboard-shortcuts-fab.tsx` | `components/app-shell/keyboard-shortcuts-fab.md` | "?" ghost FAB toggling the shortcuts panel |
 | `document-import.tsx` | `components/app-shell/empty-state.md` | Import card organism (card + URL panel + toggle) |
 | `url-import-panel.tsx` | — | URL input form molecule (InputGroup + FieldError + shake, autofocus on expand) |
 | `drop-zone.tsx` | `components/app-shell/drop-zone.md` | Drag-and-drop PDF overlay with animation |
