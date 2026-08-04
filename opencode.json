@@ -15,6 +15,7 @@
     "CONTEXT.md",
     "docs/architecture.md",
     "docs/conventions.md",
-    ".github/BRANCHES.md"
+    ".github/BRANCHES.md",
+    ".agents/pipelines.md"
   ]
 }

@@ -19,6 +19,19 @@
 
 **Never call binaries directly** — `biome`, `tsc`, `turbo` are not on PATH. Use pnpm scripts.
 
+## Skill Pipelines
+
+Triggered by real processes, never agent discretion. Source of truth: `.agents/pipelines.md` (loaded as an instruction). Run stages mechanically; honor the ask policy (ask BEFORE only for ambiguous/destructive steps; present proposals/audits/critiques as reports AFTER for judgment).
+
+| Trigger | Mechanism | Pipeline |
+|---|---|---|
+| `pre-commit` | lefthook (mechanical gate: lint) | Commit (hard gate) |
+| `/commit` command | `.opencode/command/commit.md` | Commit: `shadscan-pre-commit` → biome → `caveman-commit` |
+| `pre-push` | lefthook (mechanical: typecheck + test + audit) | PR (hard gate) |
+| `/review` command | `.opencode/command/review.md` | Review: `code-review` ∥ → `understand-diff` → `caveman-review` → `review-animations` |
+| staged files match scope | `.opencode/plugin/pipelines.ts` (once per session) or `/pipeline` | UI Change / Architecture / Dependency / Infra |
+| merge to main | CI | Post-Merge: docs gate → housekeeping → `triage`/`to-spec`/`to-tickets` |
+
 ## Monorepo
 
 ```
