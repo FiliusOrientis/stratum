@@ -36,6 +36,12 @@ describe('Fab', () => {
     expect(screen.getByRole('button')).toHaveAttribute('aria-expanded', 'true')
   })
 
+  it('shows a tooltip with the label', async () => {
+    render(<Fab icon={icon} label="Toggle" onPress={vi.fn()} />)
+    await userEvent.hover(screen.getByRole('button'))
+    expect(await screen.findByRole('tooltip')).toHaveTextContent('Toggle')
+  })
+
   it('omits aria-expanded when not provided', () => {
     render(<Fab icon={icon} label="Toggle" onPress={vi.fn()} />)
     expect(screen.getByRole('button')).not.toHaveAttribute('aria-expanded')

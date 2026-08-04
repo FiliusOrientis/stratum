@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
 export type FabPosition =
@@ -45,15 +46,18 @@ export function Fab({
   className,
 }: FabProps) {
   return (
-    <Button
-      variant="ghost"
-      size={size}
-      className={cn(position && 'fixed z-50', position && POSITION_CLASSES[position], className)}
-      aria-label={label}
-      aria-expanded={isExpanded}
-      onPress={onPress}
-    >
-      {icon}
-    </Button>
+    <TooltipTrigger>
+      <Button
+        variant="ghost"
+        size={size}
+        className={cn(position && 'fixed z-50', position && POSITION_CLASSES[position], className)}
+        aria-label={label}
+        aria-expanded={isExpanded}
+        onPress={onPress}
+      >
+        {icon}
+      </Button>
+      <Tooltip>{label}</Tooltip>
+    </TooltipTrigger>
   )
 }
