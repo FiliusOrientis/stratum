@@ -7,6 +7,7 @@
       "!!**/.idea",
       "!!**/components/ui",
       "!!**/auto-imports.d.ts",
+      "!!**/dist",
       "!!apps/web/coverage"
     ]
   },

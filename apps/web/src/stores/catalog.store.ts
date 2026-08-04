@@ -1,16 +1,7 @@
 import { create } from 'zustand'
+import type { BookEntity } from '@/lib/storage'
 
-export interface Book {
-  id: string
-  title: string
-  author?: string
-  coverBlob?: Blob
-  pageCount: number
-  lastPage: number
-  lastRead?: Date
-  addedAt: Date
-  tags?: string[]
-}
+export type Book = Omit<BookEntity, 'opfsPath'>
 
 interface CatalogState {
   books: Book[]

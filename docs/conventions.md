@@ -43,8 +43,8 @@ src/components/book-viewer/
 
 ## Zustand Stores
 
-- One store file per domain (`viewer.store.ts`, `toolbar.store.ts`, `theme.store.ts`)
-- Stores exposed via typed hooks: `useViewerStore`, `useToolbarStore`, `useThemeStore`
+- One store file per domain (`viewer.store.ts`, `toolbar.store.ts`, `settings.store.ts`)
+- Stores exposed via typed hooks: `useViewerStore`, `useToolbarStore`, `useCatalogStore`, `useSettingsStore`
 - Never access store state directly — always through the hook
 - Store actions prefer immer-style mutations over spread returns
 
@@ -69,6 +69,7 @@ src/components/book-viewer/
 - **Server**: `pnpm storybook` → `localhost:6006`
 - **Location**: Co-located `*.stories.tsx` next to source files
 - **Dark mode**: Default is `dark` via `withThemeByClassName` decorator
+- **Scope**: Stories only for app components (`routes/`, `components/` excluding `ui/`). Vendored `ui/` primitives get no stories — shadcn registry is their source of truth
 - **Workflow**: Build component → Create stories → Verify in Storybook → Write tests → Integrate into routes
 
 ## Testing
@@ -76,9 +77,33 @@ src/components/book-viewer/
 - **Framework**: Vitest + @testing-library/react + jsdom
 - **Coverage**: V8 provider, threshold 80% lines/functions, 70% branches
 - **Location**: Co-located `*.test.tsx` next to source files
-- **Behavior-driven**: Test behavior not implementation. Minimize mocks. Use real data where possible (fake-indexeddb for storage tests).
+- **Strategy**: Arrange → Act → Assert (AAA). No shared mutable state between tests.
+  - **Zustand stores**: Unit test every action. Reset store via `beforeEach` to prevent cross-test pollution.
+  - **Components (render)**: Assert elements exist via `getByRole`. Test conditional rendering.
+  - **Components (behavior)**: Simulate interaction, assert state change (store or DOM).
+  - **Pure functions**: Classic input → output unit tests.
+  - **Workers**: Mock Comlink proxy, test main-thread integration.
+  - **Routes**: Render route tree, assert correct component mounts.
 - **No flaky tests**: Each test must be deterministic. No timers, no network calls without proper mocking.
 - **Pre-merge**: Always run `pnpm test:coverage` before PR. Coverage must not degrade.
+
+## Biome / Lint Rules
+
+- **Zero tolerance**: Zero errors, zero warnings allowed at all times.
+- **No `biome-ignore` / eslint-disable / ts-expect-error without explicit approval**:
+  1. First attempt to fix the root cause through code restructuring.
+  2. If no clean fix exists, explain the issue to the user with the options.
+  3. Only apply suppress comment after user approval.
+  4. Log every approved suppression in `docs/lint-suppressions.md` with file, rule, reason, and date.
+- **Safe fixes**: `--unsafe` Biome fixes require user approval before batch application.
+
+## Modularity & Composition
+
+- **One concern per file**: If a file exceeds ~120 lines or requires scrolling to understand, extract sub-components or logic. Each file does one thing.
+- **Logic separated from UI**: Animation math, state derivation, business rules live in pure functions (`.types.ts` or dedicated helpers) — never mixed into JSX markup. Components receive data and callbacks via props.
+- **Composition over configuration**: Sub-components are composed by the parent via children/props, not configured via complex boolean flags. Keep prop interfaces flat.
+- **Improve, don't duplicate**: When behavior is similar, extend the existing function with parameters — do not create a new function. This applies to components, hooks, and utilities.
+- **Flat directories**: Prefer many small co-located files in one directory over deep folder hierarchies. A component directory contains: `component.tsx`, `component.types.ts`, `component.test.tsx`, sub-component files, and `index.ts` barrel.
 
 ## React Components
 

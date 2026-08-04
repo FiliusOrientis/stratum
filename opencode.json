@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugin": ["@dietrichgebert/ponytail"],
   "mcp": {
     "context7": {
       "type": "remote",
@@ -15,6 +16,7 @@
     "CONTEXT.md",
     "docs/architecture.md",
     "docs/conventions.md",
-    ".github/BRANCHES.md"
+    ".github/BRANCHES.md",
+    ".agents/pipelines.md"
   ]
 }

@@ -12,14 +12,21 @@
     "test": "turbo run test",
     "test:coverage": "turbo run test:coverage",
     "typecheck": "turbo run typecheck",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "audit:deps": "knip",
+    "audit:structure": "depcruise --config .dependency-cruiser.cjs apps/web/src",
+    "audit:all": "pnpm run audit:deps && pnpm run audit:structure",
+    "postinstall": "node scripts/build-thin-duotone.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.5",
     "@commitlint/cli": "^21.2.1",
     "@commitlint/config-conventional": "^21.2.0",
+    "dependency-cruiser": "^18.1.1",
+    "knip": "^6.31.0",
+    "lefthook": "^2.1.10",
     "turbo": "^2.3.3",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.0"
   },
   "engines": {
     "node": ">=20.0.0",

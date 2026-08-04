@@ -9,6 +9,7 @@ Controls the reader toolbar position and drawer visibility.
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `position` | `'top' \| 'bottom' \| 'hidden'` | `'top'` | Edge where toolbar is anchored |
+| `previousPosition` | `'top' \| 'bottom' \| 'hidden'` | `'top'` | Position before hide — used to restore on show |
 | `isTocDrawerOpen` | `boolean` | `false` | TOC/thumbnails sidebar visibility |
 | `isCatalogDrawerOpen` | `boolean` | `false` | Catalog drawer visibility |
 
@@ -17,6 +18,8 @@ Controls the reader toolbar position and drawer visibility.
 | Action | Signature | Description |
 |--------|-----------|-------------|
 | `setPosition` | `(pos: ToolbarPosition) => void` | Anchor toolbar to edge |
+| `hide` | `() => void` | Sets position to hidden, saves current position as previousPosition |
+| `show` | `() => void` | Restores position to previousPosition (defaults to top) |
 | `toggleTocDrawer` | `() => void` | Show/hide TOC drawer |
 | `setTocDrawerOpen` | `(open: boolean) => void` | Explicitly set TOC drawer state |
 | `toggleCatalogDrawer` | `() => void` | Show/hide catalog drawer |

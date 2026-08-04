@@ -10,7 +10,7 @@ stratum/
 │   │       ├── routes/        # Route-level components (Home, Catalog, etc.)
 │   │       ├── components/    # Feature components (book-viewer, ai-chat, catalog)
 │   │       ├── workers/       # Comlink web workers (PDF, search)
-│   │       ├── stores/        # Zustand stores (viewer, toolbar, theme)
+│   │       ├── stores/        # Zustand stores (viewer, toolbar, catalog, settings)
 │   │       └── lib/           # Utilities, helpers, types
 │   └── api/          # Vercel Serverless Functions
 ├── packages/
@@ -30,8 +30,8 @@ stratum/
 
 ```
 ┌─────────────┐    Comlink RPC    ┌──────────────┐
-│  apps/web   │ ◄──────────────► │  PDF Worker   │
-│  (main)     │    typed proxy   │  (web worker) │
+│  apps/web   │ ◄───────────────► │  PDF Worker  │
+│  (main)     │    typed proxy    │ (web worker) │
 └─────────────┘                   └──────────────┘
 ```
 
@@ -43,9 +43,10 @@ stratum/
 
 ```
 Zustand stores (no context, no prop drilling):
-├── viewerStore    — camera, zoom, page state, spread mode
-├── toolbarStore   — active tools, panels, visibility
-└── themeStore     — dark theme (always), accent colors
+├── viewerStore    — current page, page count, zoom mode/level, cover type, fullscreen
+├── toolbarStore   — edge position (top/bottom/hidden), hide/show, drawer visibility
+├── catalogStore   — book list, import state
+└── settingsStore  — Gemini keys, dialog state
 ```
 
 ## Styling Architecture
@@ -57,33 +58,57 @@ Zustand stores (no context, no prop drilling):
 - **High-contrast dark theme** with slate-blue accents (cyan theme in shadcn preset)
 - **Semantic colors only**: `bg-primary`, `text-muted-foreground`, never raw oklch values
 - **Icons**: Phosphor (`@phosphor-icons/react`)
+- **Animations**: Motion (`motion/react`) for component transitions (toolbar slide, panel show/hide). `AnimatePresence` handles exit animations with spring physics. 3D flipbook uses R3F's native animation system — Motion is not used for 3D.
 
 ## Data Architecture
 
 ```
-┌──────────┐  raw bytes   ┌──────────┐  parsed   ┌───────────┐
-│   OPFS   │ ◄────────── ► │  Worker  │ ────────► │  Dexie    │
-│  (PDFs)  │               │          │           │ (9 tables)│
+┌──────────┐  raw bytes    ┌──────────┐  parsed   ┌───────────┐
+│   OPFS   │ ◄───────────► │  Worker  │ ────────► │  Dexie    │
+│  (PDFs)  │               │          │           │ (1 table) │
 └──────────┘               └──────────┘           └───────────┘
 ```
 
 - OPFS: Origin Private File System for binary PDF storage
-- Dexie.js: 9-table IndexedDB wrapper for metadata, history, annotations
-- Dual search: client IndexedDB FTS + serverless HuggingFace embeddings (apps/api/embed.ts)
+- Dexie.js: 1-table IndexedDB wrapper (`books`)
+- Dual search: client IndexedDB FTS + serverless HuggingFace embeddings (planned)
 
 ## Scaffolding (Phase 2)
 
 Phase 2 established the `apps/web` skeleton:
-- Vite 7 + React 19 + React Router 7 (library mode)
+- Vite 7 + React 19 + React Router 8 (library mode)
 - `createBrowserRouter` + `RouterProvider` for routing
 - TypeScript 7 root config extended by per-app configs
 - Biome 2.5.5 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
-- Empty dirs for components, workers, stores, lib
 
 ## Decisions Made
 
 - **Styling**: Tailwind CSS v4 + ShadCN UI (React Aria base), resolved
-- **Component library**: ShadCN UI with React Aria base (b8PjchPDgw preset)
+- **Component library**: ShadCN UI with React Aria base (b8PjeSPBdi preset)
 - **Testing**: Vitest + @testing-library/react + jsdom + v8 coverage, resolved
 - **UI board**: Storybook 10 (react-vite), resolved
 - **Font loading**: ShadCN preset handles @fontsource imports
+
+## Architecture Audit
+
+Two automated gates enforce the structure in this document. Run via `pnpm audit` (CI job `audit`):
+
+### Dead code (knip — `knip.json`)
+
+Finds unused files, dependencies, exports, and binaries. Intentional exclusions (planned roadmap deps, vendored `ui/` registry, placeholder barrels, manual scripts) are documented in `knip.json`.
+
+### Structure rules (dependency-cruiser — `.dependency-cruiser.cjs`)
+
+| Rule                                  | Enforces                                                                               |
+|---------------------------------------|----------------------------------------------------------------------------------------|
+| `not-to-unresolvable` / `no-circular` | No broken imports, no cycles                                                           |
+| `no-orphans`                          | Every file is imported (placeholders/ambient files exempted)                           |
+| `vendor-isolation`                    | `apps/web` never imports `packages/3d-engine-vendor` (isolation boundary)              |
+| `ui-primitives-self-contained`        | `components/ui/*` only imports ui siblings + `lib/utils`                               |
+| `lib-pure`                            | `lib/` never imports components/routes/stores/hooks/workers                            |
+| `stores-pure`                         | `stores/` never imports components/routes/hooks/workers                                |
+| `hooks-layer`                         | `hooks/` never imports components/routes/workers                                       |
+| `workers-isolated`                    | `workers/` only imports `lib/`                                                         |
+| `routes-use-barrels`                  | `routes/` reaches components via barrels or root shared files, never feature internals |
+
+**TypeScript split**: dependency-cruiser cannot transpile TypeScript ≥7, so root `typescript` is pinned to v6 and `apps/web` uses TS7 via the `npm:typescript@7.0.2` alias. `tsconfig.depcruise.json` maps `@/` for the audit run.

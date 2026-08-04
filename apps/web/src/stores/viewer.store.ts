@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
-export type ZoomMode = 'fit' | 'width' | 'custom'
-export type CoverType = 'none' | 'plain' | 'basic' | 'ridge'
+type ZoomMode = 'fit' | 'width' | 'custom'
+type CoverType = 'none' | 'plain' | 'basic' | 'ridge'
 
 interface ViewerState {
   currentPage: number
@@ -23,6 +23,8 @@ interface ViewerActions {
   setReady: (ready: boolean) => void
   nextPage: () => void
   prevPage: () => void
+  zoomIn: () => void
+  zoomOut: () => void
 }
 
 export const useViewerStore = create<ViewerState & ViewerActions>((set, get) => ({
@@ -50,6 +52,22 @@ export const useViewerStore = create<ViewerState & ViewerActions>((set, get) => 
     const { currentPage } = get()
     if (currentPage > 1) {
       set({ currentPage: currentPage - 1 })
+    }
+  },
+  zoomIn: () => {
+    const { zoomMode, zoomLevel } = get()
+    if (zoomMode === 'custom') {
+      set({ zoomLevel: Math.min(5, +(zoomLevel + 0.25).toFixed(2)) })
+    } else {
+      set({ zoomMode: 'custom', zoomLevel: 1.25 })
+    }
+  },
+  zoomOut: () => {
+    const { zoomMode, zoomLevel } = get()
+    if (zoomMode === 'custom') {
+      set({ zoomLevel: Math.max(0.5, +(zoomLevel - 0.25).toFixed(2)) })
+    } else {
+      set({ zoomMode: 'custom', zoomLevel: 0.75 })
     }
   },
 }))

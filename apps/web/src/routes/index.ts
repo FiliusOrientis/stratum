@@ -1,1 +1,2 @@
-export { Home } from './home'
+export { CatalogPage } from './catalog-page'
+export { ReaderPage } from './reader-page'

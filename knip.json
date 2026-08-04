@@ -1,0 +1,29 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignore": ["scripts/**", ".opencode/**"],
+  "workspaces": {
+    "apps/web": {
+      "entry": ["src/routes/index.ts", "src/**/*.stories.tsx"],
+      "ignore": [
+        "src/components/ui/**",
+        "src/components/ai-chat/**",
+        "src/components/book-viewer/**",
+        "src/components/catalog/**",
+        "src/lib/index.ts",
+        "src/lib/storage/**",
+        "src/lib/pdf-import/**",
+        "src/workers/index.ts"
+      ],
+      "ignoreDependencies": [
+        "@react-three/drei",
+        "@react-three/fiber",
+        "@types/three",
+        "comlink",
+        "minisearch",
+        "pdfjs-dist",
+        "three"
+      ],
+      "ignoreBinaries": ["exist"]
+    }
+  }
+}

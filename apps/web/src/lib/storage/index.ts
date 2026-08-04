@@ -1,2 +1,2 @@
-export { type BookEntity, type ConfigEntity, db } from './db'
-export { deletePdf, getStorageUsage, loadPdf, savePdf } from './opfs'
+export { type BookEntity, db } from './db'
+export { savePdf } from './opfs'
