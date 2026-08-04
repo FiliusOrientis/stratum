@@ -44,7 +44,7 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Vitest**: two projects — `unit` (jsdom, with coverage) and `storybook` (playwright chromium, no thresholds)
 - **Storybook 10.5**: focus getter bug workaround in `preview-head.html`. Dark mode via `withThemeByClassName`. `@storybook/test` v8.6 (peer dep mismatch with Storybook 10 but functional)
 - **ShadCN preset**: `b8PjeSPBdi` — style=aria-mira, base=mist, icon=phosphor, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
-- **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` which contain custom Motion/variant code
+- **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code) and `badge.tsx`, `skeleton.tsx` (explicit React type imports replacing UMD globals)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
 - **TypeScript split**: root `typescript` is **v6** (dependency-cruiser can't transpile TS≥7) — the app's TS7 lives in `apps/web` via `npm:typescript@7.0.2` alias. Never bump root typescript past 6.x or `pnpm audit:structure` dies.
 - **Audit tools**: `knip.json` (dead code config) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
