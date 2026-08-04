@@ -1,31 +1,29 @@
-'use client'
+import { cva, type VariantProps } from "class-variance-authority"
+import { Separator as SeparatorPrimitive } from "react-aria-components"
 
-import { cva, type VariantProps } from 'class-variance-authority'
-import { Separator as SeparatorPrimitive } from 'react-aria-components'
-
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils"
 
 const separatorVariants = cva(
-  'shrink-0 aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:border-t aria-[orientation=vertical]:self-stretch aria-[orientation=vertical]:border-r',
+  "block shrink-0 border-0 aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full aria-[orientation=vertical]:w-px aria-[orientation=vertical]:self-stretch [:is(hr)]:h-px [:is(hr)]:w-full",
   {
     variants: {
       variant: {
-        default: 'border-border',
-        muted: 'border-border/75',
-        soft: 'border-border/50',
-        faint: 'border-border/25',
+        default: "bg-border",
+        muted: "bg-border/75",
+        soft: "bg-border/50",
+        faint: "bg-border/25",
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: "default",
     },
-  },
+  }
 )
 
 function Separator({
   className,
   variant,
-  orientation = 'horizontal',
+  orientation = "horizontal",
   ...props
 }: React.ComponentProps<typeof SeparatorPrimitive> &
   VariantProps<typeof separatorVariants>) {

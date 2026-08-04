@@ -1,10 +1,15 @@
-import { BooksIcon } from '@phosphor-icons/react'
+import { BooksIcon, CaretDownIcon } from '@phosphor-icons/react'
+import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
+import { ButtonGroup } from '@/components/ui/button-group'
+import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip'
 import { useUrlImport } from '@/hooks/use-url-import'
+import { easeInOut } from '@/lib/animation'
 import { cn } from '@/lib/utils'
 
-import { CollapseToggle } from './collapse-toggle'
 import { UrlImportPanel } from './url-import-panel'
+
+const MotionCaret = motion.create(CaretDownIcon)
 
 interface DocumentImportProps {
   onImport: () => void
@@ -26,23 +31,47 @@ export function DocumentImport({ onImport, onUrlImport }: DocumentImportProps) {
 
   return (
     <div>
-      <Button
-        variant="outline"
-        onPress={onImport}
-        aria-label="Open or drop a PDF file"
+      <ButtonGroup
         className={cn(
-          'h-auto w-full justify-start overflow-hidden p-2',
-          isUrlOpen ? 'rounded-b-none border-b-0' : 'rounded-lg',
+          'w-full',
+          isUrlOpen && '[&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-none!',
         )}
       >
-        <div className="flex flex-row items-center gap-3 text-muted-foreground">
-          <BooksIcon aria-hidden="true" weight="thin-duotone" className="size-11" />
-          <div className="text-left">
-            <h3 className="font-heading text-base text-foreground">Open a document</h3>
-            <p className="font-light text-[11px]">Drop a PDF or click here to browse</p>
+        <Button
+          variant="outline"
+          onPress={onImport}
+          aria-label="Open or drop a PDF file"
+          className={cn(
+            'h-auto flex-1 justify-start overflow-hidden p-2',
+            isUrlOpen ? 'rounded-b-none border-b-0' : 'rounded-lg',
+          )}
+        >
+          <div className="flex flex-row items-center gap-3 pr-3 text-muted-foreground">
+            <BooksIcon aria-hidden="true" weight="thin" className="size-11" />
+            <div className="text-left">
+              <h3 className="font-heading text-base text-foreground">Open a document</h3>
+              <p className="font-light text-[11px]">Drop a PDF or click here to browse</p>
+            </div>
           </div>
-        </div>
-      </Button>
+        </Button>
+        <TooltipTrigger delay={700}>
+          <Button
+            variant="outline"
+            onPress={() => setIsUrlOpen(prev => !prev)}
+            aria-label={isUrlOpen ? 'Hide URL input' : 'Import from URL'}
+            aria-expanded={isUrlOpen}
+            className={cn('h-auto w-12 shrink-0 text-muted-foreground', isUrlOpen && 'border-b-0')}
+          >
+            <MotionCaret
+              aria-hidden="true"
+              initial={false}
+              animate={{ scaleY: isUrlOpen ? -1 : 1 }}
+              transition={{ duration: 0.15, ease: easeInOut }}
+            />
+          </Button>
+          <Tooltip>{isUrlOpen ? 'Hide URL input' : 'Import from URL'}</Tooltip>
+        </TooltipTrigger>
+      </ButtonGroup>
 
       <UrlImportPanel
         scope={scope}
@@ -55,16 +84,6 @@ export function DocumentImport({ onImport, onUrlImport }: DocumentImportProps) {
         setUrlValue={setUrlValue}
         isUrlOpen={isUrlOpen}
       />
-
-      <div className="flex w-fit justify-self-center">
-        <CollapseToggle
-          edge="top"
-          isOpen={isUrlOpen}
-          labelOpen="Hide URL input"
-          labelClosed="Import from URL"
-          onPress={() => setIsUrlOpen(prev => !prev)}
-        />
-      </div>
     </div>
   )
 }
