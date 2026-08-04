@@ -1,7 +1,5 @@
 export { AppLayout } from './app-layout'
-export { DocumentImport } from './document-import'
 export { DropZone } from './drop-zone'
 export { EmptyState } from './empty-state'
-export { KeyboardHint } from './keyboard-hint'
-export { KeyboardShortcuts } from './keyboard-shortcuts'
+export { KeyboardShortcutsFab } from './keyboard-shortcuts-fab'
 export { ReaderToolbar } from './reader-toolbar'

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
-export type ZoomMode = 'fit' | 'width' | 'custom'
-export type CoverType = 'none' | 'plain' | 'basic' | 'ridge'
+type ZoomMode = 'fit' | 'width' | 'custom'
+type CoverType = 'none' | 'plain' | 'basic' | 'ridge'
 
 interface ViewerState {
   currentPage: number

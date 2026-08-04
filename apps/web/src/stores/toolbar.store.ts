@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type ToolbarPosition = 'top' | 'bottom' | 'hidden'
+type ToolbarPosition = 'top' | 'bottom' | 'hidden'
 
 interface ToolbarState {
   position: ToolbarPosition
