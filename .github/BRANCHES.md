@@ -5,12 +5,12 @@ Active and past branches. Delete stale ones after merge.
 | Branch | Status | Purpose |
 |--------|--------|---------|
 | `main` | Active | Production |
-| `feat/app-shell` | Active | App shell layout, routes, settings modal, import UI |
 
 ## Merged (Cleaned)
 
 | Branch | Merged | Purpose |
 |--------|--------|---------|
+| `feat/app-shell` | PR #36 | App shell layout, import UI, reader toolbar, theme toggle, FAB |
 | `chore/git-workflow` | PR #1 | Git hooks, commitlint CI |
 | `chore/future-proofing` | PR #2 | Node 24, git safety, dependency stewardship |
 | `chore/upgrade-deps` | PR #3 | Biome 2.5.5, TypeScript 7.0.2 |
