@@ -88,3 +88,27 @@ Phase 2 established the `apps/web` skeleton:
 - **Testing**: Vitest + @testing-library/react + jsdom + v8 coverage, resolved
 - **UI board**: Storybook 10 (react-vite), resolved
 - **Font loading**: ShadCN preset handles @fontsource imports
+
+## Architecture Audit
+
+Two automated gates enforce the structure in this document. Run via `pnpm audit` (CI job `audit`):
+
+### Dead code (knip — `knip.json`)
+
+Finds unused files, dependencies, exports, and binaries. Intentional exclusions (planned roadmap deps, vendored `ui/` registry, placeholder barrels, manual scripts) are documented in `knip.json`.
+
+### Structure rules (dependency-cruiser — `.dependency-cruiser.cjs`)
+
+| Rule | Enforces |
+|------|----------|
+| `not-to-unresolvable` / `no-circular` | No broken imports, no cycles |
+| `no-orphans` | Every file is imported (placeholders/ambient files exempted) |
+| `vendor-isolation` | `apps/web` never imports `packages/3d-engine-vendor` (isolation boundary) |
+| `ui-primitives-self-contained` | `components/ui/*` only imports ui siblings + `lib/utils` |
+| `lib-pure` | `lib/` never imports components/routes/stores/hooks/workers |
+| `stores-pure` | `stores/` never imports components/routes/hooks/workers |
+| `hooks-layer` | `hooks/` never imports components/routes/workers |
+| `workers-isolated` | `workers/` only imports `lib/` |
+| `routes-use-barrels` | `routes/` reaches components via barrels or root shared files, never feature internals |
+
+**TypeScript split**: dependency-cruiser cannot transpile TypeScript ≥7, so root `typescript` is pinned to v6 and `apps/web` uses TS7 via the `npm:typescript@7.0.2` alias. `tsconfig.depcruise.json` maps `@/` for the audit run.

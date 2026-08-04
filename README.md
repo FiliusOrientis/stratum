@@ -14,11 +14,13 @@ pnpm lint
 pnpm typecheck
 pnpm test
 pnpm test:coverage
+pnpm audit:all        # knip (dead code/deps) + dependency-cruiser (structure)
+pnpm audit            # pnpm security audit (vulnerabilities)
 ```
 
 ## Architecture
 
-Monorepo: `apps/web` (React 19 SPA) · `apps/api` (Vercel serverless) · `packages/3d-engine-vendor` (legacy DearFlip — reference only)
+Monorepo: `apps/web` (React 19 SPA) → `apps/api` (Vercel serverless, planned) → `packages/3d-engine-vendor` (legacy DearFlip — reference only)
 
 ### Key features
 
@@ -31,7 +33,7 @@ Monorepo: `apps/web` (React 19 SPA) · `apps/api` (Vercel serverless) · `packag
 
 ## Stack
 
-React 19 · Vite 7 · React Router 8 · @react-three/fiber · Motion · Storybook 10 · ShadCN UI (React Aria) · Tailwind CSS v4 · Zustand · Dexie.js · Comlink · Vitest · Biome · Turborepo · pnpm
+React 19 → Vite 7 → React Router 8 → @react-three/fiber → Motion → Storybook 10 → ShadCN UI (React Aria) → Tailwind CSS v4 → Zustand → Dexie.js → Comlink → Vitest → Biome → Turborepo → pnpm
 
 ## Docs
 
