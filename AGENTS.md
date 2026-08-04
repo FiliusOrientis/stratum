@@ -57,7 +57,7 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Biome nursery rules**: `useSortedClasses` (unsafe fix) — must get user approval before applying unsafe
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
 - **Vitest**: two projects — `unit` (jsdom, with coverage) and `storybook` (playwright chromium, no thresholds)
-- **Storybook 10.5**: focus getter bug workaround in `preview-head.html`. Dark mode via `withThemeByClassName`. `@storybook/test` v8.6 (peer dep mismatch with Storybook 10 but functional)
+- **Storybook 10.5**: `@storybook/test` v8.6 (peer dep mismatch with Storybook 10 but functional). `.storybook/` config not yet created.
 - **ShadCN preset**: `b8PjeSPBdi` — style=aria-mira, base=mist, icon=phosphor, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code) and `badge.tsx`, `skeleton.tsx` (explicit React type imports replacing UMD globals)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
@@ -69,12 +69,12 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 
 - **State**: 4 Zustand stores — `catalogStore`, `viewerStore`, `toolbarStore`, `settingsStore`. No context, no prop drilling.
 - **Hooks**: domain logic in `src/hooks/` — `use-url-import`, `use-file-import`, `use-keyboard-shortcut`. Co-located tests.
-- **Storage**: OPFS (binary PDFs) + Dexie (2 tables: `books`, `config`). `lib/storage/db.ts` + `lib/storage/opfs.ts`
+- **Storage**: OPFS (binary PDFs) + Dexie (1 table: `books`). `lib/storage/db.ts` + `lib/storage/opfs.ts`
 - **Workers**: Comlink RPC pattern. PDF Worker + Search Worker planned, not yet built. `workers/index.ts` is empty placeholder.
 - **3D**: R3F + drei (planned, not built). Single page view only. Cover types: none/plain/basic/ridge. DearFlip vendor code at `packages/3d-engine-vendor/` (doesn't exist yet — reference material only)
 - **Styling**: Tailwind v4 CSS-first, `@theme` directive, semantic colors, `@utility text-2xs` (0.625rem), flat layout
 - **Icons**: `@phosphor-icons/react` — PascalCase with `Icon` suffix (e.g. `ArrowRightIcon`)
-- **Animation constants**: `src/lib/animation.ts` — `easeOut`, `easeInOut`, `easeDrawer`, `springPreset`. All Motion animations follow Emil Kowalski rules (skills: `emil-design-eng`, `review-animations`)
+- **Animation constants**: `src/lib/animation.ts` — `easeOut`, `easeInOut`, `springPreset`. All Motion animations follow Emil Kowalski rules (skills: `emil-design-eng`, `review-animations`)
 - **Data flow**: PDF import → OPFS (bytes) → PDF Worker → Dexie (metadata). Reader → Dexie → OPFS → Worker → textures + text items
 
 ## Component Conventions
