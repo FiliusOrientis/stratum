@@ -4,6 +4,15 @@ Declarative event → pipeline map. **The agent executes these mechanically — 
 
 Triggers are real processes: git hooks (`lefthook.yml`), CI workflows (`.github/workflows/`), opencode commands (`.opencode/command/`), and the staging watcher (`.opencode/plugin/pipelines.ts`).
 
+## Always-On Layers
+
+Two horizontal layers shape *how* the agent works in every pipeline — they are not pipeline stages:
+
+- **Ponytail** (`@dietrichgebert/ponytail`, default `full`) — the existential ladder: *does it need to exist → reuse → stdlib → native → installed dep → one line → minimum that works*. Decides WHAT gets built. Never cuts validation, security, or accessibility.
+- **Caveman** — terse prose. Caveman shrinks what the agent says; ponytail shrinks what it builds. No overlap.
+
+**Balance rule (overkill × sanity):** ponytail's ladder runs FIRST — anything that fails an earlier rung (YAGNI, reuse, stdlib, native, dependency) does not reach the craft stages. Craft skills (`atomic-design`, `shadcn`, `tailwind-v4`, `motion-react`, `react-2026`, `ai-ui-patterns`, `emil-design-eng`, `impeccable`, `find-animation-opportunities`) apply ONLY to what survives the ladder — if it must exist, it must be excellent. `ponytail-review` then guards the other direction: anything over-built *during* polish lands on the delete-list.
+
 ## Ask Policy
 
 - **Run** — everything fires automatically on trigger + condition. No pre-approval.
@@ -46,19 +55,22 @@ Mechanical part runs in the hook (blocking); skill stages run in `/commit`.
 | Stage | Skill / Tool | Condition |
 |---|---|---|
 | 1. Docs | documentation gate (CONTEXT, architecture, conventions, docs/code) | always |
-| 2. Housekeeping | BRANCHES.md, lint-suppressions log | always |
-| 3. Continuity | `triage` → `to-spec` / `to-tickets` | new issues or flagged follow-ups |
+| 2. Housekeeping | BRANCHES.md, lint-suppressions log, `ponytail-debt` (shortcut ledger) | always |
+| 3. Minimalism audit | `ponytail-audit` (repo-wide over-engineering audit — report for judgment) | new subsystem or accumulated `ponytail:` debt |
+| 4. Continuity | `triage` → `to-spec` / `to-tickets` | new issues or flagged follow-ups |
 
 ### 4. UI Change — trigger: staged files in `apps/web/src/components/**` (watcher or `/pipeline`)
 
 | Stage | Skill / Tool | Condition |
 |---|---|---|
-| 1. Structure | `atomic-design` | always |
+| 0. Scope | ponytail ladder (existential gate — always-on layer) | always — anything failing rungs 1–6 is skipped |
+| 1. Structure | `atomic-design` | survived scope |
 | 2. Composition | `shadcn` → `tailwind-v4` | ui/ or styling touched |
 | 3. Build | `motion-react` + `react-2026` + `ai-ui-patterns` | motion / new feature / AI surface touched |
 | 4. Polish | `review-animations` → `emil-design-eng` → `impeccable` | motion / UI polish |
 | 5. Opportunities | `find-animation-opportunities` (proposal report) → `improve-animations` (audit report) | new components / existing animation code modified |
 | 6. Convention | co-located test + story presence | new component |
+| 7. Counter-guard | `ponytail-review` (delete-list report) | craft stages ran |
 
 ### 5. Architecture — trigger: staged files in `stores/ hooks/ lib/ workers/ routes/` (watcher or `/pipeline`)
 
@@ -91,8 +103,9 @@ Mechanical part runs in the hook (blocking); skill stages run in `/commit`.
 |---|---|---|
 | 1. Analysis | `code-review` (Standards ∥ Spec) | always |
 | 2. Context | `understand-diff` (knowledge graph) | graph needed for clarity |
-| 3. Comments | `caveman-review` | always |
-| 4. Motion | `review-animations` | motion code in diff |
+| 3. Minimalism | `ponytail-review` (over-engineering delete-list — report for judgment) | always |
+| 4. Comments | `caveman-review` | always |
+| 5. Motion | `review-animations` | motion code in diff |
 
 ## Dormant Skills (activate when feature introduced)
 
