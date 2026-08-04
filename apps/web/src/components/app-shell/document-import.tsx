@@ -42,15 +42,15 @@ export function DocumentImport({ onImport, onUrlImport }: DocumentImportProps) {
           onPress={onImport}
           aria-label="Open or drop a PDF file"
           className={cn(
-            'h-auto flex-1 justify-start overflow-hidden p-2',
+            'h-auto min-w-0 flex-1 shrink justify-start overflow-hidden p-2',
             isUrlOpen ? 'rounded-b-none border-b-0' : 'rounded-lg',
           )}
         >
-          <div className="flex flex-row items-center gap-3 pr-3 text-muted-foreground">
-            <BooksIcon aria-hidden="true" weight="thin" className="size-11" />
-            <div className="text-left">
+          <div className="flex min-w-0 flex-row items-center gap-3 pr-3 text-muted-foreground">
+            <BooksIcon aria-hidden="true" weight="thin-duotone" className="size-11 shrink-0" />
+            <div className="min-w-0 text-left">
               <h3 className="font-heading text-base text-foreground">Open a document</h3>
-              <p className="font-light text-[11px]">Drop a PDF or click here to browse</p>
+              <p className="truncate font-light text-[11px]">Drop a PDF or click here to browse</p>
             </div>
           </div>
         </Button>

@@ -15,7 +15,7 @@ export function EmptyState({ onImport, onUrlImport }: EmptyStateProps) {
 
   return (
     <motion.div
-      className="mx-auto flex h-full w-fit flex-col items-center justify-center gap-8 px-6 md:px-10 lg:px-16"
+      className="mx-auto flex h-full w-fit max-w-full flex-col items-center justify-center gap-8 px-4 md:px-10 lg:px-16"
       role="region"
       aria-label="Empty catalog"
       variants={stagger}
