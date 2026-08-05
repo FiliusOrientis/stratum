@@ -23,19 +23,19 @@ Shared language between developers and AI. Use these terms — never synonyms.
 
 ## Entities
 
-| Term | Definition |
-|------|------------|
-| Book | A loaded PDF rendered as a single-page 3D flipbook |
-| Page | A single sheet within a Book |
-| Shelf | The 3D bookshelf view showing the user's Book collection |
-| Viewer | The R3F <Canvas> and scene graph rendering the Book |
-| Catalog | The user's collection of Books (local-first, stored in Dexie + OPFS) |
-| Cover | The 3D hardcover mesh (type: none/plain/basic/ridge) |
-| Page Turn | The Bezier-curve page-flip animation between consecutive pages |
+| Term                 | Definition                                                                  |
+|----------------------|-----------------------------------------------------------------------------|
+| Book                 | A loaded PDF rendered as a single-page 3D flipbook                          |
+| Page                 | A single sheet within a Book                                                |
+| Shelf                | The 3D bookshelf view showing the user's Book collection                    |
+| Viewer               | The R3F `<Canvas>` and scene graph rendering the Book                       |
+| Catalog              | The user's collection of Books (local-first, stored in Dexie + OPFS)        |
+| Cover                | The 3D hardcover mesh (type: none/plain/basic/ridge)                        |
+| Page Turn            | The Bezier-curve page-flip animation between consecutive pages              |
 | Projected Text Layer | Transparent HTML overlay mapping extracted PDF text to 3D page screen-space |
-| Annotation | Highlight, note, or drawing on a Page (future) |
-| Narration | AI-generated text-to-speech reading of a Page (future) |
-| Key Slot | One of 10 BYOK API key rotation slots for Gemini |
+| Annotation           | Highlight, note, or drawing on a Page (future)                              |
+| Narration            | AI-generated text-to-speech reading of a Page (future)                      |
+| Key Slot             | One of 10 BYOK API key rotation slots for Gemini                            |
 
 ## State (Zustand stores)
 

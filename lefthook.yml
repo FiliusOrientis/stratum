@@ -4,6 +4,8 @@ pre-commit:
     biome:
       glob: "*.{ts,tsx,js,jsx,mjs,cjs,json,md,css,html,yml,yaml}"
       run: pnpm lint
+    collocated:
+      run: pnpm check-collocated
 
 commit-msg:
   commands:
@@ -16,6 +18,21 @@ pre-push:
     typecheck:
       run: pnpm typecheck
     test:
-      run: pnpm test
+      run: pnpm test:coverage
     audit:
-      run: pnpm audit:all
+      run: pnpm audit:all && pnpm audit --audit-level=high
+
+post-merge:
+  commands:
+    docs-gate:
+      run: pnpm docs-gate
+    prose:
+      run: pnpm prose
+
+post-checkout:
+  commands:
+    hint:
+      run: node scripts/pipeline-hint.mjs
+      skip:
+        - merge
+        - rebase

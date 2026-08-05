@@ -60,7 +60,7 @@ src/components/book-viewer/
 - **No raw HTML/CSS for UI.** No inline styles, no custom `*.module.css`, no styled divs where a component exists.
 - **Never modify primitives.** `src/components/ui/*` files are read-only. Compose with `cn()` for variants.
 - **Semantic colors only.** `bg-primary`, `text-muted-foreground` — never raw oklch values.
-- **React Aria composition.** Use `slot` prop for named children (e.g., `slot="close"`, `slot="title"`). No `asChild` (Radix) or `render` (Base UI) — React Aria uses slot-based composition.
+- **React Aria composition.** Use `slot` prop for named children (for example `slot="close"`, `slot="title"`). No `asChild` (Radix) or `render` (Base UI) — React Aria uses slot-based composition.
 - **Icons from Phosphor only.** `@phosphor-icons/react`. Use `data-icon="inline-start"` or `data-icon="inline-end"` on icons inside Button.
 
 ## Storybook (UI Board)
@@ -102,7 +102,7 @@ src/components/book-viewer/
 - **One concern per file**: If a file exceeds ~120 lines or requires scrolling to understand, extract sub-components or logic. Each file does one thing.
 - **Logic separated from UI**: Animation math, state derivation, business rules live in pure functions (`.types.ts` or dedicated helpers) — never mixed into JSX markup. Components receive data and callbacks via props.
 - **Composition over configuration**: Sub-components are composed by the parent via children/props, not configured via complex boolean flags. Keep prop interfaces flat.
-- **Improve, don't duplicate**: When behavior is similar, extend the existing function with parameters — do not create a new function. This applies to components, hooks, and utilities.
+- **Improve, do not duplicate**: When behavior is similar, extend the existing function with parameters — do not create a new function. This applies to components, hooks, and utilities.
 - **Flat directories**: Prefer many small co-located files in one directory over deep folder hierarchies. A component directory contains: `component.tsx`, `component.types.ts`, `component.test.tsx`, sub-component files, and `index.ts` barrel.
 
 ## React Components

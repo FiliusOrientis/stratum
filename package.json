@@ -16,6 +16,12 @@
     "audit:deps": "knip",
     "audit:structure": "depcruise --config .dependency-cruiser.cjs apps/web/src",
     "audit:all": "pnpm run audit:deps && pnpm run audit:structure",
+    "docs-gate": "node scripts/docs-gate.mjs",
+    "housekeeping-gate": "node scripts/pipeline-housekeeping.mjs",
+    "check-collocated": "node scripts/check-collocated.mjs",
+    "extract-ste-dictionary": "node scripts/extract-ste-dictionary.mjs",
+    "prose": "vale sync && vale --config .vale.ini AGENTS.md CONTEXT.md CHANGELOG.md docs .agents/pipelines.md",
+    "prose:ci": "vale sync && vale --config .vale-ci.ini AGENTS.md CONTEXT.md CHANGELOG.md docs .agents/pipelines.md",
     "postinstall": "node scripts/build-thin-duotone.mjs"
   },
   "devDependencies": {

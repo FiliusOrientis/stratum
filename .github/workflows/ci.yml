@@ -38,6 +38,25 @@ jobs:
       - run: pnpm install
       - run: pnpm run lint
 
+  prose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.0.9
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install
+      - name: Vale prose lint (Slop + STE writing rules; official dictionary is local-only)
+        uses: vale-cli/vale-action@v3
+        with:
+          config: .vale-ci.ini
+          files: AGENTS.md,CONTEXT.md,CHANGELOG.md,docs,.agents/pipelines.md
+          only_changed: false
+          styles: |
+            https://github.com/Syntaf/vale-llm-slop/releases/latest/download/vale-llm-slop.zip
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -73,3 +92,27 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm run test:coverage
+
+  post-merge:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, audit, test]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.0.9
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install
+      - name: Docs gate (Pipeline 3 — stage 1)
+        run: pnpm run docs-gate
+      - name: Prose gate (Pipeline 9 — stage 1)
+        uses: vale-cli/vale-action@v3
+        with:
+          config: .vale-ci.ini
+          files: AGENTS.md,CONTEXT.md,CHANGELOG.md,docs,.agents/pipelines.md
+          styles: |
+            https://github.com/Syntaf/vale-llm-slop/releases/latest/download/vale-llm-slop.zip
+      - name: Housekeeping check (Pipeline 3 — stage 2)
+        run: pnpm run housekeeping-gate
