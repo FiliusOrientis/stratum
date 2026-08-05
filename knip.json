@@ -1,6 +1,7 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "ignore": ["scripts/**", ".opencode/**"],
+  "ignoreBinaries": ["vale"],
   "workspaces": {
     "apps/web": {
       "entry": ["src/routes/index.ts", "src/**/*.stories.tsx"],

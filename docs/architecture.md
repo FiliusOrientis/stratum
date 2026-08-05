@@ -24,7 +24,7 @@ stratum/
 
 ## Isolation Boundary
 
-`packages/3d-engine-vendor` is a **legacy island**. No code in `apps/web` may import from it directly. If 3D engine code is needed, it must go through a typed adapter layer within the vendor package.
+`packages/3d-engine-vendor` is a **legacy island**. No code in `apps/web` can import from it directly. If you need 3D engine code, route it through a typed adapter layer within the vendor package.
 
 ## Worker Architecture
 
@@ -79,7 +79,7 @@ Phase 2 established the `apps/web` skeleton:
 - Vite 7 + React 19 + React Router 8 (library mode)
 - `createBrowserRouter` + `RouterProvider` for routing
 - TypeScript 7 root config extended by per-app configs
-- Biome 2.5.5 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
+- Biome 2.5.6 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
 
 ## Decisions Made
 
@@ -95,7 +95,7 @@ Two automated gates enforce the structure in this document. Run via `pnpm audit`
 
 ### Dead code (knip — `knip.json`)
 
-Finds unused files, dependencies, exports, and binaries. Intentional exclusions (planned roadmap deps, vendored `ui/` registry, placeholder barrels, manual scripts) are documented in `knip.json`.
+Finds unused files, dependencies, exports, and binaries. `knip.json` documents the intentional exclusions (planned roadmap deps, vendored `ui/` registry, placeholder barrels, manual scripts).
 
 ### Structure rules (dependency-cruiser — `.dependency-cruiser.cjs`)
 
@@ -111,4 +111,4 @@ Finds unused files, dependencies, exports, and binaries. Intentional exclusions 
 | `workers-isolated`                    | `workers/` only imports `lib/`                                                         |
 | `routes-use-barrels`                  | `routes/` reaches components via barrels or root shared files, never feature internals |
 
-**TypeScript split**: dependency-cruiser cannot transpile TypeScript ≥7, so root `typescript` is pinned to v6 and `apps/web` uses TS7 via the `npm:typescript@7.0.2` alias. `tsconfig.depcruise.json` maps `@/` for the audit run.
+**TypeScript split**: dependency-cruiser cannot transpile TypeScript ≥7, so root `typescript` stays pinned at v6 and `apps/web` uses TS7 via the `npm:typescript@7.0.2` alias. `tsconfig.depcruise.json` maps `@/` for the audit run.

@@ -4,10 +4,13 @@ import type { Plugin } from '@opencode-ai/plugin'
 /**
  * Stratum pipeline watcher.
  *
- * Process-triggered: when a session starts with staged changes whose paths
- * match a scoped pipeline (UI Change / Architecture / Dependency / Infra),
- * inject a system instruction so the agent runs the pipeline from
- * `.agents/pipelines.md` mechanically — never by discretion.
+ * Process-triggered: on every chat message, scan working-tree changes
+ * (staged, unstaged, and untracked) plus branch hints; when paths match a
+ * scoped pipeline, inject a system instruction so the agent runs the
+ * pipeline from `.agents/pipelines.md` mechanically — never by discretion.
+ *
+ * Re-scans each message so mid-session edits that match a new scope inject
+ * their pipeline; each scope injects at most once per session.
  */
 
 const PIPELINE_SCOPES: Array<{ name: string; patterns: RegExp[] }> = [
@@ -41,9 +44,21 @@ const PIPELINE_SCOPES: Array<{ name: string; patterns: RegExp[] }> = [
       /^biome\.json$/,
     ],
   },
+  {
+    name: 'Documentation',
+    patterns: [
+      /^docs\//,
+      /^\.agents\//,
+      /^\.opencode\//,
+      /^AGENTS\.md$/,
+      /^CONTEXT\.md$/,
+      /^CHANGELOG\.md$/,
+      /^\.github\/BRANCHES\.md$/,
+    ],
+  },
 ]
 
-let injected = false
+const injectedScopes = new Set<string>()
 
 function matchScopes(files: string[]): string[] {
   const matched = new Set<string>()
@@ -57,13 +72,17 @@ function matchScopes(files: string[]): string[] {
   return [...matched]
 }
 
-function stagedScopes(): string[] {
+function workingTreeScopes(): string[] {
   try {
-    const stdout = execSync('git diff --cached --name-only', {
+    const stdout = execSync('git status --porcelain -uall', {
       cwd: process.cwd(),
       encoding: 'utf8',
     })
-    return matchScopes(stdout.split('\n').filter(Boolean))
+    const files = stdout
+      .split('\n')
+      .filter(Boolean)
+      .map(line => line.slice(3).trim())
+    return matchScopes(files)
   } catch {
     return []
   }
@@ -74,20 +93,18 @@ export default (() => {
     'experimental.chat.messages.transform': (
       messages: Array<{ role?: string; content?: string }>,
     ) => {
-      if (injected) {
-        return messages
-      }
-      const scopes = stagedScopes()
+      const scopes = workingTreeScopes().filter(scope => !injectedScopes.has(scope))
       if (scopes.length === 0) {
-        injected = true
         return messages
       }
-      injected = true
+      for (const scope of scopes) {
+        injectedScopes.add(scope)
+      }
       return [
         ...messages,
         {
           role: 'system',
-          content: `Pipeline trigger (process event: staged changes match scope). Run pipeline(s) ${scopes.join(
+          content: `Pipeline trigger (process event: working-tree changes match scope). Run pipeline(s) ${scopes.join(
             ', ',
           )} from .agents/pipelines.md mechanically. Execute every stage whose condition holds, honor the ask policy (ask BEFORE only for ambiguous/destructive steps; present proposals/audits/critiques as reports AFTER for judgment).`,
         },
