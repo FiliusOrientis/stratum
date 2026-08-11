@@ -19,7 +19,7 @@ Shared language between developers and AI. Use these terms — never synonyms.
 - **Page Zoom** — Three modes: `fit` (page fills viewport height), `width` (page fills viewport width), `custom` (free zoom slider).
 - **Page Turn** — LTR only. Bezier curve animation driven by vertex math extracted from DearFlip's `stratum-engine-legacy.js`.
 - **Toolbar** — Edge-anchored bar movable between `top`, `bottom`, and `hidden`. Position persisted in toolbarStore.
-- **Theme Toggle** — Sun/moon icon toggle. Positionable via `position` prop (9 named spots; default `top-right` in app shell). `d` key shortcut. Uses `next-themes` and class-based dark mode.
+- **Theme Toggle** — Sun/moon icon toggle. Icon morphs between `Sun` and `MoonStar` via morphicons (`MorphIcon`, spring "snappy", `reducedMotion="user"`). Positionable via `position` prop (9 named spots; default `top-right` in app shell). `d` key shortcut. Uses `next-themes` and class-based dark mode.
 
 ## Entities
 
