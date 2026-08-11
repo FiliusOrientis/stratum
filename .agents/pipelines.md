@@ -32,6 +32,18 @@ Two horizontal layers shape *how* the agent works in every pipeline — they are
 
 ## Pipelines
 
+### 0. Git Triage — trigger: session start (plugin) + `/git-triage` command — GATE (proposes, never auto-acts)
+
+| Stage | Skill / Tool | Condition |
+|---|---|---|
+| 1. Snapshot | `scripts/git-triage.mjs` (read-only git report) | always |
+| 2. Hygiene | proposal: push unpushed, delete stale merged branches, prune refs, fix detached HEAD, clear dirty `main` | any hygiene item present |
+| 3. Classify | `git-triage` skill — continuation (stay) vs new task (new branch) | always |
+| 4. Propose | numbered plan: commit/push/merge/delete/branch | always — wait for approval on destructive steps |
+
+Never commit, push, merge, delete, or force without user approval. Runs before
+any code change at session start; `/git-triage` re-runs it on demand.
+
 ### 1. Commit — trigger: `pre-commit` hook + `/commit` command — HARD GATE (blocks)
 
 | Stage | Skill / Tool | Condition |
