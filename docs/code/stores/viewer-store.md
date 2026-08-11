@@ -46,8 +46,8 @@ Controls the flipbook reader state — page navigation, zoom, cover style.
 | `setReady` | `(ready: boolean) => void` | Mark viewer as ready/not-ready |
 | `nextPage` | `() => void` | Advance one page (clamped to pageCount) |
 | `prevPage` | `() => void` | Go back one page (clamped to 1) |
-| `zoomIn` | `() => void` | Increase zoom by 0.25, switches to 'custom' mode |
-| `zoomOut` | `() => void` | Decrease zoom by 0.25 (min 0.25), switches to 'custom' mode |
+| `zoomIn` | `() => void` | If in 'custom' mode: +0.25 (max 5). Otherwise: switch to 'custom' with level 1.25 |
+| `zoomOut` | `() => void` | If in 'custom' mode: −0.25 (min 0.5). Otherwise: switch to 'custom' with level 0.75 |
 
 ## Usage
 

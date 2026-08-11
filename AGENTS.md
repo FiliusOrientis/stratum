@@ -19,6 +19,7 @@
 | `pnpm housekeeping-gate`                                                                         | Post-merge: stale Active branches in BRANCHES.md, suppressions log existence                                                 |
 | `pnpm check-collocated`                                                                          | Staged new components need co-located `*.test.tsx` + `*.stories.tsx` (excl. `ui/`)                                           |
 | `pnpm prose`                                                                                     | Vale prose lint: STE100 writing rules + Slop (LLM-tell). Official ASD dictionary is local-only (`pnpm extract-ste-dictionary`) |
+| `node scripts/git-triage.mjs`                                                                    | Read-only git state snapshot: branch, dirty files, unpushed commits, stale merged branches                                     |
 | **Verification order**: `pnpm lint` → `pnpm typecheck` → `pnpm test:coverage` → `pnpm audit:all` |
 
 **Never call binaries directly** — `biome`, `tsc`, `turbo` are not on PATH. Use pnpm scripts.
@@ -31,6 +32,7 @@ Triggered by real processes, never agent discretion. Source of truth: `.agents/p
 
 | Trigger                  | Mechanism                                                         | Pipeline                                                                                                     |
 |--------------------------|-------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| session start            | `.opencode/plugin/pipelines.ts` (one-time git triage report) + `/git-triage` command | Git Triage: snapshot → hygiene proposal → continuation vs new branch (proposes, never auto-acts) |
 | `pre-commit`             | lefthook (mechanical: lint + collocation gate)                    | Commit (hard gate)                                                                                           |
 | `/commit` command        | `.opencode/command/commit.md`                                     | Commit: `shadscan-pre-commit` → biome → `ste100` (commit rules)                                                |
 | `pre-push`               | lefthook (mechanical: typecheck + coverage + audit + vuln scan)   | PR (hard gate)                                                                                               |
@@ -52,19 +54,18 @@ stratum/                   root (pnpm workspace)
 
 ## Stack (apps/web)
 
-React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.6, Tailwind v4. ShadCN/React Aria, motion/react, Zustand 5, Dexie 4, Comlink 4, pdfjs-dist 6, Minisearch 7, Vitest 4, Storybook 10, Turborepo.
+React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.6, Tailwind v4. ShadCN/React Aria, motion/react, morphicons, Zustand 5, Dexie 4, Comlink 4, pdfjs-dist 6, Minisearch 7, Vitest 4, Storybook 10, Turborepo.
 
 ## Toolchain Quirks
 
 - **unplugin-auto-import** handles React hooks — never write `import { useState } from 'react'`
-- **Phosphor thin-duotone**: `scripts/build-thin-duotone.mjs` patches dist icon defs (`opacity="0.2"` bg path) — runs automatically via root `postinstall`
 - **Biome force-ignores**: `components/ui/`, `auto-imports.d.ts`, `coverage/`, `dist/`
 - **Biome nursery rules**: `useSortedClasses` (unsafe fix) — must get user approval before applying unsafe
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
 - **Vitest**: two projects — `unit` (jsdom, with coverage) and `storybook` (playwright chromium, no thresholds)
 - **Storybook 10.5**: `@storybook/test` v8.6 (peer dep mismatch with Storybook 10 but functional). `.storybook/` config not yet created.
-- **ShadCN preset**: `b8PjeSPBdi` — style=aria-mira, base=mist, icon=phosphor, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
-- **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code) and `badge.tsx`, `skeleton.tsx` (explicit React type imports replacing UMD globals)
+- **ShadCN preset**: `b8PjeSOMUc` — style=aria-mira, base=mist, icon=lucide, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
+- **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code kept on top of the registry base)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
 - **TypeScript split**: root `typescript` is **v6** (dependency-cruiser cannot transpile TS≥7) — the app's TS7 lives in `apps/web` via `npm:typescript@7.0.2` alias. Never bump root TypeScript past 6.x or `pnpm audit:structure` dies.
 - **Audit tools**: `knip.json` (dead code config) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
@@ -78,7 +79,7 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Workers**: Comlink RPC pattern. PDF Worker + Search Worker planned, not yet built. `workers/index.ts` is empty placeholder.
 - **3D**: R3F + drei (planned, not built). Single page view only. Cover types: none/plain/basic/ridge. DearFlip vendor code at `packages/3d-engine-vendor/` (does not exist yet — reference material only)
 - **Styling**: Tailwind v4 CSS-first, `@theme` directive, semantic colors, `@utility text-2xs` (0.625rem), flat layout
-- **Icons**: `@phosphor-icons/react` — PascalCase with `Icon` suffix (for example `ArrowRightIcon`)
+- **Icons**: `lucide-react` for static icons — canonical PascalCase names (for example `ArrowRight`), no `Icon` suffix. `morphicons` (`MorphIcon`) for morphing transitions, consuming icon data from the vanilla `lucide` package — keep `lucide` and `lucide-react` versions aligned. `MorphIcon` passes `reducedMotion="user"` to match the app's reduce-motion policy (its default is `"never"`).
 - **Animation constants**: `src/lib/animation.ts` — `easeOut`, `easeInOut`, `springPreset`. All Motion animations follow Emil Kowalski rules (skills: `emil-design-eng`, `review-animations`)
 - **Data flow**: PDF import → OPFS (bytes) → PDF Worker → Dexie (metadata). Reader → Dexie → OPFS → Worker → textures + text items
 
@@ -127,7 +128,7 @@ After every code change, verify these docs are current. Update BEFORE running ve
 
 ## Skills Loaded
 
-- Auto-trigger: `thinking-tools`, `zustand-state`, `hooks-pattern`, `hoc-pattern`, `render-props-pattern`, `react-2026`, `ai-ui-patterns`, `turborepo-monorepo`, `atomic-design`, `motion-react`, `tailwind-v4`, `tanstack-query`, `react-hook-form-zod`
+- Auto-trigger: `git-triage` (session start + `/git-triage` — branch/continuation decision), `thinking-tools`, `zustand-state`, `hooks-pattern`, `hoc-pattern`, `render-props-pattern`, `react-2026`, `ai-ui-patterns`, `turborepo-monorepo`, `atomic-design`, `motion-react`, `tailwind-v4`, `tanstack-query`, `react-hook-form-zod`
 - Always-on: `ste100` (ASD-STE100 communication — responses, commits, reviews; files gated by Vale `pnpm prose`)
 - Manual: `code-review` (load for diff review), `biome` (linter errors), `github-actions` (CI/CD), `shadcn` (UI component API)
 - Interface (\`better-*\`): `better-interface` (coords the six below, full/quick mode), `better-ui`, `better-typography`, `better-colors`, `better-accessibility`, `better-layout`, `better-writing` — install: `jakubkrehel/skills`. Overlaps `impeccable`; use `better-interface` as the review entry point

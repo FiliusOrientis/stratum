@@ -1,4 +1,4 @@
-import { QuestionIcon } from '@phosphor-icons/react'
+import { CircleHelp } from 'lucide-react'
 import { AnimatePresence } from 'motion/react'
 import { useState } from 'react'
 import { Fab } from '@/components/fab'
@@ -19,7 +19,7 @@ export function KeyboardShortcutsFab({ shortcuts }: KeyboardShortcutsFabProps) {
         label="Keyboard shortcuts"
         isExpanded={isOpen}
         onPress={() => setIsOpen(open => !open)}
-        icon={<QuestionIcon aria-hidden="true" />}
+        icon={<CircleHelp aria-hidden="true" />}
       />
     </div>
   )

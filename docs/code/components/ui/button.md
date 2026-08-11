@@ -36,10 +36,10 @@ CVA (class-variance-authority) variant configuration object. Reusable for custom
 | Variant | Purpose | Visual |
 |---------|---------|--------|
 | `default` | Primary action | `bg-primary text-primary-foreground hover:bg-primary/80` |
-| `destructive` | Deletion/danger | `bg-destructive/10 text-destructive hover:bg-destructive/20` |
-| `ghost` | Minimal, no background | `hover:bg-muted hover:text-foreground` |
-| `outline` | Bordered secondary | `border-border hover:bg-input/50` |
-| `secondary` | Alternate primary | `bg-secondary text-secondary-foreground` |
+| `destructive` | Deletion/danger | `bg-destructive/10 text-destructive hover:bg-destructive/20` + `focus-visible:border-destructive/40 focus-visible:ring-destructive/20` (dark variants at /20 /30 /40) |
+| `ghost` | Minimal, no background | `hover:bg-muted hover:text-foreground` (+ `aria-expanded:bg-muted`) |
+| `outline` | Bordered secondary | `border-border hover:bg-input/50 hover:text-foreground` (+ `aria-expanded:bg-muted`, dark `bg-input/30`) |
+| `secondary` | Alternate primary | `bg-secondary text-secondary-foreground` + `hover:bg-[color-mix(...)]`, `aria-expanded` retained |
 | `link` | Hyperlink appearance | `text-primary underline-offset-4 hover:underline` |
 
 ## Sizes
@@ -73,7 +73,7 @@ CVA (class-variance-authority) variant configuration object. Reusable for custom
 - LinkButton href rendering
 - Data attributes (data-slot, data-variant, data-size)
 
-Coverage: 100% statements, 100% branches, 100% functions, 100% lines.
+Note: `components/ui/` is excluded from the coverage config (`vitest.config.ts`), so no coverage percentage is reported for this file.
 
 ## Usage Examples
 
@@ -84,9 +84,9 @@ Coverage: 100% statements, 100% branches, 100% functions, 100% lines.
 // Destructive with custom class
 <Button variant="destructive" className="w-full">Delete</Button>
 
-// Icon button with Phosphor icon
+// Icon button with Lucide icon
 <Button size="icon" aria-label="Settings">
-  <GearIcon />
+  <Gear />
 </Button>
 
 // Navigation link styled as button

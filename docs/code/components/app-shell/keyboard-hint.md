@@ -14,12 +14,12 @@ Presentational row for a single keyboard shortcut: `Press [Ctrl] + [O] to open a
 ## Structure
 
 ```
-<p> ← flex, items-center, gap-1.5, text-xs italic
+<p> ← flex, items-center, gap-1.5, text-xs
   Press  [Ctrl] + [O]  to open a file
   Press  [D]          to toggle dark mode
 ```
 
-- `Kbd` / `KbdGroup` UI primitives render the keycaps
+- `Kbd` / `KbdGroup` UI primitives render the keycaps (`Kbd variant="click"`)
 - Multi-key hints join keycaps with a non-italic `+` span
 
 ## Usage

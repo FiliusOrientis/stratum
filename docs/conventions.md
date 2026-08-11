@@ -61,7 +61,7 @@ src/components/book-viewer/
 - **Never modify primitives.** `src/components/ui/*` files are read-only. Compose with `cn()` for variants.
 - **Semantic colors only.** `bg-primary`, `text-muted-foreground` — never raw oklch values.
 - **React Aria composition.** Use `slot` prop for named children (for example `slot="close"`, `slot="title"`). No `asChild` (Radix) or `render` (Base UI) — React Aria uses slot-based composition.
-- **Icons from Phosphor only.** `@phosphor-icons/react`. Use `data-icon="inline-start"` or `data-icon="inline-end"` on icons inside Button.
+- **Icons from Lucide only.** `lucide-react` for static icons; `morphicons` (`MorphIcon`, consuming `lucide` icon data) for morphing transitions — keep `lucide` and `lucide-react` versions aligned. Use `data-icon="inline-start"` or `data-icon="inline-end"` on icons inside Button.
 
 ## Storybook (UI Board)
 

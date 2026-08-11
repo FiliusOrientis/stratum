@@ -1,4 +1,4 @@
-import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { ToolbarButton } from './reader-toolbar-button'
 
@@ -26,7 +26,7 @@ export function PageNavigation({
         isDisabled={currentPage <= 1}
         onPress={onPrev}
       >
-        <CaretLeftIcon aria-hidden="true" />
+        <ChevronLeft aria-hidden="true" />
       </ToolbarButton>
       <div className="flex items-center gap-1 text-foreground text-sm">
         <Input
@@ -51,7 +51,7 @@ export function PageNavigation({
         isDisabled={currentPage >= pageCount}
         onPress={onNext}
       >
-        <CaretRightIcon aria-hidden="true" />
+        <ChevronRight aria-hidden="true" />
       </ToolbarButton>
     </>
   )

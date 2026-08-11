@@ -17,7 +17,7 @@ Floating action button (`?` question icon, ghost) that toggles the `KeyboardShor
   <AnimatePresence>
     {isOpen && <KeyboardShortcuts shortcuts={shortcuts} />}   ← pops up above the FAB
   </AnimatePresence>
-  <Fab label="Keyboard shortcuts" aria-expanded={isOpen} onPress={toggle} icon={<QuestionIcon aria-hidden="true" />} />
+  <Fab label="Keyboard shortcuts" aria-expanded={isOpen} onPress={toggle} icon={<CircleHelp aria-hidden="true" />} />
 </div>
 ```
 
@@ -46,7 +46,7 @@ The page wraps the FAB in an `absolute bottom-0` container (`main` is `relative`
 
 ## Dependencies
 
-- `@phosphor-icons/react` — QuestionIcon
+- `lucide-react` — CircleHelp
 - `motion/react` — `AnimatePresence` for pop-up/close
 - `@/components/fab` — generic `Fab` (ghost icon button)
 - `./keyboard-shortcuts` — `KeyboardShortcuts` panel

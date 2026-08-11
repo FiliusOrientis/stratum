@@ -1,4 +1,4 @@
-import { BooksIcon, CaretDownIcon } from '@phosphor-icons/react'
+import { ChevronDown, Library } from 'lucide-react'
 import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 
 import { UrlImportPanel } from './url-import-panel'
 
-const MotionCaret = motion.create(CaretDownIcon)
+const MotionCaret = motion.create(ChevronDown)
 
 interface DocumentImportProps {
   onImport: () => void
@@ -47,7 +47,7 @@ export function DocumentImport({ onImport, onUrlImport }: DocumentImportProps) {
           )}
         >
           <div className="flex min-w-0 flex-row items-center gap-3 pr-3 text-muted-foreground">
-            <BooksIcon aria-hidden="true" weight="thin-duotone" className="size-11 shrink-0" />
+            <Library aria-hidden="true" className="size-11 shrink-0" strokeWidth={1.5} />
             <div className="min-w-0 text-left">
               <h3 className="font-heading text-base text-foreground">Open a document</h3>
               <p className="truncate font-light text-[11px]">Drop a PDF or click here to browse</p>

@@ -6,10 +6,10 @@ Wraps page content to create a full-page PDF drop target. Uses `react-dropzone` 
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onDrop` | `(file: File) => void` | Fired when a PDF file is dropped |
-| `children` | `ReactNode` | Page content rendered inside the dropzone root |
+| Prop       | Type                   | Description                                    |
+|------------|------------------------|------------------------------------------------|
+| `onDrop`   | `(file: File) => void` | Fired when a PDF file is dropped               |
+| `children` | `ReactNode`            | Page content rendered inside the dropzone root |
 
 ## Architecture
 
@@ -34,14 +34,14 @@ The hidden file input is wrapped in a `<label className="sr-only">` for screen r
 import { DropZone } from '@/components/app-shell'
 
 <DropZone onDrop={(file) => handleFile(file)}>
-  <EmptyState onImport={...} onOpenUrl={...} />
+  <EmptyState onImport={...} onUrlImport={...} />
 </DropZone>
 ```
 
 ## Styling
 
-- Semi-transparent background: `bg-background/60 backdrop-blur-sm`
-- Dashed border: `border-2 border-dashed border-border`
+- Overlay root: `fixed inset-0 z-50`, semi-transparent background `bg-background/60 backdrop-blur-sm`
+- Overlay content: centered column with `FileText` (`size-8`, muted) + "Drop your PDF here" copy inside a `rounded-xl border-2 border-dashed border-border p-12`
 - Motion (`AnimatePresence` + `motion.div`) for the overlay fade entrance/exit (150ms, easeOut)
 
 ## Dependencies

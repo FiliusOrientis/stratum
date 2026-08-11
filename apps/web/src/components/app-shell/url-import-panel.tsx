@@ -1,4 +1,4 @@
-import { ArrowRightIcon, ClipboardIcon, SpinnerGapIcon, XIcon } from '@phosphor-icons/react'
+import { ArrowRight, Clipboard, Loader2, X } from 'lucide-react'
 import { motion } from 'motion/react'
 import type { RefObject, SubmitEvent } from 'react'
 import { FieldError } from '@/components/ui/field-error'
@@ -26,13 +26,13 @@ export interface UrlImportPanelProps {
 
 function importAddonIcon(urlError: string | null, urlValue: string, isLoading: boolean) {
   if (urlError) {
-    return <XIcon aria-hidden="true" />
+    return <X aria-hidden="true" />
   }
   if (isLoading) {
-    return <SpinnerGapIcon aria-hidden="true" className="-mr-0.5 size-4 animate-spin" />
+    return <Loader2 aria-hidden="true" className="-mr-0.5 size-4 animate-spin" />
   }
   if (urlValue.trim()) {
-    return <ArrowRightIcon aria-hidden="true" />
+    return <ArrowRight aria-hidden="true" />
   }
   return null
 }
@@ -59,7 +59,7 @@ function buildActionProps(
     size: 'xs' as const,
     'aria-label': 'Paste URL from clipboard',
     onPress: handlePaste,
-    children: <ClipboardIcon aria-hidden="true" />,
+    children: <Clipboard aria-hidden="true" />,
   } as const
 }
 

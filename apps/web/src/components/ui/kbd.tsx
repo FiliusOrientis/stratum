@@ -26,7 +26,7 @@ function Kbd({ variant = 'default', className, ...props }: KbdProps) {
         }}
         transition={{ type: 'spring', stiffness: 500, damping: 25, mass: 0.5 }}
         className={cn(
-          'inline-flex h-5 w-fit min-w-5 cursor-pointer select-none items-center justify-center gap-1 rounded-sm border border-border bg-muted px-1 font-sans text-xs font-medium not-italic text-neutral-600 dark:text-muted-foreground',
+          'inline-flex h-5 w-fit min-w-5 cursor-pointer select-none items-center justify-center gap-1 rounded-sm border border-border bg-muted px-1 font-sans text-xs font-semibold not-italic text-neutral-600 dark:text-muted-foreground',
           className,
         )}
         {...props}

@@ -25,7 +25,7 @@ Top-level layout wrapper. Renders header (optional), main content, and the Theme
 
 ## Keyboard
 
-- **`d`** — toggle dark/light theme (ignores input/textarea/select/contenteditable targets)
+- **`d`** — toggle dark/light theme (ignores `input` and `textarea` targets)
 
 ## Usage
 

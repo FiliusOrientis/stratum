@@ -1,12 +1,12 @@
 import {
-  ArrowFatLineDownIcon,
-  ArrowFatLineUpIcon,
-  CornersOutIcon,
-  DotsThreeIcon,
-  EyeClosedIcon,
-  MagnifyingGlassMinusIcon,
-  MagnifyingGlassPlusIcon,
-} from '@phosphor-icons/react'
+  ArrowDownToLine,
+  ArrowUpToLine,
+  Ellipsis,
+  EyeOff,
+  Maximize,
+  ZoomIn,
+  ZoomOut,
+} from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { Button } from '@/components/ui/button'
 import {
@@ -51,14 +51,14 @@ export function ToolbarControls({ isTop }: { isTop: boolean }) {
         />
         <Separator variant="soft" orientation="vertical" className="h-7" />
         <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={toggleFullscreen}>
-          <CornersOutIcon aria-hidden="true" />
+          <Maximize aria-hidden="true" />
         </ToolbarButton>
         <Separator variant="soft" orientation="vertical" className="h-7" />
         <ToolbarButton label="Zoom out" size="icon" variant="ghost" onPress={zoomOut}>
-          <MagnifyingGlassMinusIcon aria-hidden="true" />
+          <ZoomOut aria-hidden="true" />
         </ToolbarButton>
         <ToolbarButton label="Zoom in" size="icon" variant="ghost" onPress={zoomIn}>
-          <MagnifyingGlassPlusIcon aria-hidden="true" />
+          <ZoomIn aria-hidden="true" />
         </ToolbarButton>
         <Separator variant="soft" orientation="vertical" className="h-7" />
         <ToolbarButton
@@ -67,20 +67,16 @@ export function ToolbarControls({ isTop }: { isTop: boolean }) {
           variant="ghost"
           onPress={() => setPosition(isTop ? 'bottom' : 'top')}
         >
-          {isTop ? (
-            <ArrowFatLineDownIcon aria-hidden="true" />
-          ) : (
-            <ArrowFatLineUpIcon aria-hidden="true" />
-          )}
+          {isTop ? <ArrowDownToLine aria-hidden="true" /> : <ArrowUpToLine aria-hidden="true" />}
         </ToolbarButton>
         <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={hide}>
-          <EyeClosedIcon aria-hidden="true" />
+          <EyeOff aria-hidden="true" />
         </ToolbarButton>
       </div>
 
       <div className="flex w-full items-center justify-between gap-2 md:hidden">
         <ToolbarButton label="Fullscreen" size="icon" variant="ghost" onPress={toggleFullscreen}>
-          <CornersOutIcon aria-hidden="true" />
+          <Maximize aria-hidden="true" />
         </ToolbarButton>
 
         <div className="flex flex-1 items-center justify-center gap-2">
@@ -95,28 +91,28 @@ export function ToolbarControls({ isTop }: { isTop: boolean }) {
 
         <DropdownMenuTrigger>
           <Button size="icon" variant="ghost" aria-label="More controls">
-            <DotsThreeIcon aria-hidden="true" weight="bold" />
+            <Ellipsis aria-hidden="true" />
           </Button>
           <DropdownMenu placement="bottom end">
             <DropdownMenuItem onAction={zoomIn}>
-              <MagnifyingGlassPlusIcon aria-hidden="true" />
+              <ZoomIn aria-hidden="true" />
               Zoom in
             </DropdownMenuItem>
             <DropdownMenuItem onAction={zoomOut}>
-              <MagnifyingGlassMinusIcon aria-hidden="true" />
+              <ZoomOut aria-hidden="true" />
               Zoom out
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onAction={() => setPosition(isTop ? 'bottom' : 'top')}>
               {isTop ? (
-                <ArrowFatLineDownIcon aria-hidden="true" />
+                <ArrowDownToLine aria-hidden="true" />
               ) : (
-                <ArrowFatLineUpIcon aria-hidden="true" />
+                <ArrowUpToLine aria-hidden="true" />
               )}
               {isTop ? 'Move to bottom' : 'Move to top'}
             </DropdownMenuItem>
             <DropdownMenuItem onAction={hide}>
-              <EyeClosedIcon aria-hidden="true" />
+              <EyeOff aria-hidden="true" />
               Hide toolbar
             </DropdownMenuItem>
           </DropdownMenu>

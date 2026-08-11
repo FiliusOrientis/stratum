@@ -2,14 +2,14 @@
 
 **File**: `apps/web/src/components/ui/separator.tsx`
 
-Visual divider line. ShadCN React Aria component with CVA variants. Renders consistently across contexts by using CSS `border` instead of `background-color`.
+Visual divider line. ShadCN React Aria component with CVA variants. Renders a 1px line via `bg-border` on `h-px`/`w-px` boxes.
 
 ## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Line direction |
-| `variant` | `'default' \| 'muted' \| 'soft' \| 'faint'` | `'default'` | Border opacity intensity |
+| `variant` | `'default' \| 'muted' \| 'soft' \| 'faint'` | `'default'` | Line opacity intensity |
 
 Additional props are passed through to `SeparatorPrimitive` (React Aria).
 
@@ -24,12 +24,13 @@ Additional props are passed through to `SeparatorPrimitive` (React Aria).
 
 ## Rendering
 
-- **Horizontal**: Uses `border-t` (top border). Width fills container via `w-full`.
-- **Vertical**: Uses `border-r` (right border). Height fills container via `self-stretch`.
+- **Horizontal**: `h-px w-full` (1px line, full width) via `aria-[orientation=horizontal]` selectors
+- **Vertical**: `w-px self-stretch` (1px line, container height) via `aria-[orientation=vertical]` selectors
+- **`<hr>` element**: `h-px w-full` via `[:is(hr)]` selector
 
-## Why border instead of bg
+## Line color
 
-The ShadCN default Separator uses `bg-border` with `h-px`/`w-px` to render the line. This causes inconsistent visual height across zoom levels and layout contexts (see [shadcn-ui/ui#3870](https://github.com/shadcn-ui/ui/discussions/3870)). The fix: use CSS `border-t`/`border-r` with `border-border` color, which renders pixel-perfect at any zoom.
+Uses `bg-border` (with `h-px`/`w-px` for the line), the standard ShadCN approach. Opacity is modulated per variant via `bg-border/75`, `bg-border/50`, `bg-border/25`.
 
 ## Usage
 
