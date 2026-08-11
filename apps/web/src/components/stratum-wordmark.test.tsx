@@ -11,7 +11,8 @@ describe('StratumWordmark', () => {
 
   it('shows the light image in light mode', () => {
     render(<StratumWordmark />)
-    expect(screen.getByAltText('Stratum')).toHaveClass('dark:hidden')
+    const images = screen.getAllByAltText('Stratum')
+    expect(images[0]).toHaveClass('dark:hidden')
   })
 
   it('forwards className to the wrapper', () => {
