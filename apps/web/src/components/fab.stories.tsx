@@ -5,7 +5,6 @@ import { Fab } from './fab'
 const meta: Meta<typeof Fab> = {
   title: 'Shared/Fab',
   component: Fab,
-  parameters: { layout: 'centered' },
   tags: ['autodocs'],
 }
 

@@ -22,9 +22,8 @@ function NavWrapper({ currentPage: initial }: { currentPage: number }) {
 }
 
 const meta: Meta<typeof PageNavigation> = {
-  title: 'Reader Toolbar/PageNavigation',
+  title: 'App Shell/ReaderToolbar/PageNavigation',
   component: PageNavigation,
-  parameters: { layout: 'centered' },
   decorators: [
     Story => (
       <div className="flex items-center gap-2 p-4">

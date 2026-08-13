@@ -1,7 +1,29 @@
 import { withThemeByClassName } from '@storybook/addon-themes'
-import type { Preview, Renderer } from '@storybook/react-vite'
+import type { Decorator, Preview, Renderer } from '@storybook/react-vite'
 
 import '../src/styles/globals.css'
+
+/**
+ * Docs layout rule: stories that show a component/UI element get padding and
+ * are centered. Fullscreen stories (app-level layouts) render edge-to-edge.
+ * Canvas fills the viewport height; docs pages pad without forcing height.
+ */
+const withDocsLayout: Decorator = (Story, context) => {
+  if (context.parameters.layout === 'fullscreen') {
+    return <Story />
+  }
+  return (
+    <div
+      className={
+        context.viewMode === 'docs'
+          ? 'flex w-full items-center justify-center p-8'
+          : 'flex min-h-screen w-full items-center justify-center p-8'
+      }
+    >
+      <Story />
+    </div>
+  )
+}
 
 const preview: Preview = {
   parameters: {
@@ -23,6 +45,7 @@ const preview: Preview = {
       },
       defaultTheme: 'dark',
     }),
+    withDocsLayout,
   ],
 }
 

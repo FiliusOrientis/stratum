@@ -30,7 +30,6 @@ function PanelWrapper(props: Partial<ComponentProps<typeof UrlImportPanel>>) {
 const meta: Meta<typeof UrlImportPanel> = {
   title: 'App Shell/UrlImportPanel',
   component: UrlImportPanel,
-  parameters: { layout: 'centered' },
   tags: ['autodocs'],
 }
 

@@ -64,6 +64,7 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
 - **Vitest**: two projects — `unit` (jsdom, with coverage) and `storybook` (playwright chromium, no thresholds)
 - **Storybook 10.5**: `@storybook/test` v8.6 has no 10.x line — its latest (8.6.x) peers `storybook@^8.6.15`, so pnpm reports an unmet peer with Storybook 10. Functional; unfixable upstream (the package never ships a matching major).
+- **Storybook React Aria focus workaround**: `.storybook/preview-head.html` patches the `HTMLElement.prototype.focus` getter before Storybook installs its own (storybookjs/storybook#35528) — React Aria's `setupGlobalFocusEvents` reads focus off the prototype and throws otherwise. Remove when the upstream fix ships.
 - **ShadCN preset**: `b8PjeSOMUc` — style=aria-mira, base=mist, icon=lucide, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code kept on top of the registry base)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
