@@ -34,12 +34,11 @@ Saves a PDF file to OPFS.
 ## Usage
 
 ```ts
-import { savePdf } from '@/lib/storage'
+import { importPdf } from '@/lib/pdf-import'
 
-// On PDF import
+// On PDF import — computes the fingerprint and saves to OPFS
 const file = event.target.files[0]
-const fingerprint = await computeSha256(file) // from pdf-import
-await savePdf(fingerprint, file)
+await importPdf(file)
 ```
 
 ## Limitations

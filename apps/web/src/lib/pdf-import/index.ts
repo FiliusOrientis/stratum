@@ -19,7 +19,7 @@ export async function importPdf(file: File): Promise<PdfMetadata> {
   }
 }
 
-export async function computeSha256(file: File): Promise<string> {
+async function computeSha256(file: File): Promise<string> {
   const bytes = await file.arrayBuffer()
   const hash = await crypto.subtle.digest('SHA-256', bytes)
   const hex = Array.from(new Uint8Array(hash))

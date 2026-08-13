@@ -87,7 +87,7 @@ Mechanical part runs in the hook (blocking); skill stages run in `/commit`.
 | 6. Convention | co-located test + story presence (`pnpm check-collocated` gate in pre-commit) | new component |
 | 7. Counter-guard | `ponytail-review` (delete-list report) | craft stages ran |
 
-### 5. Architecture — trigger: staged files in `stores/ hooks/ lib/ workers/ routes/` (watcher or `/pipeline`)
+### 5. Architecture — trigger: staged files in `stores/ hooks/ lib/ routes/` (watcher or `/pipeline`)
 
 | Stage | Skill / Tool | Condition |
 |---|---|---|

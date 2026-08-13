@@ -54,7 +54,7 @@ stratum/                   root (pnpm workspace)
 
 ## Stack (apps/web)
 
-React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.6, Tailwind v4. ShadCN/React Aria, motion/react, morphicons, Zustand 5, Dexie 4, Comlink 4, pdfjs-dist 6, Minisearch 7, Vitest 4, Storybook 10, Turborepo.
+React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.8, Tailwind v4. ShadCN/React Aria, motion/react, morphicons, Zustand 5, Vitest 4, Storybook 10, Turborepo.
 
 ## Toolchain Quirks
 
@@ -63,25 +63,25 @@ React 19, Vite 7, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Biome nursery rules**: `useSortedClasses` (unsafe fix) — must get user approval before applying unsafe
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
 - **Vitest**: two projects — `unit` (jsdom, with coverage) and `storybook` (playwright chromium, no thresholds)
-- **Storybook 10.5**: `@storybook/test` v8.6 (peer dep mismatch with Storybook 10 but functional). `.storybook/` config not yet created.
+- **Storybook 10.5**: `@storybook/test` v8.6 has no 10.x line — its latest (8.6.x) peers `storybook@^8.6.15`, so pnpm reports an unmet peer with Storybook 10. Functional; unfixable upstream (the package never ships a matching major).
 - **ShadCN preset**: `b8PjeSOMUc` — style=aria-mira, base=mist, icon=lucide, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code kept on top of the registry base)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
 - **TypeScript split**: root `typescript` is **v6** (dependency-cruiser cannot transpile TS≥7) — the app's TS7 lives in `apps/web` via `npm:typescript@7.0.2` alias. Never bump root TypeScript past 6.x or `pnpm audit:structure` dies.
-- **Audit tools**: `knip.json` (dead code config) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
+- **Audit tools**: `knip.json` (dead code config — `ignoreBinaries: exist` covers the `if exist` Windows syntax in the `clean` script; `pdfjs-dist` ignored as it's used by `scripts/extract-ste-dictionary.mjs`, outside knip's scan) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
 - **CI**: Node 24, pnpm@9, Ubuntu. Jobs: commitlint (PR only), lint, typecheck, test:coverage, audit. Runs in parallel.
 
 ## Architecture
 
 - **State**: 4 Zustand stores — `catalogStore`, `viewerStore`, `toolbarStore`, `settingsStore`. No context, no prop drilling.
 - **Hooks**: domain logic in `src/hooks/` — `use-url-import`, `use-file-import`, `use-keyboard-shortcut`. Co-located tests.
-- **Storage**: OPFS (binary PDFs) + Dexie (1 table: `books`). `lib/storage/db.ts` + `lib/storage/opfs.ts`
-- **Workers**: Comlink RPC pattern. PDF Worker + Search Worker planned, not yet built. `workers/index.ts` is empty placeholder.
-- **3D**: R3F + drei (planned, not built). Single page view only. Cover types: none/plain/basic/ridge. DearFlip vendor code at `packages/3d-engine-vendor/` (does not exist yet — reference material only)
+- **Storage**: OPFS (binary PDFs). Structured metadata is in-memory only — Dexie is planned, not installed. `lib/storage/opfs.ts` + `lib/storage/types.ts`
+- **Workers**: Comlink RPC pattern (planned — deps not installed). PDF Worker + Search Worker when the flipbook reader lands.
+- **3D**: R3F + drei (planned — deps not installed). Single page view only. Cover types: none/plain/basic/ridge. DearFlip vendor code at `packages/3d-engine-vendor/` (does not exist yet — reference material only)
 - **Styling**: Tailwind v4 CSS-first, `@theme` directive, semantic colors, `@utility text-2xs` (0.625rem), flat layout
 - **Icons**: `lucide-react` for static icons — canonical PascalCase names (for example `ArrowRight`), no `Icon` suffix. `morphicons` (`MorphIcon`) for morphing transitions, consuming icon data from the vanilla `lucide` package — keep `lucide` and `lucide-react` versions aligned. `MorphIcon` passes `reducedMotion="user"` to match the app's reduce-motion policy (its default is `"never"`).
 - **Animation constants**: `src/lib/animation.ts` — `easeOut`, `easeInOut`, `springPreset`. All Motion animations follow Emil Kowalski rules (skills: `emil-design-eng`, `review-animations`)
-- **Data flow**: PDF import → OPFS (bytes) → PDF Worker → Dexie (metadata). Reader → Dexie → OPFS → Worker → textures + text items
+- **Data flow** (target): PDF import → OPFS (bytes) → PDF Worker → Dexie (metadata). Reader → Dexie → OPFS → Worker → textures + text items. Current: import → OPFS → in-memory catalog.
 
 ## Component Conventions
 

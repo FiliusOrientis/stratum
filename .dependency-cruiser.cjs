@@ -21,8 +21,7 @@ module.exports = {
       severity: 'warn',
       from: {
         orphan: true,
-        pathNot:
-          '^apps/web/src/(workers/index|lib/index|test/setup|auto-imports|vite-env|components/(catalog|book-viewer|ai-chat)/index)\\.(d\\.)?ts$',
+        pathNot: '^apps/web/src/(test/setup|auto-imports|vite-env)\\.(d\\.)?ts$',
       },
       to: {},
     },
