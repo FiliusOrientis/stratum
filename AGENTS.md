@@ -63,14 +63,14 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Biome nursery rules**: `useSortedClasses` (unsafe fix) — must get user approval before applying unsafe
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
 - **Vitest**: two projects — `unit` (jsdom, with coverage) and `storybook` (playwright chromium, no thresholds)
-- **Storybook 10.5**: `@storybook/test` v8.6 has no 10.x line — its latest (8.6.x) peers `storybook@^8.6.15`, so pnpm reports an unmet peer with Storybook 10. Functional; unfixable upstream (the package never ships a matching major).
-- **Storybook React Aria focus workaround**: `.storybook/preview-head.html` patches the `HTMLElement.prototype.focus` getter before Storybook installs its own (storybookjs/storybook#35528) — React Aria's `setupGlobalFocusEvents` reads focus off the prototype and throws otherwise. Remove when the upstream fix ships.
+- **Storybook 10.5**: `@storybook/test` v8.6 has no 10.x line — its latest (8.6.x) peers `storybook@^8.6.15`, so pnpm reports an unmet peer with Storybook 10. Functional; unfixable upstream (the package never ships a version compatible with Storybook 10).
+- **Storybook React Aria `focus` workaround**: `.storybook/preview-head.html` patches the `HTMLElement.prototype.focus` getter before Storybook installs its own (storybookjs/storybook#35528) — React Aria's `setupGlobalFocusEvents` reads the `focus` getter off the prototype and throws otherwise. Remove when the upstream fix ships.
 - **Storybook docs theme override**: `.storybook/preview.css` forces the docs environment (containers, prose, args table, preview frame) to use the app's CSS variables — the docs addon injects hardcoded light styles that would otherwise stay light in dark mode. The overrides need `!important` (the addon's CSS-in-JS loads after this file); `noImportantStyles` is disabled for this file in `biome.json`.
 - **ShadCN preset**: `b8PjeSOMUc` — style=aria-mira, base=mist, icon=lucide, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code kept on top of the registry base)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
 - **TypeScript split**: root `typescript` is **v6** (dependency-cruiser cannot transpile TS≥7) — the app's TS7 lives in `apps/web` via `npm:typescript@7.0.2` alias. Never bump root TypeScript past 6.x or `pnpm audit:structure` dies.
-- **Audit tools**: `knip.json` (dead code config — `ignoreBinaries: exist` covers the `if exist` Windows syntax in the `clean` script; `pdfjs-dist` ignored as it's used by `scripts/extract-ste-dictionary.mjs`, outside knip's scan) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
+- **Audit tools**: `knip.json` (dead code config — `ignoreBinaries: exist` covers the `if exist` Windows syntax in the `clean` script; `pdfjs-dist` ignored because it is used by `scripts/extract-ste-dictionary.mjs`, outside knip's scan) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
 - **CI**: Node 24, pnpm@9, Ubuntu. Jobs: commitlint (PR only), lint, typecheck, test:coverage, audit. Runs in parallel.
 
 ## Architecture
@@ -81,7 +81,7 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Workers**: Comlink RPC pattern (planned — deps not installed). PDF Worker + Search Worker when the flipbook reader lands.
 - **3D**: R3F + drei (planned — deps not installed). Single page view only. Cover types: none/plain/basic/ridge. DearFlip vendor code at `packages/3d-engine-vendor/` (does not exist yet — reference material only)
 - **Styling**: Tailwind v4 CSS-first, `@theme` directive, semantic colors, `@utility text-2xs` (0.625rem), flat layout
-- **Icons**: `lucide-react` for static icons — canonical PascalCase names (for example `ArrowRight`), no `Icon` suffix. `morphicons` (`MorphIcon`) for morphing transitions, consuming icon data from the vanilla `lucide` package — keep `lucide` and `lucide-react` versions aligned. `MorphIcon` passes `reducedMotion="user"` to match the app's reduce-motion policy (its default is `"never"`).
+- **Icons**: `lucide-react` for static icons — canonical PascalCase names (for example `ArrowRight`), no `Icon` suffix. `morphicons` (`MorphIcon`) for morphing transitions, consuming icon data from the vanilla `lucide` package — keep `lucide` and `lucide-react` versions aligned. `MorphIcon` passes `reducedMotion="user"` to follow the app's motion-preference policy (its default is `"never"`).
 - **Animation constants**: `src/lib/animation.ts` — `easeOut`, `easeInOut`, `springPreset`. All Motion animations follow Emil Kowalski rules (skills: `emil-design-eng`, `review-animations`)
 - **Data flow** (target): PDF import → OPFS (bytes) → PDF Worker → Dexie (metadata). Reader → Dexie → OPFS → Worker → textures + text items. Current: import → OPFS → in-memory catalog.
 
@@ -127,6 +127,8 @@ After every code change, verify these docs are current. Update BEFORE running ve
 | `docs/conventions.md`  | New patterns, naming rules, file structure rules               |
 | `docs/code/**`         | Per-module docs — update when module exports/interfaces change |
 | `AGENTS.md`            | New toolchain quirks, commands, or conventions                 |
+
+**STE100 gate boundary**: Vale (`pnpm prose`) enforces ASD-STE100 on `AGENTS.md`, `CONTEXT.md`, `CHANGELOG.md`, `docs/architecture.md`, `docs/conventions.md`, `docs/lint-suppressions.md`, and `.agents/pipelines.md`. The Vale gate does not cover `docs/code/**`, `docs/agents/**`, `.github/**`, `.agents/skills/**`, `.opencode/**`, or the wiki — these docs must follow STE100 spirit. When the best wording cannot follow the STE100 rule (technical identifiers such as `focus`, `reduce-motion`, `reducedMotion`, semver `major`), write the best wording and log it in `.local/ste100-exceptions.md` (git-ignored — never committed).
 
 ## Skills Loaded
 

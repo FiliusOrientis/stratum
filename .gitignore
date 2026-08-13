@@ -45,6 +45,9 @@ pnpm-debug.log*
 # coverage reports
 coverage/
 
+# Local-only STE100 exceptions (never committed)
+.local/
+
 # ASD-STE100 official dictionary (copyright) — extracted locally, never committed
 styles/ste100/
 styles/DictionaryFull/
