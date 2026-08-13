@@ -36,5 +36,12 @@
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "ws": "^8.21.0",
+      "http-proxy-middleware": "^3.0.7",
+      "qs": "^6.15.2"
+    }
   }
 }

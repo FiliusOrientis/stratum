@@ -63,7 +63,7 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Biome nursery rules**: `useSortedClasses` (unsafe fix) — must get user approval before applying unsafe
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
 - **Vitest**: one jsdom project with v8 coverage (thresholds: 80% lines/funcs, 70% branches). `pnpm test` runs it; no browser project.
-- **React Cosmos**: UI board (`pnpm cosmos`, port 5000). Co-located `*.fixture.tsx` files; `src/cosmos.decorator.tsx` applies the dark class to all fixtures. `cosmos.imports.ts` is generated at boot — git-ignored.
+- **React Cosmos**: UI board (`pnpm cosmos`, port 5000). Co-located `*.fixture.tsx` files; `src/cosmos.decorator.tsx` applies the dark class to all fixtures. `cosmos.imports.ts` is generated at boot — git-ignored. Root `pnpm.overrides` pin `ws`, `http-proxy-middleware`, and `qs` past high-severity advisories (react-cosmos pins vulnerable versions). Remove when react-cosmos ships patched ranges.
 - **ShadCN preset**: `b8PjeSOMUc` — style=aria-mira, base=mist, icon=lucide, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code kept on top of the registry base)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.

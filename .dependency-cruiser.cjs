@@ -21,7 +21,8 @@ module.exports = {
       severity: 'warn',
       from: {
         orphan: true,
-        pathNot: '^apps/web/src/(test/setup|auto-imports|vite-env|cosmos\\.decorator)\\.(d\\.)?tsx?$',
+        pathNot:
+          '^apps/web/src/(test/setup|auto-imports|vite-env|cosmos\\.decorator)\\.(d\\.)?tsx?$',
       },
       to: {},
     },
