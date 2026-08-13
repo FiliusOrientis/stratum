@@ -5,11 +5,10 @@
 ```
 stratum/
 ├── apps/
-│   ├── web/          # React 19 SPA (Vite 7, React Router 8)
+│   ├── web/          # React 19 SPA (Vite 8, React Router 8)
 │   │   └── src/
 │   │       ├── routes/        # Route-level components (Home, Catalog, etc.)
-│   │       ├── components/    # Feature components (book-viewer, ai-chat, catalog)
-│   │       ├── workers/       # Comlink web workers (PDF, search)
+│   │       ├── components/    # Feature components (app-shell, ui, shared)
 │   │       ├── stores/        # Zustand stores (viewer, toolbar, catalog, settings)
 │   │       └── lib/           # Utilities, helpers, types
 │   └── api/          # Vercel Serverless Functions
@@ -35,6 +34,7 @@ stratum/
 └─────────────┘                   └──────────────┘
 ```
 
+Planned — no worker code or deps exist yet. When built:
 - Comlink wraps worker communication as typed async function calls
 - No raw `postMessage` anywhere
 - Worker lives in `apps/web/src/workers/`
@@ -62,6 +62,8 @@ Zustand stores (no context, no prop drilling):
 
 ## Data Architecture
 
+Current: PDF import → OPFS (bytes) → in-memory catalog (no persistence layer yet).
+
 ```
 ┌──────────┐  raw bytes    ┌──────────┐  parsed   ┌───────────┐
 │   OPFS   │ ◄───────────► │  Worker  │ ────────► │  Dexie    │
@@ -69,17 +71,18 @@ Zustand stores (no context, no prop drilling):
 └──────────┘               └──────────┘           └───────────┘
 ```
 
-- OPFS: Origin Private File System for binary PDF storage
-- Dexie.js: 1-table IndexedDB wrapper (`books`)
+Target (Dexie not installed yet):
+- OPFS: Origin Private File System for binary PDF storage (current)
+- Dexie.js: 1-table IndexedDB wrapper (`books`) — planned
 - Dual search: client IndexedDB FTS + serverless HuggingFace embeddings (planned)
 
 ## Scaffolding (Phase 2)
 
 Phase 2 established the `apps/web` skeleton:
-- Vite 7 + React 19 + React Router 8 (library mode)
+- Vite 8 + React 19 + React Router 8 (library mode)
 - `createBrowserRouter` + `RouterProvider` for routing
 - TypeScript 7 root config extended by per-app configs
-- Biome 2.5.6 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
+- Biome 2.5.8 linewidth 100 — naming convention relaxed to allow React components (PascalCase)
 
 ## Decisions Made
 
@@ -95,7 +98,7 @@ Two automated gates enforce the structure in this document. Run via `pnpm audit`
 
 ### Dead code (knip — `knip.json`)
 
-Finds unused files, dependencies, exports, and binaries. `knip.json` documents the intentional exclusions (planned roadmap deps, vendored `ui/` registry, placeholder barrels, manual scripts).
+Finds unused files, dependencies, exports, and binaries. `knip.json` documents the intentional exclusions (vendored `ui/` registry, manual scripts).
 
 ### Structure rules (dependency-cruiser — `.dependency-cruiser.cjs`)
 

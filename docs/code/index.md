@@ -64,7 +64,6 @@ ShadCN React Aria components. Read-only — never modify directly.
 
 | Component Directory | Files | Purpose |
 |--------------------|-------|---------|
-| `book-viewer/` | — | R3F flipbook scene (placeholder — not yet built) |
 | `app-shell/` | | |
 | `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper (MotionConfig, ThemeToggle, d-key shortcut) |
 | `collapse-toggle.tsx` | — | Shared caret pill for edge-attached expand/collapse (toolbar trigger); vertical flip animation on toggle |
@@ -118,11 +117,7 @@ Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (15).
 
 ## Workers (`workers/`)
 
-| File | Doc | Purpose |
-|------|-----|---------|
-| `index.ts` | — | Comlink placeholder (empty) |
-| `pdf.worker.ts` | — | Comlink RPC: pdfjs-dist document loading (not yet built) |
-| `search.worker.ts` | — | Comlink RPC: MiniSearch indexing (not yet built) |
+Planned — the directory does not exist yet. Comlink RPC: `pdf.worker.ts` (pdfjs-dist document loading) and `search.worker.ts` (MiniSearch indexing) land with the flipbook reader.
 
 ## Lib (`lib/`)
 
@@ -130,7 +125,7 @@ Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (15).
 |------|-----|---------|
 | `utils.ts` | `lib/utils.md` | `cn()` className merge utility |
 | `animation.ts` | — | Animation constants: `easeOut`, `easeInOut`, `springPreset`, `toolbarAnimation`, `fadeUp` |
-| `storage/db.ts` | `lib/storage/db.md` | Dexie schema (books table) |
+| `storage/types.ts` | — | `BookEntity` interface (catalog entity, `opfsPath` field) |
 | `storage/opfs.ts` | `lib/storage/opfs.md` | OPFS binary PDF save (`savePdf`) |
 | `pdf-import/index.ts` | `lib/pdf-import/index.md` | PDF import pipeline (fingerprint + OPFS save) |
 

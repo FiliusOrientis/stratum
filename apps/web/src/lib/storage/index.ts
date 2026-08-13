@@ -1,2 +1,2 @@
-export { type BookEntity, db } from './db'
 export { savePdf } from './opfs'
+export type { BookEntity } from './types'

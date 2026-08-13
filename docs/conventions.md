@@ -17,8 +17,7 @@ Supplementary to `biome.json` enforcement. All Biome rules apply; these cover wh
 ```
 src/
 ├── routes/        # Route-level components (1 per route)
-├── components/    # Feature components (book-viewer, ai-chat, catalog)
-├── workers/       # Comlink web workers
+├── components/    # Feature components (app-shell, ui, shared)
 ├── stores/        # Zustand stores
 └── lib/           # Utilities, helpers, types
 ```
@@ -26,12 +25,12 @@ src/
 ## Component Structure
 
 ```
-src/components/book-viewer/
-├── book-viewer.tsx
-├── book-viewer.types.ts
-├── book-viewer.test.tsx
-├── book-spine.tsx
-├── book-page.tsx
+src/components/app-shell/
+├── app-layout.tsx
+├── empty-state.tsx
+├── empty-state.types.ts
+├── empty-state.test.tsx
+├── document-import.tsx
 └── index.ts          # barrel export
 ```
 
@@ -49,6 +48,8 @@ src/components/book-viewer/
 - Store actions prefer immer-style mutations over spread returns
 
 ## Comlink Workers
+
+Planned pattern — no worker code or deps yet. When the flipbook reader lands:
 
 - Worker entry file exports typed API: `export const api = { ... }`
 - Main thread gets typed proxy: `const worker = wrap(new Worker(...))`

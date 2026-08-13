@@ -4,13 +4,13 @@ Shared language between developers and AI. Use these terms — never synonyms.
 
 ## Subsystems
 
-- **Flipbook Engine** — @react-three/fiber (R3F) 3D book renderer. Single-page view only. No 2D/slider/reader modes.
-- **3D Bookshelf** — R3F render of the user's book catalog. Books as 3D meshes with cover textures.
-- **Projected Text Layer** — HTML overlay on top of the R3F canvas. Extracted pdfjs-dist text items positioned in screen-space, synced to the 3D page transform via `Vector3.project()`. Enables text selection, copying, and highlighting without interfering with canvas interaction.
+- **Flipbook Engine** — @react-three/fiber (R3F) 3D book renderer (planned — deps not installed). Single-page view only. No 2D/slider/reader modes.
+- **3D Bookshelf** — R3F render of the user's book catalog (planned — deps not installed). Books as 3D meshes with cover textures.
+- **Projected Text Layer** — HTML overlay on top of the R3F canvas. Extracted pdfjs-dist text items positioned in screen-space (planned — deps not installed). Enables text selection, copying, and highlighting without interfering with canvas interaction.
 - **AI Assistant** — Gemini-powered chat with streaming, text-to-speech.
-- **Storage** — IndexedDB (Dexie) for structured metadata + OPFS for binary PDFs.
-- **PDF Worker** — Dedicated Web Worker (Comlink) for pdfjs-dist document parsing, text extraction, and outline parsing.
-- **Search Worker** — Dedicated Web Worker (Comlink) for MiniSearch full-text indexing and queries.
+- **Storage** — OPFS for binary PDFs; structured metadata is in-memory only (Dexie planned).
+- **PDF Worker** — Dedicated Web Worker (Comlink) for pdfjs-dist document parsing (planned — deps not installed).
+- **Search Worker** — Dedicated Web Worker (Comlink) for MiniSearch full-text indexing (planned — deps not installed).
 
 ## Viewer Model (3D-Only)
 
@@ -29,7 +29,7 @@ Shared language between developers and AI. Use these terms — never synonyms.
 | Page                 | A single sheet within a Book                                                |
 | Shelf                | The 3D bookshelf view showing the user's Book collection                    |
 | Viewer               | The R3F `<Canvas>` and scene graph rendering the Book                       |
-| Catalog              | The user's collection of Books (local-first, stored in Dexie + OPFS)        |
+| Catalog              | The user's collection of Books (local-first; OPFS + in-memory catalog, Dexie planned)  |
 | Cover                | The 3D hardcover mesh (type: none/plain/basic/ridge)                        |
 | Page Turn            | The Bezier-curve page-flip animation between consecutive pages              |
 | Projected Text Layer | Transparent HTML overlay mapping extracted PDF text to 3D page screen-space |
@@ -46,10 +46,14 @@ Shared language between developers and AI. Use these terms — never synonyms.
 
 ## Workers (Comlink RPC)
 
+Planned — deps not installed. Both workers live in `apps/web/src/workers/` when built.
+
 - **PDF Worker** (`pdf.worker.ts`) — Comlink RPC. Loads pdfjs-dist document, extracts metadata (title, page count, page labels), parses outline/TOC tree, renders page 1 thumbnail, extracts text content items with positions for the projected text layer.
 - **Search Worker** (`search.worker.ts`) — Comlink RPC. Maintains MiniSearch full-text index. Tokenizes extracted page text. Handles keyword queries and ranked search results.
 
 ## Data Flow
+
+Target architecture (current: import → OPFS → in-memory catalog):
 
 ```
 PDF import → OPFS (binary bytes) → PDF Worker → thumbnail (Blob) + metadata + text items

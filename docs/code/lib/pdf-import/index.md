@@ -23,19 +23,11 @@ Imports a PDF file into the app.
 
 **Side effects**: Saves PDF bytes to OPFS via `savePdf(fingerprint, file)`.
 
-### `computeSha256(file: File): Promise<string>`
-
-Computes SHA-256 hash of a file.
-
-| Param | Type | Description |
-|-------|------|-------------|
-| `file` | `File` | Any file/blob |
-
-**Returns**: Lowercase hex string (64 characters).
+Note: `computeSha256` is an internal helper (not exported) used by `importPdf` for the fingerprint.
 
 ## Pipeline (future)
 
-1. User picks file → `computeSha256(fingerprint)`
+1. User picks file → `importPdf` computes the SHA-256 fingerprint
 2. `savePdf(fingerprint, file)` → OPFS
 3. PDF Worker loads from OPFS → extracts metadata + text + thumbnail
 4. `catalogStore.addBook()` with enriched metadata
