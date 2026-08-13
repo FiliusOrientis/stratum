@@ -21,13 +21,6 @@ IndexedDB wrapper using Dexie.js for structured metadata storage.
 | `tags` | `string[]?` | No | User tags |
 | `opfsPath` | `string` | No | OPFS file path for the PDF binary |
 
-### ConfigEntity
-
-| Field | Type | Indexed | Description |
-|-------|------|---------|-------------|
-| `key` | `string` | Primary key | Config key name |
-| `value` | `unknown` | No | Config value (any JSON-serializable type) |
-
 ## Class: StratumDb
 
 Extends `Dexie` with versioned schema.
@@ -38,7 +31,6 @@ const DB_VERSION = 1
 
 // Schema:
 // books:  'id, title, addedAt, lastRead'
-// config: 'key'
 ```
 
 ## Singleton
@@ -69,10 +61,16 @@ await db.books.put({
 
 // Update last read
 await db.books.update(fingerprint, { lastRead: new Date(), lastPage: 42 })
+```
 
-// Config key-value
-await db.config.put({ key: 'toolbarPosition', value: 'bottom' })
-const pos = await db.config.get('toolbarPosition')
+## Schema Migrations
+
+Current version: 1. Add new versions in ascending order:
+
+```ts
+this.version(2).stores({
+  books: 'id, title, addedAt, lastRead, author', // added author index
+})
 ```
 
 ## Schema Migrations

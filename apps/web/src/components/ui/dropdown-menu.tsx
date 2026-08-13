@@ -15,7 +15,7 @@ import {
 } from "react-aria-components"
 
 import { cn } from "@/lib/utils"
-import { CheckIcon, CaretRightIcon } from "@phosphor-icons/react"
+import { CheckIcon, ChevronRightIcon } from "lucide-react"
 
 function DropdownMenuTrigger({
   ...props
@@ -180,7 +180,7 @@ function DropdownMenuSubTrigger({
       {composeRenderProps(children, (children) => (
         <>
           {children}
-          <CaretRightIcon className="ml-auto" />
+          <ChevronRightIcon className="ml-auto" />
         </>
       ))}
     </MenuItemPrimitive>

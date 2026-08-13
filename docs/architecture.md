@@ -57,7 +57,7 @@ Zustand stores (no context, no prop drilling):
 - **Typography**: Instrument Serif (headings) + Instrument Sans (body)
 - **High-contrast dark theme** with slate-blue accents (cyan theme in shadcn preset)
 - **Semantic colors only**: `bg-primary`, `text-muted-foreground`, never raw oklch values
-- **Icons**: Phosphor (`@phosphor-icons/react`)
+- **Icons**: Lucide (`lucide-react`)
 - **Animations**: Motion (`motion/react`) for component transitions (toolbar slide, panel show/hide). `AnimatePresence` handles exit animations with spring physics. 3D flipbook uses R3F's native animation system — Motion is not used for 3D.
 
 ## Data Architecture
@@ -84,7 +84,7 @@ Phase 2 established the `apps/web` skeleton:
 ## Decisions Made
 
 - **Styling**: Tailwind CSS v4 + ShadCN UI (React Aria base), resolved
-- **Component library**: ShadCN UI with React Aria base (b8PjeSPBdi preset)
+- **Component library**: ShadCN UI with React Aria base (b8PjeSOMUc preset)
 - **Testing**: Vitest + @testing-library/react + jsdom + v8 coverage, resolved
 - **UI board**: Storybook 10 (react-vite), resolved
 - **Font loading**: ShadCN preset handles @fontsource imports

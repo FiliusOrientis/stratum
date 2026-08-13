@@ -42,7 +42,7 @@ export function Fab({
   onPress,
   position,
   isExpanded,
-  size = 'icon',
+  size = 'icon-lg',
   className,
 }: FabProps) {
   return (

@@ -2,68 +2,62 @@
 
 **File**: `apps/web/src/components/app-shell/empty-state.tsx`
 **Types**: `apps/web/src/components/app-shell/empty-state.types.ts`
-**Sub-component**: `apps/web/src/components/app-shell/document-import.tsx` — merged card + toggleable URL import form as one visual unit
+**Sub-components**: `document-import.tsx` (import card + URL toggle) and `url-import-panel.tsx` (URL input form)
 
 Full-page empty state shown when the catalog has no books. Features a clickable import card with integrated URL import toggle.
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'initial' \| 'cleared'` | `'initial'` | Controls card copy |
-| `onImport` | `() => void` | — | Fired when the import card is clicked (opens file picker) |
-| `onUrlImport` | `(file: File) => void` | — | Fired when a PDF is successfully fetched from a URL |
-
-## Variants
-
-- **initial**: First-time user. Stratum wordmark, card "Open a document".
-- **cleared**: After removing all books. Stratum wordmark, card "Import another document".
+| Prop          | Type                     | Default | Description                                               |
+|---------------|--------------------------|---------|-----------------------------------------------------------|
+| `onImport`    | `() => void`             | —       | Fired when the import card is clicked (opens file picker) |
+| `onUrlImport` | `(file: File) => void`   | —       | Fired when a PDF is successfully fetched from a URL       |
 
 ## Layout
 
 ```
   [Stratum wordmark]             ← dual light/dark SVG swap
 
-┌────────────────────────────────────┐
-│ 📖  Open a document               │  ← card, rounded-lg, border-border/50
-│     Drop a PDF or click here to browse │
-└────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│ 📖  Open a document             [⌄ toggle]   │  ← ButtonGroup: card (flex-1) + caret toggle (w-12)
+│     Drop a PDF or click here to browse       │
+└──────────────────────────────────────────────┘
 
-             ⌄ Import from URL        ← standalone centered toggle
+Toggle open (card bottom corners sharpened):
 
-Toggle open:
-
-┌────────────────────────────────────┐
-│ 📖  Open a document               │  ← rounded-t-lg (sharp bottom)
-└────────────────────────────────────┘
-┌────────────────────────────────────┐
-│ https:// │ Paste a PDF link  │📋/→│  ← URL panel, rounded-b-lg (sharp top)
-│   e.g. example.com/document.pdf   │
-└────────────────────────────────────┘
-
-             ▲ Hide URL input          ← toggle changes icon + label
+┌──────────────────────────────────────────────┐
+│ 📖  Open a document             [⌃ toggle]   │  ← rounded-b-none border-b-0
+└──────────────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│ https:// │ Paste a PDF link │ 📋/→           │  ← UrlImportPanel, rounded-b-lg (sharp top)
+│           e.g. example.com/document.pdf      │
+└──────────────────────────────────────────────┘
 ```
 
-Container fits content width, centered via `mx-auto`. No fixed max-width — no viewport-driven resizing. Padding: `px-6` → `md:px-10` → `lg:px-16`. Keyboard shortcut hints live behind a `?` FAB toggle at the page bottom-left (see `keyboard-shortcuts-fab.md`).
+Container fits content width, centered via `mx-auto` (`w-fit max-w-full`). Padding: `px-4` → `md:px-10` → `lg:px-16`. Keyboard shortcut hints live behind a `?` FAB toggle at the page bottom-left (see `keyboard-shortcuts-fab.md`).
 
 ## Animation
 
 Staggered entrance using `motion/react` variants:
 - Container orchestrates with `staggerChildren: 0.05` (50ms between children)
-- Each child: `opacity: 0 → 1`, `y: 8 → 0`, `scale: 0.98 → 1`, 280ms, `easeOut` curve
+- Each child uses the shared `fadeUp` variant from `@/lib/animation` (`opacity: 0 → 1`, `y: 8 → 0`, `scale: 0.98 → 1`, 280ms, `easeOut`)
 - URL input section: height + opacity animation on toggle (250ms, `easeOut`)
 
 ## Keyboard Shortcut
 
-Listens for `Ctrl+O` (or `Cmd+O` on Mac) via a `keydown` event listener. Calls `onImport` when triggered. Visible hints (open file, theme toggle) live behind the `KeyboardShortcutsFab` `?` FAB at the page bottom-left.
+Listens for `Ctrl+O` (or `Cmd+O` on Mac) via the `useKeyboardShortcut` hook. Calls `onImport` when triggered. Visible hints (open file, theme toggle) live behind the `KeyboardShortcutsFab` `?` FAB at the page bottom-left.
 
-## URL Import
+## Import Card (`DocumentImport`)
 
-Implemented via `DocumentImport` sub-component (`document-import.tsx`). The URL input is hidden by default and revealed by clicking the standalone centered toggle below the card.
+`document-import.tsx` renders the card and the URL toggle as one `ButtonGroup` (no visual gap between them):
 
-**Toggle** — standalone button outside both card and URL panel (aria-label `Import from URL` / `Hide URL input`):
-- Closed: `CaretDownIcon`, `bg-card`, `rounded-t-none` (sharp top)
-- Open: `CaretUpIcon`, `bg-card`, `rounded-t-none rounded-b` (attached below URL panel)
+- **Card button** — `variant="outline"`, `aria-label="Open or drop a PDF file"`. Left-aligned icon (`BookOpen`, `size-11`) + heading "Open a document" + subtext "Drop a PDF or click here to browse". `rounded-lg` when closed, `rounded-b-none border-b-0` when open (sharp bottom connects to the URL panel).
+- **Toggle button** — `w-12 shrink-0`, `aria-label` `Import from URL` / `Hide URL input`, `aria-expanded` reflects state, tooltip matches the label. Caret icon is a `motion.create(ChevronDown)` that flips via `scaleY` (150ms, `easeInOut`).
+- **State** — `isUrlOpen` local state; the URL form logic (value, error, loading, submit, paste, clear) comes from the `useUrlImport` hook and is passed to `UrlImportPanel`.
+
+## URL Import (`UrlImportPanel`)
+
+`url-import-panel.tsx` is the form molecule. It is presentational — all state and handlers arrive via props (`scope`, `urlValue`, `urlError`, `isLoading`, `handleUrlSubmit`, `handlePaste`, `handleClear`, `setUrlValue`, `isUrlOpen`).
 
 **Panel animation** (conditional `motion.div animate`):
 - Closed: `height: 0, opacity: 0`
@@ -71,24 +65,15 @@ Implemented via `DocumentImport` sub-component (`document-import.tsx`). The URL 
 - 250ms, `easeOut` curve. Input value preserved across open/close.
 - Input autofocuses on expand (`useEffect` + ref on `InputGroupInput`).
 
-**Card rounding**: `rounded-lg` when closed, `rounded-t-lg` when open (sharp bottom connects to URL panel).
+**Panel styling**: `rounded-b-lg border border-border bg-card/50` (sharp top connects to the card). Contains a form with sr-only `Label`, `InputGroup` (`https://` `InputGroupText` addon inline-start, action button addon inline-end), a hint line, and `FieldError`.
 
-**URL panel rounding**: `rounded-b-lg` always (sharp top connects to card). Both use `border border-border/50`.
+**Action button states** (inline-end addon):
+1. **Empty, no error**: clipboard paste button (`Clipboard`, `aria-label="Paste URL from clipboard"`).
+2. **Has content (idle)**: submit button (`ArrowRight`, `aria-label="Submit URL"`).
+3. **Loading**: spinner (`Loader2` with `animate-spin`), button disabled.
+4. **Error**: clear button (`X`, `aria-label="Clear input"`, type `button`) — error message rendered below via `FieldError`.
 
-**Button states** (inlined into `UrlImportPanel` sub-component):
-1. **Empty**: clipboard paste button (📋) shown.
-2. **Has content (idle)**: submit arrow (→) shown.
-3. **Loading**: spinning icon (⏳), button disabled.
-4. **Error**: clear button (✕) and error message shown.
-
-Fetch flow unchanged: fetch URL, validate content-type, convert blob to `File`, call `onUrlImport`. Error triggers shake animation via `useAnimate`.
-
-Button swap logic:
-- `!urlError && !urlValue.trim()` → paste button
-- `urlError || urlValue.trim()` → action button:
-  - `urlError` → clear (✕) button
-  - `isLoading` → spinner (⏳) button, disabled
-  - else → submit arrow (→) button
+Fetch flow (in `useUrlImport`): fetch URL, validate content-type, convert blob to `File`, call `onUrlImport`. Error triggers shake animation via `useAnimate`.
 
 ## Accessibility
 
@@ -107,18 +92,17 @@ import { EmptyState } from '@/components/app-shell'
   onImport={() => fileInputRef.current?.click()}
   onUrlImport={handleFile}
 />
-
-<EmptyState
-  variant="cleared"
-  onImport={() => fileInputRef.current?.click()}
-  onUrlImport={handleFile}
-/>
 ```
 
 ## Dependencies
 
-- `@phosphor-icons/react` — BooksIcon (via DocumentImport)
+- `lucide-react` — BookOpen (via DocumentImport)
 - `motion/react` — `motion` for staggered entrance animation
-- `@/lib/animation` — `easeOut` constant
+- `@/lib/animation` — `fadeUp` entrance variant
+- `@/hooks/use-keyboard-shortcut` — `Ctrl+O` shortcut
 - `@/components/stratum-wordmark` — `StratumWordmark` (theme-aware logo, replaces the heading text)
-- `@/components/app-shell/document-import` — `DocumentImport` (merged card + URL input)
+- `@/components/ui/button-group` — `ButtonGroup` (card + toggle as one unit)
+- `@/components/ui/tooltip` — toggle tooltip
+- `@/components/app-shell/document-import` — `DocumentImport` (card + toggle)
+- `@/components/app-shell/url-import-panel` — `UrlImportPanel` (URL form)
+- `@/hooks/use-url-import` — URL fetch state machine

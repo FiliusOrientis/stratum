@@ -29,7 +29,7 @@ Every module in `apps/web/src/` is documented below. Each doc covers:
 
 | File | Doc | Purpose |
 |------|-----|---------|
-| `theme-toggle.tsx` | — | Dark/light toggle FAB, 9-position placement (default top-right); composes `Fab` |
+| `theme-toggle.tsx` | — | Dark/light toggle FAB, 9-position placement (default top-right); Sun↔MoonStar morph via `MorphIcon`; composes `Fab` |
 | `fab.tsx` | `components/fab.md` | Generic FAB — ghost icon button + 9-position placement |
 | `stratum-wordmark.tsx` | — | Theme-aware Stratum wordmark (light/dark SVG swap) |
 | `error-boundary.tsx` | — | Error boundary with reset buttons |
@@ -67,7 +67,7 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `book-viewer/` | — | R3F flipbook scene (placeholder — not yet built) |
 | `app-shell/` | | |
 | `app-layout.tsx` | `components/app-shell/app-layout.md` | Top-level layout wrapper (MotionConfig, ThemeToggle, d-key shortcut) |
-| `collapse-toggle.tsx` | — | Shared caret pill for edge-attached expand/collapse (URL panel toggle, toolbar trigger); vertical flip animation on toggle |
+| `collapse-toggle.tsx` | — | Shared caret pill for edge-attached expand/collapse (toolbar trigger); vertical flip animation on toggle |
 | `empty-state.tsx` | `components/app-shell/empty-state.md` | Empty catalog hero with import CTAs |
 | `empty-state.types.ts` | — | `EmptyStateProps` interface |
 | `keyboard-hint.tsx` | `components/app-shell/keyboard-hint.md` | Presentational "Press [keys] to ..." row (Kbd keycaps) |
@@ -101,15 +101,15 @@ ShadCN React Aria components. Read-only — never modify directly.
 | `use-keyboard-shortcut.ts` | — | Global keydown listener with input-target guard |
 | `use-url-import.ts` | — | URL fetch, content-type validation, File conversion, paste/clear |
 
-Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (9).
+Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (15).
 
 ## Story Files
 
 | File | Component | States |
 |------|-----------|--------|
-| `app-shell/document-import.stories.tsx` | DocumentImport | Closed, Cleared, Open, WithUrl, Loading, ErrorState |
+| `app-shell/document-import.stories.tsx` | DocumentImport | Closed, Open, WithUrl, Loading, ErrorState |
 | `app-shell/url-import-panel.stories.tsx` | UrlImportPanel | Collapsed, Open, WithUrl, Loading, ErrorState |
-| `app-shell/empty-state.stories.tsx` | EmptyState | Initial, Cleared |
+| `app-shell/empty-state.stories.tsx` | EmptyState | Initial |
 | `app-shell/drop-zone.stories.tsx` | DropZone | Default |
 | `app-shell/reader-toolbar/reader-toolbar.stories.tsx` | ReaderToolbar | Default, BottomPosition |
 | `app-shell/reader-toolbar/page-navigation.stories.tsx` | PageNavigation | FirstPage, LastPage, Interactive |
@@ -129,9 +129,9 @@ Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (9).
 | File | Doc | Purpose |
 |------|-----|---------|
 | `utils.ts` | `lib/utils.md` | `cn()` className merge utility |
-| `animation.ts` | — | Animation constants: `easeOut`, `easeInOut`, `springPreset`, `toolbarAnimation` |
-| `storage/db.ts` | `lib/storage/db.md` | Dexie schema (books, config tables) |
-| `storage/opfs.ts` | `lib/storage/opfs.md` | OPFS binary PDF read/write/evict |
+| `animation.ts` | — | Animation constants: `easeOut`, `easeInOut`, `springPreset`, `toolbarAnimation`, `fadeUp` |
+| `storage/db.ts` | `lib/storage/db.md` | Dexie schema (books table) |
+| `storage/opfs.ts` | `lib/storage/opfs.md` | OPFS binary PDF save (`savePdf`) |
 | `pdf-import/index.ts` | `lib/pdf-import/index.md` | PDF import pipeline (fingerprint + OPFS save) |
 
 ## Animation

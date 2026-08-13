@@ -1,4 +1,5 @@
-import { MoonStarsIcon, SunIcon } from '@phosphor-icons/react'
+import { MoonStar, Sun } from 'lucide'
+import { MorphIcon } from 'morphicons/react'
 import { useTheme } from 'next-themes'
 import type { FabPosition } from '@/components/fab'
 import { Fab } from '@/components/fab'
@@ -22,11 +23,10 @@ export function ThemeToggle({ position = 'top-right', className }: ThemeTogglePr
   return (
     <Fab
       position={position}
-      size="icon-lg"
       className={className}
       label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       onPress={() => setTheme(isDark ? 'light' : 'dark')}
-      icon={isDark ? <SunIcon aria-hidden="true" /> : <MoonStarsIcon aria-hidden="true" />}
+      icon={<MorphIcon icon={isDark ? MoonStar : Sun} spring="snappy" reducedMotion="user" />}
     />
   )
 }

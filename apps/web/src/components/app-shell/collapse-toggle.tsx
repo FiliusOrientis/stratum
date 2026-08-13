@@ -1,10 +1,10 @@
-import { CaretDownIcon } from '@phosphor-icons/react'
+import { ChevronDown } from 'lucide-react'
 import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
 import { easeInOut } from '@/lib/animation'
 import { cn } from '@/lib/utils'
 
-const MotionCaret = motion.create(CaretDownIcon)
+const MotionCaret = motion.create(ChevronDown)
 
 interface CollapseToggleProps {
   isOpen: boolean

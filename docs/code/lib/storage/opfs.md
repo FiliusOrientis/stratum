@@ -29,51 +29,17 @@ Saves a PDF file to OPFS.
 
 **Throws**: If the file handle cannot be created (storage full, permissions).
 
-### `loadPdf(id: string): Promise<File | null>`
-
-Loads a PDF file from OPFS.
-
-| Param | Type | Description |
-|-------|------|-------------|
-| `id` | `string` | File identifier used during save |
-
-**Returns**: A `File` object or `null` if the file does not exist.
-
-### `deletePdf(id: string): Promise<void>`
-
-Deletes a PDF file from OPFS. Silent if file does not exist.
-
-| Param | Type | Description |
-|-------|------|-------------|
-| `id` | `string` | File identifier to delete |
-
-### `getStorageUsage(): Promise<{ usage: number; quota: number }>`
-
-Returns current OPFS storage usage statistics.
-
-**Returns**:
-- `usage` — bytes used (0 if `navigator.storage.estimate` unavailable)
-- `quota` — bytes available (0 if estimation unavailable)
+`savePdf` is currently the only export. `loadPdf`, `deletePdf`, and `getStorageUsage` were removed — the import pipeline only writes today; read/delete are planned with the PDF Worker and book removal.
 
 ## Usage
 
 ```ts
-import { savePdf, loadPdf, deletePdf } from '@/lib/storage'
+import { savePdf } from '@/lib/storage'
 
 // On PDF import
 const file = event.target.files[0]
-const fingerprint = await computeSha256(file) // from pdf-utils
+const fingerprint = await computeSha256(file) // from pdf-import
 await savePdf(fingerprint, file)
-
-// On book open
-const pdfFile = await loadPdf(book.opfsPath)
-if (pdfFile) {
-  const bytes = new Uint8Array(await pdfFile.arrayBuffer())
-  // Send to PDF Worker for parsing
-}
-
-// On book removal
-await deletePdf(book.id)
 ```
 
 ## Limitations

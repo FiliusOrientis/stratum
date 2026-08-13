@@ -5,6 +5,7 @@ Active and past branches. Delete stale ones after merge.
 | Branch | Status | Purpose |
 |--------|--------|---------|
 | `main` | Active | Production |
+| `feat/lucide-icons-morph` | Active | Lucide migration, shadcn primitives reinstall, morphicons theme toggle |
 
 ## Merged (Cleaned)
 

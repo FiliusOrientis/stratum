@@ -59,6 +59,18 @@ const PIPELINE_SCOPES: Array<{ name: string; patterns: RegExp[] }> = [
 ]
 
 const injectedScopes = new Set<string>()
+let triageInjected = false
+
+function gitTriageReport(): string {
+  try {
+    return execSync('node scripts/git-triage.mjs', {
+      cwd: process.cwd(),
+      encoding: 'utf8',
+    }).trim()
+  } catch {
+    return ''
+  }
+}
 
 function matchScopes(files: string[]): string[] {
   const matched = new Set<string>()
@@ -93,14 +105,26 @@ export default (() => {
     'experimental.chat.messages.transform': (
       messages: Array<{ role?: string; content?: string }>,
     ) => {
+      const injected: Array<{ role: string; content: string }> = []
+      if (!triageInjected) {
+        triageInjected = true
+        const report = gitTriageReport()
+        if (report) {
+          injected.push({
+            role: 'system',
+            content: `Git triage (session start). Current state:\n${report}\n\nLoad the git-triage skill and decide before any code change: continuation (stay on branch), new task (new branch), or hygiene first (commit/push/merge/delete). Propose the plan and wait for approval on any push/delete/merge.`,
+          })
+        }
+      }
       const scopes = workingTreeScopes().filter(scope => !injectedScopes.has(scope))
       if (scopes.length === 0) {
-        return messages
+        return injected.length > 0 ? [...injected, ...messages] : messages
       }
       for (const scope of scopes) {
         injectedScopes.add(scope)
       }
       return [
+        ...injected,
         ...messages,
         {
           role: 'system',

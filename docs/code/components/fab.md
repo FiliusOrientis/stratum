@@ -9,12 +9,21 @@ Generic floating action button — ghost icon button with optional fixed corner 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `icon` | `ReactNode` | — | Icon element (decorative — caller sets `aria-hidden`) |
-| `label` | `string` | — | `aria-label` for the button |
+| `label` | `string` | — | `aria-label` for the button; also rendered as tooltip content |
 | `onPress` | `() => void` | — | Press handler |
 | `position` | `FabPosition` | — | Fixed corner placement; when omitted the button renders inline (no `fixed`) |
 | `isExpanded` | `boolean` | — | Sets `aria-expanded` (popover-style FABs) |
-| `size` | `'icon' \| 'icon-lg'` | `'icon'` | Button size |
+| `size` | `'icon' \| 'icon-lg'` | `'icon-lg'` | Button size |
 | `className` | `string` | — | Extra classes merged via `cn()` |
+
+## Exports
+
+- `Fab` — the component
+- `FabPosition` — the position union type (reused by `ThemeTogglePosition`)
+
+## Tooltip
+
+The button is wrapped in `TooltipTrigger` + `Tooltip` — hovering or focusing shows the `label` as a tooltip.
 
 ## Positions
 
@@ -32,14 +41,14 @@ Nine named spots, all `4` units from the edge (`fixed z-50`):
 import { Fab } from '@/components/fab'
 
 <Fab
-  icon={<QuestionIcon aria-hidden="true" />}
+  icon={<CircleHelp aria-hidden="true" />}
   label="Keyboard shortcuts"
   isExpanded={isOpen}
   onPress={() => setIsOpen(o => !o)}
 />
 
 <Fab
-  icon={<SunIcon aria-hidden="true" />}
+  icon={<Sun aria-hidden="true" />}
   label="Switch to light mode"
   size="icon-lg"
   position="top-right"
@@ -52,4 +61,5 @@ Composers: `ThemeToggle` (theme-toggle.tsx) and `KeyboardShortcutsFab` (app-shel
 ## Dependencies
 
 - `@/components/ui/button` — `Button` (ghost variant, icon sizes)
+- `@/components/ui/tooltip` — `Tooltip`, `TooltipTrigger`
 - `@/lib/utils` — `cn`
