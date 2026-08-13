@@ -8,11 +8,12 @@ build/
 .next/
 out/
 
+# React Cosmos
+cosmos-export/
+cosmos.imports.ts
+
 # Turbo
 .turbo/
-
-# Storybook
-storybook-static/
 
 # Vite
 vite.config.ts.timestamp-*

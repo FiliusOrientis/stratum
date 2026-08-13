@@ -64,15 +64,14 @@ Planned pattern — no worker code or deps yet. When the flipbook reader lands:
 - **React Aria composition.** Use `slot` prop for named children (for example `slot="close"`, `slot="title"`). No `asChild` (Radix) or `render` (Base UI) — React Aria uses slot-based composition.
 - **Icons from Lucide only.** `lucide-react` for static icons; `morphicons` (`MorphIcon`, consuming `lucide` icon data) for morphing transitions — keep `lucide` and `lucide-react` versions aligned. Use `data-icon="inline-start"` or `data-icon="inline-end"` on icons inside Button.
 
-## Storybook (UI Board)
+## React Cosmos (UI Board)
 
-- **Framework**: Storybook 10 (`@storybook/react-vite`) + addons (a11y, themes, docs)
-- **Server**: `pnpm storybook` → `localhost:6006`
-- **Location**: Co-located `*.stories.tsx` next to source files
-- **Dark mode**: Default is `dark` via `withThemeByClassName` decorator (`preview.tsx`) — it toggles a `dark` class on the preview iframe's `<html>`; `globals.css` variables flip with it. Docs pages render stories in the same iframe, so they follow automatically. The Storybook manager chrome is also dark (`manager.ts`).
-- **Docs layout rule**: The global `withDocsLayout` decorator centers component demos and adds `p-8` padding. App-level stories (toolbar, drop zone, empty state, error boundary, theme toggle) opt out with `parameters.layout: 'fullscreen'` — never set `layout: 'centered'` per story, the decorator owns it.
-- **Scope**: Stories only for app components (`routes/`, `components/` excluding `ui/`). Vendored `ui/` primitives get no stories — shadcn registry is their source of truth
-- **Workflow**: Build component → Create stories → Verify in Storybook → Write tests → Integrate into routes
+- **Framework**: React Cosmos 7 (`react-cosmos-plugin-vite`) — reuses the app's Vite 8 config (Tailwind v4, unplugin-auto-import)
+- **Server**: `pnpm cosmos` → `localhost:5000`
+- **Location**: Co-located `*.fixture.tsx` next to source files; `src/cosmos.decorator.tsx` applies the dark class to all fixtures
+- **Fixture modules**: named exports — one export per component state. Component-function fixtures hold local state; presentational props pass directly
+- **Scope**: Fixtures only for app components (`routes/`, `components/` excluding `ui/`). Vendored `ui/` primitives get no fixtures — shadcn registry is their source of truth
+- **Workflow**: Build component → Create fixtures → Verify in Cosmos → Write tests → Integrate into routes
 
 ## Testing
 

@@ -9,7 +9,7 @@
 | `pnpm typecheck`                                                                                 | `tsc --noEmit` across monorepo                                                                                               |
 | `pnpm test:coverage`                                                                             | Vitest unit tests + v8 coverage (thresholds: 80% lines/funcs, 70% branches)                                                  |
 | `pnpm test`                                                                                      | Vitest run (no coverage)                                                                                                     |
-| `pnpm storybook`                                                                                 | Storybook 10 dev server, port 6006                                                                                           |
+| `pnpm cosmos`                                                                                    | React Cosmos dev server (UI board), port 5000                                                                                |
 | `pnpm build`                                                                                     | Vite build via turbo                                                                                                         |
 | `pnpm clean`                                                                                     | Removes `dist/`, `.turbo/`                                                                                                   |
 | `pnpm audit:all`                                                                                 | knip (dead code/deps) + dependency-cruiser (structure rules) — `pnpm audit` is pnpm's built-in security audit, do not shadow |
@@ -17,7 +17,7 @@
 | `pnpm audit:structure`                                                                           | dependency-cruiser only (config: `.dependency-cruiser.cjs`)                                                                  |
 | `pnpm docs-gate`                                                                                 | Mechanical docs freshness: Biome version claims ↔ package.json, skill refs ↔ SKILL.md                                        |
 | `pnpm housekeeping-gate`                                                                         | Post-merge: stale Active branches in BRANCHES.md, suppressions log existence                                                 |
-| `pnpm check-collocated`                                                                          | Staged components need co-located `*.test.tsx`; `*.stories.tsx` only for public (barrel-exported) components (excl. `ui/`) |
+| `pnpm check-collocated`                                                                          | Staged components need co-located `*.test.tsx`; `*.fixture.tsx` only for public (barrel-exported) components (excl. `ui/`) |
 | `pnpm prose`                                                                                     | Vale prose lint: STE100 writing rules + Slop (LLM-tell). Official ASD dictionary is local-only (`pnpm extract-ste-dictionary`) |
 | `node scripts/git-triage.mjs`                                                                    | Read-only git state snapshot: branch, dirty files, unpushed commits, stale merged branches                                     |
 | **Verification order**: `pnpm lint` → `pnpm typecheck` → `pnpm test:coverage` → `pnpm audit:all` |
@@ -54,7 +54,7 @@ stratum/                   root (pnpm workspace)
 
 ## Stack (apps/web)
 
-React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.8, Tailwind v4. ShadCN/React Aria, motion/react, morphicons, Zustand 5, Vitest 4, Storybook 10, Turborepo.
+React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.8, Tailwind v4. ShadCN/React Aria, motion/react, morphicons, Zustand 5, Vitest 4, React Cosmos, Turborepo.
 
 ## Toolchain Quirks
 
@@ -62,10 +62,8 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **Biome force-ignores**: `components/ui/`, `auto-imports.d.ts`, `coverage/`, `dist/`
 - **Biome nursery rules**: `useSortedClasses` (unsafe fix) — must get user approval before applying unsafe
 - **Cognitive complexity limit**: max 15 (enforced via `noExcessiveCognitiveComplexity`)
-- **Vitest**: two projects — `unit` (jsdom, with coverage) and `storybook` (playwright chromium, no thresholds)
-- **Storybook 10.5**: `@storybook/test` v8.6 has no 10.x line — its latest (8.6.x) peers `storybook@^8.6.15`, so pnpm reports an unmet peer with Storybook 10. Functional; unfixable upstream (the package never ships a version compatible with Storybook 10).
-- **Storybook React Aria `focus` workaround**: `.storybook/preview-head.html` patches the `HTMLElement.prototype.focus` getter before Storybook installs its own (storybookjs/storybook#35528) — React Aria's `setupGlobalFocusEvents` reads the `focus` getter off the prototype and throws otherwise. Remove when the upstream fix ships.
-- **Storybook docs theme override**: `.storybook/preview.css` forces the docs environment (containers, prose, args table, preview frame) to use the app's CSS variables — the docs addon injects hardcoded light styles that would otherwise stay light in dark mode. The overrides need `!important` (the addon's CSS-in-JS loads after this file); `noImportantStyles` is disabled for this file in `biome.json`.
+- **Vitest**: one jsdom project with v8 coverage (thresholds: 80% lines/funcs, 70% branches). `pnpm test` runs it; no browser project.
+- **React Cosmos**: UI board (`pnpm cosmos`, port 5000). Co-located `*.fixture.tsx` files; `src/cosmos.decorator.tsx` applies the dark class to all fixtures. `cosmos.imports.ts` is generated at boot — git-ignored.
 - **ShadCN preset**: `b8PjeSOMUc` — style=aria-mira, base=mist, icon=lucide, radius=0.45rem. CSS variables in `globals.css` are generated — do not modify.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code kept on top of the registry base)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
@@ -90,7 +88,7 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - Files: kebab-case. Components in PascalCase files (`empty-state.tsx` → `EmptyState`).
 - Barrel exports via `index.ts` per directory.
 - Logic separated from JSX — pure functions in `.types.ts` or dedicated helpers.
-- Co-located `*.test.tsx` and `*.stories.tsx` next to source.
+- Co-located `*.test.tsx` and `*.fixture.tsx` next to source.
 - Motion for UI animations. R3F for 3D. Never mix.
 - `aria-hidden="true"` on all decorative icons.
 - `MotionConfig reducedMotion="user"` wraps the entire app (in `app-layout.tsx`).
@@ -100,7 +98,7 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 
 - **Framework**: Vitest + @testing-library/react + jsdom. userEvent from `@testing-library/user-event`.
 - **Setup**: `src/test/setup.ts` — imports jest-dom matchers, runs cleanup after each test.
-- **Stories**: Storybook 10, co-located `*.stories.tsx`, autodocs tag, dark mode default. Play functions use `@storybook/test` (within, userEvent).
+- **Fixtures**: React Cosmos, co-located `*.fixture.tsx`, dark mode default (via `src/cosmos.decorator.tsx`). Fixtures render visual states; interactions are covered by unit tests.
 - **Coverage exclude**: `components/ui/`, `auto-imports.d.ts`, `coverage/`, `test/`.
 - **Pattern**: AAA. Reset Zustand stores in `beforeEach`. Mock fetch via `vi.spyOn(globalThis, 'fetch')`.
 

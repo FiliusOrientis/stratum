@@ -1,12 +1,13 @@
 /**
  * Collocation gate — components need co-located tests; public components
- * additionally need a co-located story.
+ * additionally need a co-located fixture.
  *
  * Pre-commit check: for every staged/added .tsx under apps/web/src/components/
- * (excluding ui/), require a sibling *.test.tsx. A sibling *.stories.tsx is
- * required only for public components: root-level files or components
- * re-exported by their directory barrel (index.ts). Internal sub-components
- * (e.g. reader-toolbar-controls) are exercised through their parent's story.
+ * (excluding ui/ and fixtures), require a sibling *.test.tsx. A sibling
+ * *.fixture.tsx is required only for public components: root-level files or
+ * components re-exported by their directory barrel (index.ts). Internal
+ * sub-components (e.g. reader-toolbar-controls) are exercised through their
+ * parent's fixtures.
  */
 
 import { execSync } from 'node:child_process'
@@ -57,7 +58,7 @@ for (const file of stagedFiles()) {
   if (/\/ui\//.test(file)) {
     continue
   }
-  if (file.endsWith('.test.tsx') || file.endsWith('.stories.tsx')) {
+  if (file.endsWith('.test.tsx') || file.endsWith('.fixture.tsx')) {
     continue
   }
   const base = file.replace(/\.tsx$/, '')
@@ -68,8 +69,8 @@ for (const file of stagedFiles()) {
   if (!existsSync(join(CWD, `${base}.test.tsx`))) {
     FAILURES.push(`${file}: missing co-located test (${base}.test.tsx)`)
   }
-  if (isPublicComponent(file) && !existsSync(join(CWD, `${base}.stories.tsx`))) {
-    FAILURES.push(`${file}: missing co-located story (${base}.stories.tsx)`)
+  if (isPublicComponent(file) && !existsSync(join(CWD, `${base}.fixture.tsx`))) {
+    FAILURES.push(`${file}: missing co-located fixture (${base}.fixture.tsx)`)
   }
 }
 

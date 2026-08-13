@@ -89,7 +89,7 @@ Phase 2 established the `apps/web` skeleton:
 - **Styling**: Tailwind CSS v4 + ShadCN UI (React Aria base), resolved
 - **Component library**: ShadCN UI with React Aria base (b8PjeSOMUc preset)
 - **Testing**: Vitest + @testing-library/react + jsdom + v8 coverage, resolved
-- **UI board**: Storybook 10 (react-vite), resolved
+- **UI board**: React Cosmos (react-cosmos-plugin-vite), resolved
 - **Font loading**: ShadCN preset handles @fontsource imports
 
 ## Architecture Audit

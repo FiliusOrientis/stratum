@@ -4,10 +4,8 @@ import { useTheme } from 'next-themes'
 import type { FabPosition } from '@/components/fab'
 import { Fab } from '@/components/fab'
 
-export type ThemeTogglePosition = FabPosition
-
 interface ThemeToggleProps {
-  position?: ThemeTogglePosition
+  position?: FabPosition
   className?: string
 }
 

@@ -102,18 +102,24 @@ ShadCN React Aria components. Read-only — never modify directly.
 
 Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (15).
 
-## Story Files
+## Fixture Files
 
 | File | Component | States |
 |------|-----------|--------|
-| `app-shell/document-import.stories.tsx` | DocumentImport | Closed, Open, WithUrl, Loading, ErrorState |
-| `app-shell/url-import-panel.stories.tsx` | UrlImportPanel | Collapsed, Open, WithUrl, Loading, ErrorState |
-| `app-shell/empty-state.stories.tsx` | EmptyState | Initial |
-| `app-shell/drop-zone.stories.tsx` | DropZone | Default |
-| `app-shell/reader-toolbar/reader-toolbar.stories.tsx` | ReaderToolbar | Default, BottomPosition |
-| `app-shell/reader-toolbar/page-navigation.stories.tsx` | PageNavigation | FirstPage, LastPage, Interactive |
-| `theme-toggle.stories.tsx` | ThemeToggle | Default (position: center, theme controls) |
-| `error-boundary.stories.tsx` | ErrorBoundary | ErrorState, NormalState |
+| `app-shell/document-import.fixture.tsx` | DocumentImport | Closed (interactions covered by unit tests) |
+| `app-shell/url-import-panel.fixture.tsx` | UrlImportPanel | Collapsed, Open, WithUrl, Loading, ErrorState |
+| `app-shell/empty-state.fixture.tsx` | EmptyState | Initial |
+| `app-shell/drop-zone.fixture.tsx` | DropZone | Default |
+| `app-shell/reader-toolbar/reader-toolbar.fixture.tsx` | ReaderToolbar | Default, BottomPosition |
+| `app-shell/reader-toolbar/page-navigation.fixture.tsx` | PageNavigation | FirstPage, LastPage, Interactive |
+| `theme-toggle.fixture.tsx` | ThemeToggle | Default (position: center, dark theme) |
+| `error-boundary.fixture.tsx` | ErrorBoundary | ErrorState, NormalState |
+| `fab.fixture.tsx` | Fab | Default, Expanded, Positioned |
+| `collapse-toggle.fixture.tsx` | CollapseToggle | TopClosed, TopOpen, BottomClosed |
+| `keyboard-hint.fixture.tsx` | KeyboardHint | OpenFile, ToggleTheme |
+| `keyboard-shortcuts.fixture.tsx` | KeyboardShortcuts | Default |
+| `keyboard-shortcuts-fab.fixture.tsx` | KeyboardShortcutsFab | Default |
+| `stratum-wordmark.fixture.tsx` | StratumWordmark | Default |
 
 ## Workers (`workers/`)
 

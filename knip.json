@@ -4,7 +4,7 @@
   "ignoreBinaries": ["vale", "exist"],
   "workspaces": {
     "apps/web": {
-      "entry": ["src/routes/index.ts", "src/**/*.stories.tsx"],
+      "entry": ["src/routes/index.ts", "src/**/*.fixture.tsx"],
       "ignore": ["src/components/ui/**"],
       "ignoreDependencies": ["pdfjs-dist"]
     }
