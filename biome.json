@@ -12,6 +12,16 @@
     ]
   },
   "css": { "parser": { "tailwindDirectives": true } },
+  "overrides": [
+    {
+      "includes": ["apps/web/.storybook/preview.css"],
+      "linter": {
+        "rules": {
+          "complexity": { "noImportantStyles": "off" }
+        }
+      }
+    }
+  ],
   "linter": {
     "enabled": true,
     "rules": {
