@@ -5,12 +5,15 @@ Active and past branches. Delete stale ones after merge.
 | Branch | Status | Purpose |
 |--------|--------|---------|
 | `main` | Active | Production |
-| `feat/lucide-icons-morph` | Active | Lucide migration, shadcn primitives reinstall, morphicons theme toggle |
 
 ## Merged (Cleaned)
 
 | Branch | Merged | Purpose |
 |--------|--------|---------|
+| `feat/lucide-icons-morph` | PR #86 | Lucide migration, shadcn primitives reinstall, morphicons theme toggle, git-triage tooling |
+| `fix/nanoid-advisory` | PR #87 | nanoid security pin (removed later — fixed natively by vite 8) |
+| `chore/major-dep-upgrades` | PR #88 | vite 8, motion 13, react-dropzone 20 |
+| `chore/dep-sweep` | PR #89 | Prune unused deps and scaffolding, bump patch releases |
 | `feat/app-shell` | PR #36 | App shell layout, import UI, reader toolbar, theme toggle, FAB |
 | `chore/git-workflow` | PR #1 | Git hooks, commitlint CI |
 | `chore/future-proofing` | PR #2 | Node 24, git safety, dependency stewardship |
