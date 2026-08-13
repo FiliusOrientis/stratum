@@ -4,7 +4,6 @@ import { KeyboardShortcutsFab } from './keyboard-shortcuts-fab'
 const meta: Meta<typeof KeyboardShortcutsFab> = {
   title: 'App Shell/KeyboardShortcutsFab',
   component: KeyboardShortcutsFab,
-  parameters: { layout: 'centered' },
   tags: ['autodocs'],
 }
 

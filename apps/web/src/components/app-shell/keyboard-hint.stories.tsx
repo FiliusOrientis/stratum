@@ -4,7 +4,6 @@ import { KeyboardHint } from './keyboard-hint'
 const meta: Meta<typeof KeyboardHint> = {
   title: 'App Shell/KeyboardHint',
   component: KeyboardHint,
-  parameters: { layout: 'centered' },
   tags: ['autodocs'],
 }
 

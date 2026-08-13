@@ -4,7 +4,6 @@ import { StratumWordmark } from './stratum-wordmark'
 const meta: Meta<typeof StratumWordmark> = {
   title: 'Shared/StratumWordmark',
   component: StratumWordmark,
-  parameters: { layout: 'centered' },
   tags: ['autodocs'],
 }
 

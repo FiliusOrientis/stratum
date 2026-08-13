@@ -5,7 +5,6 @@ import { DocumentImport } from './document-import'
 const meta: Meta<typeof DocumentImport> = {
   title: 'App Shell/DocumentImport',
   component: DocumentImport,
-  parameters: { layout: 'centered' },
   decorators: [
     Story => (
       <div className="w-80">

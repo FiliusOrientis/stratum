@@ -4,7 +4,6 @@ import { CollapseToggle } from './collapse-toggle'
 const meta: Meta<typeof CollapseToggle> = {
   title: 'App Shell/CollapseToggle',
   component: CollapseToggle,
-  parameters: { layout: 'centered' },
   tags: ['autodocs'],
 }
 
