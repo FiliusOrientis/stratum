@@ -1,12 +1,14 @@
 /* Storybook docs theme override.
- * The docs addon injects its own light environment (containers, prose
- * typography, args table, preview frame) with hardcoded colors via hashed
- * CSS-in-JS classes. Force every docs surface to follow the app theme
- * variables instead, so the environment changes in harmony with the
- * components (the `dark` class on <html> flips the variables).
- * The addon's own rules use :where() or lower-specificity selectors, so
- * plain app-variable selectors below win in both themes.
+ * The docs addon injects its own light environment — containers, prose
+ * typography, args table, code blocks, preview frame — with hardcoded light
+ * colors via hashed CSS-in-JS classes (e.g. .css-xyz). Force every docs
+ * surface to follow the app theme variables instead, so the environment
+ * changes in harmony with the components (the `dark` class on <html> flips
+ * the variables). The addon's CSS-in-JS loads after this file, so these
+ * overrides need !important where specificity cannot win.
  */
+
+/* Containers */
 .docs-story,
 .sbdocs,
 .docs-content,
@@ -18,7 +20,8 @@
   color: var(--foreground) !important;
 }
 
-/* Prose typography */
+/* Prose typography — Storybook's own rules use :where() (zero specificity),
+ * so plain app-variable selectors win in both themes. */
 .sbdocs h1,
 .sbdocs h2,
 .sbdocs h3,
@@ -41,14 +44,78 @@
   background-color: var(--muted);
   color: var(--foreground);
 }
-
-/* Story preview frame + ArgsTable rows (the table lives outside .sbdocs,
- * so a plain selector with !important beats the addon's injected rule) */
-.sb-previewBlock {
-  background-color: var(--background);
+.sbdocs :is(th, td) {
+  background-color: transparent;
+  color: var(--foreground);
+  border-color: var(--border);
 }
+
+/* Story preview frame (`.sbdocs-preview` on this build, `.sb-previewBlock`
+ * on others) + its chrome. The story itself lives in a `.docs-story` child
+ * and keeps its own colors — only the surrounding toolbar is themed here. */
+.sbdocs-preview,
+.sb-previewBlock {
+  background-color: var(--background) !important;
+}
+.sbdocs-preview > :not(.docs-story),
+.sbdocs-preview > :not(.docs-story) *,
+.sb-previewBlock > :not(.docs-story),
+.sb-previewBlock > :not(.docs-story) * {
+  background-color: var(--background) !important;
+  color: var(--muted-foreground) !important;
+}
+
+/* Args table (lives outside .sbdocs; the addon's hashed rules have higher
+ * specificity, so these need !important) */
+.docblock-argstable,
+.sb-argstableBlock {
+  color: var(--foreground) !important;
+}
+.docblock-argstable-head th,
+.sb-argstableBlock-head th {
+  color: var(--muted-foreground) !important;
+}
+.docblock-argstable-body td,
+.docblock-argstable-body th,
 .sb-argstableBlock-body td,
 .sb-argstableBlock-body th {
-  background-color: transparent !important;
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+.docblock-argstable-body :is(span, div, label),
+.sb-argstableBlock-body :is(span, div, label) {
+  color: inherit !important;
+}
+.docblock-argstable :is(input, select),
+.sb-argstableBlock :is(input, select) {
+  background-color: var(--input) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+.docblock-argstable button,
+.sb-argstableBlock button,
+.docblock-code-toggle {
+  color: var(--muted-foreground) !important;
+}
+
+/* Any other docs chrome (copy-code, reset-controls, preview actions) outside
+ * the story itself — the story subtree (.docs-story) keeps its own colors. */
+.sbdocs :where(button, svg, path):not(.docs-story *) {
+  color: var(--muted-foreground) !important;
+}
+
+/* Code blocks */
+.docblock-source {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+
+/* Loading / no-preview overlays */
+.sb-preparing-story,
+.sb-preparing-docs,
+.sb-nopreview_main,
+.sb-nopreview_main * {
+  background-color: var(--background) !important;
   color: var(--foreground) !important;
 }
