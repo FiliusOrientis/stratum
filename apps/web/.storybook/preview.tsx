@@ -2,6 +2,12 @@ import { withThemeByClassName } from '@storybook/addon-themes'
 import type { Decorator, Preview, Renderer } from '@storybook/react-vite'
 
 import '../src/styles/globals.css'
+import './preview.css'
+
+// Eager default theme: apply the dark class before the first paint so every
+// view (canvas and docs) starts dark with no light flash. withThemeByClassName
+// toggles this same class when the themes toolbar changes.
+document.documentElement.classList.add('dark')
 
 /**
  * Docs layout rule: stories that show a component/UI element get padding and

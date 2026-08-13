@@ -1,14 +1,17 @@
 /**
- * Collocation gate — new components need co-located test + story.
+ * Collocation gate — components need co-located tests; public components
+ * additionally need a co-located story.
  *
  * Pre-commit check: for every staged/added .tsx under apps/web/src/components/
- * (excluding ui/), require a sibling *.test.tsx and *.stories.tsx.
- * Mirrors the "Convention" stage of the UI Change pipeline.
+ * (excluding ui/), require a sibling *.test.tsx. A sibling *.stories.tsx is
+ * required only for public components: root-level files or components
+ * re-exported by their directory barrel (index.ts). Internal sub-components
+ * (e.g. reader-toolbar-controls) are exercised through their parent's story.
  */
 
 import { execSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
-import { join } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 
 const CWD = process.cwd()
 const FAILURES = []
@@ -23,6 +26,25 @@ function stagedFiles() {
     .split('\n')
     .map(s => s.trim())
     .filter(Boolean)
+}
+
+function componentName(file) {
+  const src = readFileSync(file, 'utf8')
+  const m = src.match(/export\s+(?:function|const)\s+([A-Z]\w*)/)
+  return m ? m[1] : null
+}
+
+function isPublicComponent(file) {
+  const rel = file.slice(COMPONENTS_PREFIX.length)
+  if (!rel.includes('/')) {
+    return true
+  }
+  const barrel = join(CWD, dirname(file), 'index.ts')
+  if (!existsSync(barrel)) {
+    return false
+  }
+  const name = componentName(file)
+  return !!name && readFileSync(barrel, 'utf8').includes(name)
 }
 
 for (const file of stagedFiles()) {
@@ -43,13 +65,11 @@ for (const file of stagedFiles()) {
   if (!existsSync(abs)) {
     continue
   }
-  for (const [kind, suffix] of [
-    ['test', '.test.tsx'],
-    ['story', '.stories.tsx'],
-  ]) {
-    if (!existsSync(join(CWD, `${base}${suffix}`))) {
-      FAILURES.push(`${file}: missing co-located ${kind} (${base}${suffix})`)
-    }
+  if (!existsSync(join(CWD, `${base}.test.tsx`))) {
+    FAILURES.push(`${file}: missing co-located test (${base}.test.tsx)`)
+  }
+  if (isPublicComponent(file) && !existsSync(join(CWD, `${base}.stories.tsx`))) {
+    FAILURES.push(`${file}: missing co-located story (${base}.stories.tsx)`)
   }
 }
 

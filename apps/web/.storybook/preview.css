@@ -1,0 +1,54 @@
+/* Storybook docs theme override.
+ * The docs addon injects its own light environment (containers, prose
+ * typography, args table, preview frame) with hardcoded colors via hashed
+ * CSS-in-JS classes. Force every docs surface to follow the app theme
+ * variables instead, so the environment changes in harmony with the
+ * components (the `dark` class on <html> flips the variables).
+ * The addon's own rules use :where() or lower-specificity selectors, so
+ * plain app-variable selectors below win in both themes.
+ */
+.docs-story,
+.sbdocs,
+.docs-content,
+.docs-container,
+.docs-page,
+#storybook-root,
+#root {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+/* Prose typography */
+.sbdocs h1,
+.sbdocs h2,
+.sbdocs h3,
+.sbdocs h4,
+.sbdocs h5,
+.sbdocs h6 {
+  color: var(--foreground);
+}
+.sbdocs a {
+  color: var(--primary);
+}
+.sbdocs blockquote {
+  color: var(--muted-foreground);
+}
+.sbdocs pre {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+.sbdocs code {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+/* Story preview frame + ArgsTable rows (the table lives outside .sbdocs,
+ * so a plain selector with !important beats the addon's injected rule) */
+.sb-previewBlock {
+  background-color: var(--background);
+}
+.sb-argstableBlock-body td,
+.sb-argstableBlock-body th {
+  background-color: transparent !important;
+  color: var(--foreground) !important;
+}
