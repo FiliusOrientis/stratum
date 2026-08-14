@@ -29,9 +29,11 @@ function stagedFiles() {
     .filter(Boolean)
 }
 
+const COMPONENT_EXPORT_RE = /export\s+(?:function|const)\s+([A-Z]\w*)/
+
 function componentName(file) {
   const src = readFileSync(file, 'utf8')
-  const m = src.match(/export\s+(?:function|const)\s+([A-Z]\w*)/)
+  const m = src.match(COMPONENT_EXPORT_RE)
   return m ? m[1] : null
 }
 

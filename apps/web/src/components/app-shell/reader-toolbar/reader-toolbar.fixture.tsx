@@ -1,15 +1,21 @@
+import { useEffect } from 'react'
 import { useToolbarStore } from '@/stores/toolbar.store'
 import { useViewerStore } from '@/stores/viewer.store'
 import { ReaderToolbar } from './reader-toolbar'
 
+function useSeedStores(currentPage: number, pageCount: number, position: 'top' | 'bottom') {
+  useEffect(() => {
+    useViewerStore.setState({ currentPage, pageCount })
+    useToolbarStore.setState({ position, previousPosition: position })
+  }, [currentPage, pageCount, position])
+}
+
 export const Default = () => {
-  useViewerStore.setState({ currentPage: 1, pageCount: 42 })
-  useToolbarStore.setState({ position: 'top', previousPosition: 'top' })
+  useSeedStores(1, 42, 'top')
   return <ReaderToolbar />
 }
 
 export const BottomPosition = () => {
-  useViewerStore.setState({ currentPage: 5, pageCount: 100 })
-  useToolbarStore.setState({ position: 'bottom', previousPosition: 'bottom' })
+  useSeedStores(5, 100, 'bottom')
   return <ReaderToolbar />
 }
