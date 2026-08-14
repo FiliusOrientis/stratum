@@ -41,7 +41,7 @@ module.exports = {
       severity: 'error',
       from: {
         path: '^apps/web/src/components/ui',
-        pathNot: '\\.(test|stories)\\.tsx?$',
+        pathNot: '\\.(test|fixture)\\.tsx?$',
       },
       to: {
         path: '^apps/web/src',
@@ -55,7 +55,7 @@ module.exports = {
       severity: 'error',
       from: {
         path: '^apps/web/src/lib',
-        pathNot: '\\.(test|stories)\\.tsx?$',
+        pathNot: '\\.(test|fixture)\\.tsx?$',
       },
       to: { path: '^apps/web/src/(components|routes|stores|hooks|workers)' },
     },
@@ -66,7 +66,7 @@ module.exports = {
       severity: 'error',
       from: {
         path: '^apps/web/src/stores',
-        pathNot: '\\.(test|stories)\\.tsx?$',
+        pathNot: '\\.(test|fixture)\\.tsx?$',
       },
       to: { path: '^apps/web/src/(components|routes|hooks|workers)' },
     },
@@ -76,7 +76,7 @@ module.exports = {
       severity: 'error',
       from: {
         path: '^apps/web/src/hooks',
-        pathNot: '\\.(test|stories)\\.tsx?$',
+        pathNot: '\\.(test|fixture)\\.tsx?$',
       },
       to: { path: '^apps/web/src/(components|routes|workers)' },
     },
@@ -86,7 +86,7 @@ module.exports = {
       severity: 'error',
       from: {
         path: '^apps/web/src/workers',
-        pathNot: '\\.(test|stories)\\.tsx?$',
+        pathNot: '\\.(test|fixture)\\.tsx?$',
       },
       to: { path: '^apps/web/src/(components|routes|stores|hooks)' },
     },
@@ -97,7 +97,7 @@ module.exports = {
       severity: 'error',
       from: {
         path: '^apps/web/src/routes',
-        pathNot: '\\.(test|stories)\\.tsx?$',
+        pathNot: '\\.(test|fixture)\\.tsx?$',
       },
       to: {
         path: '^apps/web/src/components',
