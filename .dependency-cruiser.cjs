@@ -82,7 +82,8 @@ module.exports = {
     },
     {
       name: 'workers-isolated',
-      comment: 'workers/ are Comlink islands — may only import lib',
+      comment:
+        'worker entries (*.worker.ts) are Comlink islands — may only import lib; clients (*.import.ts) are main-thread facades — comlink + shared types only',
       severity: 'error',
       from: {
         path: '^apps/web/src/workers',

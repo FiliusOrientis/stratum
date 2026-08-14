@@ -40,6 +40,8 @@ Built — the PDF Worker lives in `apps/web/src/workers/`:
 - `pdf.types.ts` — shared `PdfParseResult` contract
 - Comlink wraps worker communication as typed async function calls; no raw `postMessage` anywhere
 
+**Entry vs client**: `*.worker.ts` files are the worker islands (can only import lib + external deps). `*.import.ts` clients are main-thread facades that live in `workers/` only because `lib/` and `stores/` cannot import workers — they import comlink + the shared types, nothing else. Hooks can import worker clients (`hooks-layer` allows workers) because hooks are the orchestration layer for domain logic. If a second worker or a `services/` layer appears, the client moves there and `hooks-layer` reverts to `hooks → services → workers`.
+
 ## State Architecture
 
 ```
@@ -111,8 +113,8 @@ Finds unused files, dependencies, exports, and binaries. `knip.json` documents t
 | `ui-primitives-self-contained`        | `components/ui/*` only imports ui siblings + `lib/utils`                               |
 | `lib-pure`                            | `lib/` never imports components/routes/stores/hooks/workers                            |
 | `stores-pure`                         | `stores/` never imports components/routes/hooks/workers                                |
-| `hooks-layer`                         | `hooks/` never imports components/routes (workers allowed — hooks orchestrate the PDF Worker) |
-| `workers-isolated`                    | `workers/` only imports `lib/`                                                         |
+| `hooks-layer`                         | `hooks/` never imports components/routes (workers allowed — hooks orchestrate the PDF Worker; reverts to `hooks → services → workers` if a services layer lands) |
+| `workers-isolated`                    | `workers/` entries import only `lib`; clients import only comlink + shared types                   |
 | `routes-use-barrels`                  | `routes/` reaches components via barrels or root shared files, never feature internals |
 
 **TypeScript split**: dependency-cruiser cannot transpile TypeScript ≥7, so root `typescript` stays pinned at v6 and `apps/web` uses TS7 via the `npm:typescript@7.0.2` alias. `tsconfig.depcruise.json` maps `@/` for the audit run.

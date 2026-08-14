@@ -53,6 +53,7 @@ src/components/app-shell/
 - Main thread gets a typed proxy: `wrap<PdfParser>(new Worker(new URL('./pdf.worker.ts', import.meta.url), { type: 'module' }))` — lazy singleton in `workers/pdf.import.ts`
 - Never `postMessage` / `onmessage` — use Comlink exclusively
 - Shared contract lives in a co-located `*.types.ts` (`workers/pdf.types.ts`)
+- The client (`*.import.ts`) is main-thread facade code — it imports comlink + shared types only, and lives in `workers/` because `lib/` and `stores/` cannot import workers
 
 ## ShadCN UI (React Aria Base)
 
