@@ -8,11 +8,12 @@ build/
 .next/
 out/
 
+# React Cosmos
+cosmos-export/
+cosmos.imports.ts
+
 # Turbo
 .turbo/
-
-# Storybook
-storybook-static/
 
 # Vite
 vite.config.ts.timestamp-*
@@ -44,6 +45,9 @@ pnpm-debug.log*
 
 # coverage reports
 coverage/
+
+# Local-only STE100 exceptions (never committed)
+.local/
 
 # ASD-STE100 official dictionary (copyright) — extracted locally, never committed
 styles/ste100/

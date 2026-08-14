@@ -15,7 +15,7 @@ Wraps page content to create a full-page PDF drop target. Uses `react-dropzone` 
 
 DropZone wraps its children in a div that serves as the **dropzone root** via `getRootProps()`. This is the standard pattern from react-dropzone's documentation.
 
-**`isDragGlobal`** (from react-dropzone's internal document-level `dragover` listener) detects file drags anywhere on the page, not just over the dropzone element. When active, a full-screen overlay renders with `pointer-events: none`, so drops pass through to the dropzone root below.
+**`isDragGlobal`** (from react-dropzone's internal document-level `dragover` listener) detects file drags anywhere on the page, not only over the dropzone element. When active, a full-screen overlay renders with `pointer-events: none`, so drops pass through to the dropzone root below.
 
 ## Behavior
 

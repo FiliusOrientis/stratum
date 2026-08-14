@@ -100,39 +100,18 @@ The `key` prop differences (`"trigger"` vs `"toolbar-{position}"`) enable Animat
 - All buttons use `size="icon"` for consistent 28px height
 - Separators match button height (`h-7`)
 
-## Storybook
+## Cosmos Fixtures
 
-**File**: `reader-toolbar.stories.tsx`
+**File**: `reader-toolbar.fixture.tsx`
 
-The story uses a `ToolbarStory` wrapper that accepts `currentPage`, `pageCount`, and `position` as props. These are synced to Zustand stores via `useEffect` on mount and prop change. Storybook auto-generates controls for all three props. Use **Open canvas in new tab** to preview the toolbar — the Docs tab shows controls and source but the toolbar's `fixed` positioning renders it outside the docs canvas. `loaders` initialize the stores synchronously before the first render so the preview shows the toolbar immediately.
+Each fixture is a component function that seeds the Zustand stores, then renders the toolbar. The toolbar's `fixed` positioning renders it edge-anchored inside the Cosmos canvas.
 
-### Wrapper pattern
+### Fixtures
 
-```tsx
-function ToolbarStory({ currentPage = 1, pageCount = 42, position = 'top' }) {
-  useEffect(() => {
-    useViewerStore.setState({ currentPage, pageCount })
-    useToolbarStore.setState({ position })
-  }, [currentPage, pageCount, position])
-  return <ReaderToolbar />
-}
-
-Note: `loaders` initialize the stores synchronously before the first render so the docs preview shows the toolbar immediately.
-
-### Variants
-
-| Name | Args | Description |
-|------|------|-------------|
+| Name | Store state | Description |
+|------|-------------|-------------|
 | `Default` | page 1/42, top | Default toolbar position |
 | `BottomPosition` | page 5/100, bottom | Toolbar anchored to bottom |
-
-### Controls
-
-| Prop | Control Type | Options | Default |
-|------|-------------|---------|---------|
-| `currentPage` | number | — | 1 |
-| `pageCount` | number | — | 42 |
-| `position` | select | top, bottom, hidden | top |
 
 ## Tests
 

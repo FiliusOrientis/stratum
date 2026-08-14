@@ -84,7 +84,7 @@ Mechanical part runs in the hook (blocking); skill stages run in `/commit`.
 | 4. Polish | `review-animations` → `emil-design-eng` → `impeccable` | motion / UI polish |
 | 4b. Interface | `better-interface` (full — coords `better-ui`, `better-typography`, `better-colors`, `better-accessibility`, `better-layout`, `better-writing`) | UI/screen/flow touched (report for judgment) |
 | 5. Opportunities | `find-animation-opportunities` (proposal report) → `improve-animations` (audit report) | new components / existing animation code modified |
-| 6. Convention | co-located test + story presence (`pnpm check-collocated` gate in pre-commit) | new component |
+| 6. Convention | co-located test presence; fixture for public components (`pnpm check-collocated` gate in pre-commit) | new component |
 | 7. Counter-guard | `ponytail-review` (delete-list report) | craft stages ran |
 
 ### 5. Architecture — trigger: staged files in `stores/ hooks/ lib/ routes/` (watcher or `/pipeline`)

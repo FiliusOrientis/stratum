@@ -44,4 +44,4 @@ function Toolbar() {
 
 ## Persistence
 
-Position should be persisted to Dexie (config table) so user preference survives reload.
+Persist the position to Dexie (config table) so the user preference survives reload.

@@ -9,12 +9,12 @@
       "cache": false,
       "persistent": true
     },
-    "storybook": {
+    "cosmos": {
       "cache": false,
       "persistent": true
     },
-    "build-storybook": {
-      "outputs": ["storybook-static/**"]
+    "cosmos-export": {
+      "outputs": ["cosmos-export/**"]
     },
     "lint": {
       "outputs": []

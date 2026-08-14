@@ -57,4 +57,4 @@ function CatalogView() {
 
 ## Persistence
 
-State is in-memory only. Persistence is planned via Dexie (not installed); the store should be hydrated on app startup from Dexie and flushed on changes.
+State is in-memory only. Persistence is planned via Dexie (not installed). Hydrate the store from Dexie on app startup and flush it on changes.

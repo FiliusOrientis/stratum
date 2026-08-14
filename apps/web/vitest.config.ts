@@ -1,12 +1,9 @@
 import path from 'node:path'
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { playwright } from '@vitest/browser-playwright'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig } from 'vitest/config'
 
-const alias = { '@': path.resolve(__dirname, './src') }
 const plugins = [
   tailwindcss(),
   react(),
@@ -19,7 +16,7 @@ const plugins = [
 
 export default defineConfig({
   plugins,
-  resolve: { alias },
+  resolve: { alias: { '@': path.resolve(__dirname, './src') } },
   test: {
     coverage: {
       provider: 'v8',
@@ -40,29 +37,6 @@ export default defineConfig({
     },
     setupFiles: ['./src/test/setup.ts'],
     css: true,
-    projects: [
-      {
-        extends: true,
-        test: {
-          name: 'unit',
-          environment: 'jsdom',
-        },
-      },
-      {
-        extends: true,
-        plugins: [...plugins, storybookTest({ configDir: path.join(__dirname, '.storybook') })],
-        resolve: { alias },
-        test: {
-          name: 'storybook',
-          environment: 'node',
-          browser: {
-            enabled: true,
-            headless: true,
-            provider: playwright(),
-            instances: [{ browser: 'chromium' }],
-          },
-        },
-      },
-    ],
+    environment: 'jsdom',
   },
 })

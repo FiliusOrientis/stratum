@@ -98,7 +98,7 @@ Note: `components/ui/` is excluded from the coverage config (`vitest.config.ts`)
 
 ## Architecture Decisions
 
-1. **Two components** (Button + LinkButton) instead of one with polymorphic `as` prop — React Aria doesn't support `asChild` pattern. Each uses its own React Aria primitive.
+1. **Two components** (Button + LinkButton) instead of one with polymorphic `as` prop — React Aria does not support the `asChild` pattern. Each uses its own React Aria primitive.
 2. **CVA over Tailwind variants** — CVA provides type-safe variant configuration with autocomplete. All Tailwind classes are defined once in the CVA call.
 3. **Data attributes** over class name sniffing — `data-variant` and `data-size` enable reliable CSS targeting for testing without depending on generated class names.
 4. **No icon wrapper** — Icons render as direct children. Spacing and sizing handled via CSS selectors (`[&_svg]`).
