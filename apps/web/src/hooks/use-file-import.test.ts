@@ -10,7 +10,14 @@ vi.mock('@/lib/pdf-import', () => ({
   importPdf: vi.fn(),
 }))
 
+const { mockParser } = vi.hoisted(() => ({ mockParser: { parsePdf: vi.fn() } }))
+
+vi.mock('@/workers/pdf.import', () => ({
+  getPdfParser: () => mockParser,
+}))
+
 const mockImportPdf = vi.mocked(importPdf)
+const mockParsePdf = mockParser.parsePdf
 
 function changeEvent(value: string, files: File[]) {
   const input = document.createElement('input')
@@ -24,6 +31,8 @@ describe('useFileImport', () => {
     useCatalogStore.setState({ books: [], isLoading: false, error: null })
     useViewerStore.setState({ pageCount: 0 })
     mockImportPdf.mockReset()
+    mockParsePdf.mockReset()
+    mockParsePdf.mockResolvedValue({ pageCount: 12 })
   })
 
   it('imports a file and adds the book to the catalog', async () => {
@@ -36,6 +45,7 @@ describe('useFileImport', () => {
     })
 
     expect(mockImportPdf).toHaveBeenCalledWith(file)
+    expect(mockParsePdf).toHaveBeenCalledWith(file)
     expect(useCatalogStore.getState().books).toEqual([
       {
         id: 'fp-1',
@@ -56,6 +66,54 @@ describe('useFileImport', () => {
     })
 
     expect(useViewerStore.getState().pageCount).toBe(12)
+  })
+
+  it('prefers parsed metadata and stores the cover thumbnail', async () => {
+    mockImportPdf.mockResolvedValue({ title: 'doc', pageCount: 12, fingerprint: 'fp-1' })
+    mockParsePdf.mockResolvedValue({
+      title: 'Annual Report',
+      author: 'Jane Doe',
+      pageCount: 30,
+      thumbnailBlob: new Blob(['thumb'], { type: 'image/png' }),
+    })
+    const { result } = renderHook(() => useFileImport())
+
+    await act(async () => {
+      await result.current.handleFile(new File(['pdf'], 'doc.pdf'))
+    })
+
+    expect(useCatalogStore.getState().books[0]).toMatchObject({
+      title: 'Annual Report',
+      author: 'Jane Doe',
+      pageCount: 30,
+      coverBlob: expect.any(Blob),
+    })
+    expect(useViewerStore.getState().pageCount).toBe(30)
+  })
+
+  it('falls back to the filename title when metadata has none', async () => {
+    mockImportPdf.mockResolvedValue({ title: 'doc', pageCount: 12, fingerprint: 'fp-1' })
+    mockParsePdf.mockResolvedValue({ pageCount: 12 })
+    const { result } = renderHook(() => useFileImport())
+
+    await act(async () => {
+      await result.current.handleFile(new File(['pdf'], 'doc.pdf'))
+    })
+
+    expect(useCatalogStore.getState().books[0]?.title).toBe('doc')
+  })
+
+  it('records the error in the catalog store when parsing fails', async () => {
+    mockImportPdf.mockResolvedValue({ title: 'doc', pageCount: 12, fingerprint: 'fp-1' })
+    mockParsePdf.mockRejectedValue(new Error('Corrupt PDF'))
+    const { result } = renderHook(() => useFileImport())
+
+    await act(async () => {
+      await result.current.handleFile(new File(['pdf'], 'doc.pdf'))
+    })
+
+    expect(useCatalogStore.getState().error).toBe('Corrupt PDF')
+    expect(useCatalogStore.getState().books).toEqual([])
   })
 
   it('forwards the picked file from input change', async () => {

@@ -54,7 +54,7 @@ stratum/                   root (pnpm workspace)
 
 ## Stack (apps/web)
 
-React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.8, Tailwind v4. ShadCN/React Aria, motion/react, morphicons, Zustand 5, Vitest 4, React Cosmos, Turborepo.
+React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.8, Tailwind v4. ShadCN/React Aria, motion/react, morphicons, Zustand 5, Vitest 4, React Cosmos, Comlink 4, pdfjs-dist 6, Turborepo.
 
 ## Toolchain Quirks
 
@@ -68,7 +68,7 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **ShadCN primitives** (`src/components/ui/`) are **read-only** — except `input-group.tsx` and `kbd.tsx` (custom Motion/variant code kept on top of the registry base)
 - **Turborepo**: tasks defined in `turbo.json`. `lint` depends on `^build`. `test:coverage` only runs unit project.
 - **TypeScript split**: root `typescript` is **v6** (dependency-cruiser cannot transpile TS≥7) — the app's TS7 lives in `apps/web` via `npm:typescript@7.0.2` alias. Never bump root TypeScript past 6.x or `pnpm audit:structure` dies.
-- **Audit tools**: `knip.json` (dead code config — `ignoreBinaries: vale` + `exist` cover binaries used only in scripts: Vale's prose lint and the `if exist` Windows syntax in the `clean` script; `pdfjs-dist` ignored because it is used by `scripts/extract-ste-dictionary.mjs`, outside knip's scan) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
+- **Audit tools**: `knip.json` (dead code config — `ignoreBinaries: vale` + `exist` cover binaries used only in scripts: Vale's prose lint and the `if exist` Windows syntax in the `clean` script) + `.dependency-cruiser.cjs` (architecture rules mirroring `docs/architecture.md`) + `tsconfig.depcruise.json` (audit tsconfig with `@/` paths). Runs in CI `audit` job.
 - **CI**: Node 24, pnpm@9, Ubuntu. Jobs: commitlint (PR only), lint, typecheck, test:coverage, audit. Runs in parallel.
 
 ## Architecture
@@ -76,12 +76,12 @@ React 19, Vite 8, React Router 8 (createBrowserRouter), TypeScript 7, Biome 2.5.
 - **State**: 4 Zustand stores — `catalogStore`, `viewerStore`, `toolbarStore`, `settingsStore`. No context, no prop drilling.
 - **Hooks**: domain logic in `src/hooks/` — `use-url-import`, `use-file-import`, `use-keyboard-shortcut`. Co-located tests.
 - **Storage**: OPFS (binary PDFs). Structured metadata is in-memory only — Dexie is planned, not installed. `lib/storage/opfs.ts` + `lib/storage/types.ts`
-- **Workers**: Comlink RPC pattern (planned — deps not installed). PDF Worker + Search Worker when the flipbook reader lands.
+- **Workers**: Comlink RPC. PDF Worker built (`workers/pdf.worker.ts` + `workers/pdf.import.ts` client). Search Worker planned when the reader lands.
 - **3D**: R3F + drei (planned — deps not installed). Single page view only. Cover types: none/plain/basic/ridge. DearFlip vendor code at `packages/3d-engine-vendor/` (does not exist yet — reference material only)
 - **Styling**: Tailwind v4 CSS-first, `@theme` directive, semantic colors, `@utility text-2xs` (0.625rem), flat layout
 - **Icons**: `lucide-react` for static icons — canonical PascalCase names (for example `ArrowRight`), no `Icon` suffix. `morphicons` (`MorphIcon`) for morphing transitions, consuming icon data from the vanilla `lucide` package — keep `lucide` and `lucide-react` versions aligned. `MorphIcon` passes `reducedMotion="user"` to follow the app's motion-preference policy (its default is `"never"`).
 - **Animation constants**: `src/lib/animation.ts` — `easeOut`, `easeInOut`, `springPreset`. All Motion animations follow Emil Kowalski rules (skills: `emil-design-eng`, `review-animations`)
-- **Data flow** (target): PDF import → OPFS (bytes) → PDF Worker → Dexie (metadata). Reader → Dexie → OPFS → Worker → textures + text items. Current: import → OPFS → in-memory catalog.
+- **Data flow** (target): PDF import → OPFS (bytes) → PDF Worker → Dexie (metadata). Reader → Dexie → OPFS → Worker → textures + text items. Current: import → OPFS + PDF Worker → in-memory catalog.
 
 ## Component Conventions
 

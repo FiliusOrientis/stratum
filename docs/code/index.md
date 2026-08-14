@@ -123,7 +123,12 @@ Tests co-located: `use-file-import.test.ts` (5), `use-url-import.test.ts` (15).
 
 ## Workers (`workers/`)
 
-Planned — the directory does not exist yet. Comlink RPC: `pdf.worker.ts` (pdfjs-dist document loading) and `search.worker.ts` (MiniSearch indexing) land with the flipbook reader.
+| File | Doc | Purpose |
+|------|-----|---------|
+| `pdf.types.ts` | — | Shared `PdfParseResult` contract |
+| `pdf.worker.ts` | `workers/pdf-worker.md` | Comlink entry: `parsePdf(file)` — metadata, page count, page-1 thumbnail |
+| `pdf.import.ts` | — | Main-thread typed proxy client (lazy singleton) |
+| `search.worker.ts` | — | Comlink RPC: MiniSearch indexing (planned — deps not installed) |
 
 ## Lib (`lib/`)
 

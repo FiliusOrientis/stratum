@@ -34,10 +34,11 @@ stratum/
 └─────────────┘                   └──────────────┘
 ```
 
-Planned — no worker code or deps exist yet. When built:
-- Comlink wraps worker communication as typed async function calls
-- No raw `postMessage` anywhere
-- Worker lives in `apps/web/src/workers/`
+Built — the PDF Worker lives in `apps/web/src/workers/`:
+- `pdf.worker.ts` — Comlink entry: `parsePdf(file)` extracts metadata, page count, and the page-1 thumbnail (OffscreenCanvas)
+- `pdf.import.ts` — main-thread typed proxy client (lazy singleton)
+- `pdf.types.ts` — shared `PdfParseResult` contract
+- Comlink wraps worker communication as typed async function calls; no raw `postMessage` anywhere
 
 ## State Architecture
 
@@ -62,7 +63,7 @@ Zustand stores (no context, no prop drilling):
 
 ## Data Architecture
 
-Current: PDF import → OPFS (bytes) → in-memory catalog (no persistence layer yet).
+Current: PDF import → OPFS (bytes) → PDF Worker (metadata + thumbnail) → in-memory catalog (no persistence layer yet).
 
 ```
 ┌──────────┐  raw bytes    ┌──────────┐  parsed   ┌───────────┐
@@ -110,7 +111,7 @@ Finds unused files, dependencies, exports, and binaries. `knip.json` documents t
 | `ui-primitives-self-contained`        | `components/ui/*` only imports ui siblings + `lib/utils`                               |
 | `lib-pure`                            | `lib/` never imports components/routes/stores/hooks/workers                            |
 | `stores-pure`                         | `stores/` never imports components/routes/hooks/workers                                |
-| `hooks-layer`                         | `hooks/` never imports components/routes/workers                                       |
+| `hooks-layer`                         | `hooks/` never imports components/routes (workers allowed — hooks orchestrate the PDF Worker) |
 | `workers-isolated`                    | `workers/` only imports `lib/`                                                         |
 | `routes-use-barrels`                  | `routes/` reaches components via barrels or root shared files, never feature internals |
 

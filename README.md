@@ -28,7 +28,7 @@ Monorepo: `apps/web` (React 19 SPA) → `apps/api` (Vercel serverless, planned) 
 - **3D Flipbook** — R3F single-page viewer (planned — deps not installed)
 - **3D Bookshelf** — R3F catalog view (planned — deps not installed)
 - **Projected Text Layer** — selectable text on 3D pages (planned — deps not installed)
-- **PDF Pipeline** — Comlink Web Worker for pdfjs-dist parsing (planned — deps not installed)
+- **PDF Pipeline** — Comlink Web Worker for pdfjs-dist parsing: metadata, page count, page-1 thumbnail (search/reader pipelines planned)
 - **Storage** — OPFS (binary PDFs); structured metadata in-memory (Dexie planned)
 - **Responsive** — Desktop, tablet, mobile from day one
 

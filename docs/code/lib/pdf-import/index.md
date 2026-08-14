@@ -18,21 +18,21 @@ Imports a PDF file into the app.
 | Property | Type | Description |
 |----------|------|-------------|
 | `title` | `string` | Display title (filename without .pdf extension) |
-| `pageCount` | `number` | Initial page count (0 — filled by PDF Worker later) |
+| `pageCount` | `number` | Initial page count (0 — the PDF Worker fills the real count) |
 | `fingerprint` | `string` | SHA-256 hex digest of file bytes |
 
 **Side effects**: Saves PDF bytes to OPFS via `savePdf(fingerprint, file)`.
 
 Note: `computeSha256` is an internal helper (not exported) used by `importPdf` for the fingerprint.
 
-## Pipeline (future)
+## Pipeline
 
 1. User picks file → `importPdf` computes the SHA-256 fingerprint
 2. `savePdf(fingerprint, file)` → OPFS
-3. PDF Worker loads from OPFS → extracts metadata + text + thumbnail
-4. `catalogStore.addBook()` with enriched metadata
+3. PDF Worker (`workers/pdf.worker.ts`) parses the same bytes → metadata + page count + thumbnail
+4. `catalogStore.addBook()` with the enriched metadata — orchestrated in `use-file-import`
 
-Currently step 3-4 are stubs — the PDF Worker integration is Milestone 3.
+Text extraction and outline/TOC parsing land with the reader step.
 
 ## Usage
 

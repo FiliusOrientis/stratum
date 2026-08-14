@@ -5,8 +5,7 @@
   "workspaces": {
     "apps/web": {
       "entry": ["src/routes/index.ts", "src/**/*.fixture.tsx"],
-      "ignore": ["src/components/ui/**"],
-      "ignoreDependencies": ["pdfjs-dist"]
+      "ignore": ["src/components/ui/**"]
     }
   }
 }

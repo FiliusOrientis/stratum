@@ -9,7 +9,7 @@ Shared language between developers and AI. Use these terms — never synonyms.
 - **Projected Text Layer** — HTML overlay on top of the R3F canvas. Extracted pdfjs-dist text items positioned in screen-space (planned — deps not installed). Enables text selection, copying, and highlighting without interfering with canvas interaction.
 - **AI Assistant** — Gemini-powered chat with streaming, text-to-speech.
 - **Storage** — OPFS for binary PDFs; structured metadata is in-memory only (Dexie planned).
-- **PDF Worker** — Dedicated Web Worker (Comlink) for pdfjs-dist document parsing (planned — deps not installed).
+- **PDF Worker** — Dedicated Web Worker (Comlink) for pdfjs-dist document parsing: metadata (title, author), page count, and page-1 thumbnail.
 - **Search Worker** — Dedicated Web Worker (Comlink) for MiniSearch full-text indexing (planned — deps not installed).
 
 ## Viewer Model (3D-Only)
@@ -46,14 +46,12 @@ Shared language between developers and AI. Use these terms — never synonyms.
 
 ## Workers (Comlink RPC)
 
-Planned — deps not installed. Both workers live in `apps/web/src/workers/` when built.
-
-- **PDF Worker** (`pdf.worker.ts`) — Comlink RPC. Loads pdfjs-dist document, extracts metadata (title, page count, page labels), parses outline/TOC tree, renders page 1 thumbnail, extracts text content items with positions for the projected text layer.
-- **Search Worker** (`search.worker.ts`) — Comlink RPC. Maintains MiniSearch full-text index. Tokenizes extracted page text. Handles keyword queries and ranked search results.
+- **PDF Worker** (`pdf.worker.ts`) — Comlink RPC. Loads a PDF from bytes passed by the main thread, extracts metadata (title, author, page count), and renders the page-1 thumbnail via OffscreenCanvas. Client: `pdf.import.ts`.
+- **Search Worker** (`search.worker.ts`) — planned — deps not installed. Comlink RPC. Maintains a MiniSearch full-text index. Tokenizes extracted page text. Handles keyword queries and ranked search results.
 
 ## Data Flow
 
-Target architecture (current: import → OPFS → in-memory catalog):
+Target architecture (current: import → OPFS + PDF Worker → in-memory catalog):
 
 ```
 PDF import → OPFS (binary bytes) → PDF Worker → thumbnail (Blob) + metadata + text items

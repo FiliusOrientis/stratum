@@ -49,11 +49,10 @@ src/components/app-shell/
 
 ## Comlink Workers
 
-Planned pattern — no worker code or deps yet. When the flipbook reader lands:
-
-- Worker entry file exports typed API: `export const api = { ... }`
-- Main thread gets typed proxy: `const worker = wrap(new Worker(...))`
+- Worker entry file exposes a typed API: `expose({ parsePdf })` (Comlink)
+- Main thread gets a typed proxy: `wrap<PdfParser>(new Worker(new URL('./pdf.worker.ts', import.meta.url), { type: 'module' }))` — lazy singleton in `workers/pdf.import.ts`
 - Never `postMessage` / `onmessage` — use Comlink exclusively
+- Shared contract lives in a co-located `*.types.ts` (`workers/pdf.types.ts`)
 
 ## ShadCN UI (React Aria Base)
 

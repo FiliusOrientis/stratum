@@ -5,6 +5,7 @@
 ### Features
 
 * **app-shell:** import UI, toolbar, theme toggle, FAB, mobile fixes
+* **web:** PDF Worker (Comlink + pdfjs-dist) - metadata, page count, page-1 thumbnail on import
 * **web:** replace Storybook with React Cosmos UI board
 * **web:** Storybook 10 + ShadCN UI board with full testing infra and foundation stores
 * integrate untools thinking tools, install Matt Pocock engineering skills
