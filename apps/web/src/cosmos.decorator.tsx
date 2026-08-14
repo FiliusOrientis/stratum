@@ -6,6 +6,8 @@ import '@/styles/globals.css'
 // match the running app.
 document.documentElement.classList.add('dark')
 
+// Showcase layout: center fixtures with padding. `fixed`-positioned fixtures
+// (toolbar, FABs) are unaffected by the flex wrapper.
 export default function CosmosDecorator({ children }: { children: React.ReactNode }) {
-  return children
+  return <div className="flex min-h-screen w-full items-center justify-center p-8">{children}</div>
 }
