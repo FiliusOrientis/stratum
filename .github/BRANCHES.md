@@ -10,6 +10,7 @@ Active and past branches. Delete stale ones after merge.
 
 | Branch | Merged | Purpose |
 |--------|--------|---------|
+| `chore/react-cosmos` | PR #92 | Replace Storybook with React Cosmos UI board |
 | `feat/lucide-icons-morph` | PR #86 | Lucide migration, shadcn primitives reinstall, morphicons theme toggle, git-triage tooling |
 | `fix/nanoid-advisory` | PR #87 | nanoid security pin (removed later — fixed natively by vite 8) |
 | `chore/major-dep-upgrades` | PR #88 | vite 8, motion 13, react-dropzone 20 |
