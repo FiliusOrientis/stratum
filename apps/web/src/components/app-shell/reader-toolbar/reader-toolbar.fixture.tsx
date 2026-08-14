@@ -19,3 +19,5 @@ export const BottomPosition = () => {
   useSeedStores(5, 100, 'bottom')
   return <ReaderToolbar />
 }
+
+export default { Default, BottomPosition }

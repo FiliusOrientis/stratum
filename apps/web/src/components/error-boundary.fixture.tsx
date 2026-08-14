@@ -18,3 +18,5 @@ export const NormalState = () => (
     </div>
   </ErrorBoundary>
 )
+
+export default { ErrorState, NormalState }

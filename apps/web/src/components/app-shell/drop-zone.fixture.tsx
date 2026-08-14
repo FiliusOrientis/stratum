@@ -9,3 +9,5 @@ export const Default = () => (
     </DropZone>
   </div>
 )
+
+export default { Default }

@@ -46,3 +46,5 @@ export const ErrorState = () => (
     isLoading={false}
   />
 )
+
+export default { Collapsed, Open, WithUrl, Loading, ErrorState }

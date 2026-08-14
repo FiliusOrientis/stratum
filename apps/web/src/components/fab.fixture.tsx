@@ -24,3 +24,5 @@ export const Positioned = () => (
     onPress={noop}
   />
 )
+
+export default { Default, Expanded, Positioned }

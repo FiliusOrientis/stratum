@@ -7,3 +7,5 @@ export const Initial = () => (
     <EmptyState onImport={noop} onUrlImport={noop} />
   </div>
 )
+
+export default { Initial }

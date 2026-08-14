@@ -19,3 +19,5 @@ export const TopOpen = () => (
 export const BottomClosed = () => (
   <CollapseToggle isOpen={false} edge="bottom" labelClosed="Show toolbar" onPress={noop} />
 )
+
+export default { TopClosed, TopOpen, BottomClosed }

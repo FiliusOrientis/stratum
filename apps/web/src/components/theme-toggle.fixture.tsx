@@ -11,3 +11,5 @@ export const Default = () => (
     <ThemeToggle position="center" />
   </ThemeProvider>
 )
+
+export default { Default }

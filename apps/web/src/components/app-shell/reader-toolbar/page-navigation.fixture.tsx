@@ -27,3 +27,5 @@ function NavWrapper({ currentPage: initial }: { currentPage: number }) {
 }
 
 export const Interactive = () => <NavWrapper currentPage={5} />
+
+export default { FirstPage, LastPage, Interactive }

@@ -6,3 +6,5 @@ const noop = () => undefined
 // WithUrl, Loading and Error visuals are covered by the UrlImportPanel
 // fixtures; the interactions are covered by document-import.test.tsx.
 export const Closed = () => <DocumentImport onImport={noop} onUrlImport={noop} />
+
+export default { Closed }

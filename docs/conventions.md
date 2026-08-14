@@ -69,7 +69,7 @@ Planned pattern — no worker code or deps yet. When the flipbook reader lands:
 - **Framework**: React Cosmos 7 (`react-cosmos-plugin-vite`) — reuses the app's Vite 8 config (Tailwind v4, unplugin-auto-import)
 - **Server**: `pnpm cosmos` → `localhost:5000`
 - **Location**: Co-located `*.fixture.tsx` next to source files; `src/cosmos.decorator.tsx` applies the dark class to all fixtures
-- **Fixture modules**: named exports — one export per component state. Component-function fixtures hold local state; presentational props pass directly
+- **Fixture modules**: a `export default { Name1, Name2 }` map — one entry per component state (Cosmos reads the default export; top-level named exports are ignored). Component-function fixtures hold local state; presentational props pass directly
 - **Scope**: Fixtures only for app components (`routes/`, `components/` excluding `ui/`). Vendored `ui/` primitives get no fixtures — shadcn registry is their source of truth
 - **Workflow**: Build component → Create fixtures → Verify in Cosmos → Write tests → Integrate into routes
 
