@@ -3,25 +3,19 @@ import type { PDFDocumentProxy } from 'pdfjs-dist'
 import * as pdfjs from 'pdfjs-dist'
 import workerUrl from 'pdfjs-dist/build/pdf.worker.mjs?url'
 
+import { isNonEmptyString } from '@/lib/utils'
+
 import type { PdfParseResult } from './pdf.types'
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerUrl
 
 const THUMBNAIL_SCALE = 0.5
 
-function stringOrUndefined(value: unknown): string | undefined {
-  if (typeof value !== 'string') {
-    return undefined
-  }
-  const trimmed = value.trim()
-  return trimmed ? trimmed : undefined
-}
-
 async function renderThumbnail(
   pdf: PDFDocumentProxy,
   pageNumber: number,
 ): Promise<Blob | undefined> {
-  if (typeof OffscreenCanvas === 'undefined') {
+  if (!('OffscreenCanvas' in globalThis)) {
     return undefined
   }
   const page = await pdf.getPage(pageNumber)
@@ -36,23 +30,32 @@ async function renderThumbnail(
   }
   await page.render({
     canvas: null,
-    canvasContext: context as unknown as CanvasRenderingContext2D,
+    // SAFETY: pdfjs types only accept CanvasRenderingContext2D; the OffscreenCanvas context
+    // exposes the same render surface, so the intersection asserts only the missing type label.
+    canvasContext: context as OffscreenCanvasRenderingContext2D & CanvasRenderingContext2D,
     viewport,
   }).promise
   return canvas.convertToBlob()
 }
 
-export async function parsePdf(file: File): Promise<PdfParseResult> {
-  const data = new Uint8Array(await file.arrayBuffer())
+export async function parsePdf(data: Uint8Array): Promise<PdfParseResult> {
   const task = pdfjs.getDocument({ data })
-  const pdf = await task.promise
   try {
-    const metadata = await pdf.getMetadata()
-    const info = metadata.info as Record<string, unknown> | undefined
-    const thumbnailBlob = await renderThumbnail(pdf, 1)
+    const pdf = await task.promise
+    const [metadata, thumbnailBlob] = await Promise.all([
+      pdf.getMetadata(),
+      // ponytail: thumbnail is best-effort — a broken first page must not kill metadata
+      renderThumbnail(pdf, 1).catch(() => undefined),
+    ])
+    // SAFETY: pdfjs types metadata.info as Object; the raw values are re-validated by
+    // isNonEmptyString at this boundary.
+    // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- pdfjs info is an untyped dictionary by contract
+    const info = metadata.info as Record<string, unknown>
+    const title = info.Title
+    const author = info.Author
     return {
-      title: stringOrUndefined(info?.Title),
-      author: stringOrUndefined(info?.Author),
+      title: isNonEmptyString(title) ? title.trim() : undefined,
+      author: isNonEmptyString(author) ? author.trim() : undefined,
       pageCount: pdf.numPages,
       thumbnailBlob,
     }
