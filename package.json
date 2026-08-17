@@ -30,7 +30,7 @@
     "dependency-cruiser": "^18.2.0",
     "knip": "^6.32.2",
     "lefthook": "^2.1.10",
-    "turbo": "^2.10.9",
+    "turbo": "^2.10.10",
     "typescript": "^6.0.3"
   },
   "engines": {
