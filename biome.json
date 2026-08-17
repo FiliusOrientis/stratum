@@ -4,10 +4,12 @@
   "files": {
     "includes": [
       "**",
+      "!!**/.agents",
       "!!**/.idea",
       "!!**/components/ui",
       "!!**/auto-imports.d.ts",
       "!!**/dist",
+      "!!**/tools",
       "!!apps/web/coverage"
     ]
   },
@@ -216,6 +218,7 @@
           "level": "warn",
           "options": { "maxAllowedComplexity": 15 }
         },
+        "noVoid": "off",
         "noExcessiveNestedTestSuites": "warn",
         "noExtraBooleanCast": "error",
         "noForEach": "warn",
@@ -234,7 +237,6 @@
         "noUselessThisAlias": "warn",
         "noUselessTypeConstraint": "warn",
         "noUselessUndefinedInitialization": "warn",
-        "noVoid": "warn",
         "useArrowFunction": "error",
         "useDateNow": "warn",
         "useFlatMap": "warn",

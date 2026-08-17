@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "ignore": ["scripts/**", ".opencode/**"],
+  "ignore": ["scripts/**", ".opencode/**", ".agents/**", "tools/**"],
   "ignoreBinaries": ["vale", "exist"],
   "workspaces": {
     "apps/web": {
