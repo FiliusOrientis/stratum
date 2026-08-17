@@ -5,8 +5,5 @@ export interface BookEntity {
   coverBlob?: Blob
   pageCount: number
   lastPage: number
-  lastRead?: Date
   addedAt: Date
-  tags?: string[]
-  opfsPath: string
 }

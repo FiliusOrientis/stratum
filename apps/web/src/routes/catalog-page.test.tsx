@@ -4,17 +4,29 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useCatalogStore } from '@/stores/catalog.store'
 import { CatalogPage } from './catalog-page'
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- internal seam: converts to DI when the services layer lands
 vi.mock('@/lib/pdf-import', () => ({
   importPdf: vi.fn().mockResolvedValue({
     title: 'test-doc',
-    pageCount: 42,
     fingerprint: 'mock-fingerprint',
   }),
 }))
 
+const { toastSpy } = vi.hoisted(() => ({ toastSpy: { error: vi.fn() } }))
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- external sonner dependency mocked at the boundary
+vi.mock('sonner', () => ({
+  toast: toastSpy,
+}))
+
+function seedBook(id: string, title: string) {
+  return { id, title, pageCount: 10, lastPage: 1, addedAt: new Date() }
+}
+
 describe('CatalogPage', () => {
   beforeEach(() => {
-    useCatalogStore.setState({ books: [], isLoading: false, error: null })
+    useCatalogStore.setState({ books: [], error: null })
+    toastSpy.error.mockClear()
   })
 
   it('renders EmptyState when no books', () => {
@@ -40,31 +52,24 @@ describe('CatalogPage', () => {
     expect(screen.getByText('to toggle dark mode')).toBeInTheDocument()
   })
 
-  it('renders book count when books exist', () => {
-    useCatalogStore.setState({
-      books: [
-        {
-          id: '1',
-          title: 'Test Book',
-          pageCount: 100,
-          lastPage: 1,
-          addedAt: new Date(),
-        },
-      ],
-    })
+  it('renders singular book count', () => {
+    useCatalogStore.setState({ books: [seedBook('1', 'Test Book')] })
     render(<CatalogPage />)
-    expect(screen.getByText('1 book(s) imported')).toBeInTheDocument()
+    expect(screen.getByText('1 book imported')).toBeInTheDocument()
   })
 
   it('renders pluralized book count', () => {
     useCatalogStore.setState({
-      books: [
-        { id: '1', title: 'A', pageCount: 10, lastPage: 1, addedAt: new Date() },
-        { id: '2', title: 'B', pageCount: 20, lastPage: 1, addedAt: new Date() },
-      ],
+      books: [seedBook('1', 'A'), seedBook('2', 'B')],
     })
     render(<CatalogPage />)
-    expect(screen.getByText('2 book(s) imported')).toBeInTheDocument()
+    expect(screen.getByText('2 books imported')).toBeInTheDocument()
+  })
+
+  it('shows an error toast when the catalog store reports an import error', () => {
+    useCatalogStore.setState({ error: 'Import failed' })
+    render(<CatalogPage />)
+    expect(toastSpy.error).toHaveBeenCalledWith('Import failed')
   })
 
   it('triggers file input when import card is clicked', async () => {
@@ -73,6 +78,7 @@ describe('CatalogPage', () => {
     // biome-ignore lint/security/noSecrets: CSS selector, not a secret
     const hiddenInputs = document.querySelectorAll<HTMLInputElement>('input[type="file"]')
     expect(hiddenInputs.length).toBeGreaterThanOrEqual(1)
+    // SAFETY: the length assertion above guarantees the first element exists
     const clickSpy = vi.spyOn(hiddenInputs[0] as HTMLInputElement, 'click')
     await userEvent.click(card)
     expect(clickSpy).toHaveBeenCalledOnce()

@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { type Book, useCatalogStore } from './catalog.store'
+import type { BookEntity } from '@/lib/storage'
+import { useCatalogStore } from './catalog.store'
 
-const mockBook: Book = {
+const mockBook: BookEntity = {
   id: 'test-1',
   title: 'Test Book',
   pageCount: 100,
@@ -9,7 +10,7 @@ const mockBook: Book = {
   addedAt: new Date(),
 }
 
-const initialState = { books: [], isLoading: false, error: null }
+const initialState = { books: [], error: null } satisfies { books: BookEntity[]; error: null }
 
 describe('catalogStore', () => {
   beforeEach(() => {
@@ -28,29 +29,12 @@ describe('catalogStore', () => {
     expect(books[0]?.title).toBe('Test Book')
   })
 
-  it('removes a book', () => {
+  it('replaces an existing book with the same id', () => {
     useCatalogStore.getState().addBook(mockBook)
-    useCatalogStore.getState().removeBook('test-1')
-    expect(useCatalogStore.getState().books).toHaveLength(0)
-  })
-
-  it('updates a book', () => {
-    useCatalogStore.getState().addBook(mockBook)
-    useCatalogStore.getState().updateBook('test-1', { lastPage: 42 })
+    useCatalogStore.getState().addBook({ ...mockBook, title: 'Updated Title' })
     const books = useCatalogStore.getState().books
-    expect(books[0]?.lastPage).toBe(42)
-  })
-
-  it('updateBook ignores non-matching id', () => {
-    useCatalogStore.getState().addBook(mockBook)
-    useCatalogStore.getState().updateBook('nonexistent', { title: 'Changed' })
-    const books = useCatalogStore.getState().books
-    expect(books[0]?.title).toBe('Test Book')
-  })
-
-  it('sets loading state', () => {
-    useCatalogStore.getState().setLoading(true)
-    expect(useCatalogStore.getState().isLoading).toBe(true)
+    expect(books).toHaveLength(1)
+    expect(books[0]?.title).toBe('Updated Title')
   })
 
   it('sets error state', () => {

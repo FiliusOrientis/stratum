@@ -1,34 +1,24 @@
 import { create } from 'zustand'
 import type { BookEntity } from '@/lib/storage'
 
-export type Book = Omit<BookEntity, 'opfsPath'>
-
 interface CatalogState {
-  books: Book[]
-  isLoading: boolean
+  books: BookEntity[]
   error: string | null
 }
 
 interface CatalogActions {
-  addBook: (book: Book) => void
-  removeBook: (id: string) => void
-  setBooks: (books: Book[]) => void
-  updateBook: (id: string, partial: Partial<Book>) => void
-  setLoading: (loading: boolean) => void
+  addBook: (book: BookEntity) => void
   setError: (error: string | null) => void
 }
 
 export const useCatalogStore = create<CatalogState & CatalogActions>(set => ({
   books: [],
-  isLoading: false,
   error: null,
-  addBook: book => set(s => ({ books: [...s.books, book] })),
-  removeBook: id => set(s => ({ books: s.books.filter(b => b.id !== id) })),
-  setBooks: books => set({ books }),
-  updateBook: (id, partial) =>
+  addBook: book =>
     set(s => ({
-      books: s.books.map(b => (b.id === id ? { ...b, ...partial } : b)),
+      books: s.books.some(b => b.id === book.id)
+        ? s.books.map(b => (b.id === book.id ? book : b))
+        : [...s.books, book],
     })),
-  setLoading: isLoading => set({ isLoading }),
   setError: error => set({ error }),
 }))
