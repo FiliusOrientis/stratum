@@ -34,7 +34,7 @@ export const useToolbarStore = create<ToolbarState & ToolbarActions>((set, get) 
   },
   show: () => {
     const { previousPosition } = get()
-    set({ position: previousPosition ?? 'top' })
+    set({ position: previousPosition })
   },
   toggleTocDrawer: () => set(s => ({ isTocDrawerOpen: !s.isTocDrawerOpen })),
   setTocDrawerOpen: isTocDrawerOpen => set({ isTocDrawerOpen }),

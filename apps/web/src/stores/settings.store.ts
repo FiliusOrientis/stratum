@@ -20,12 +20,18 @@ export const useSettingsStore = create<SettingsState & SettingsActions>(set => (
   isDialogOpen: false,
   setGeminiKey: (slot, key) =>
     set(s => {
+      if (slot < 0 || slot >= MAX_KEYS) {
+        return s
+      }
       const geminiKeys = [...s.geminiKeys]
       geminiKeys[slot] = key
       return { geminiKeys }
     }),
   clearGeminiKey: slot =>
     set(s => {
+      if (slot < 0 || slot >= MAX_KEYS) {
+        return s
+      }
       const geminiKeys = [...s.geminiKeys]
       geminiKeys[slot] = null
       return { geminiKeys }
