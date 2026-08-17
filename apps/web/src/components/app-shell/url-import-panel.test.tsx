@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createRef } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { UrlImportPanel, type UrlImportPanelProps } from './url-import-panel'
+import { UrlImportPanel } from './url-import-panel'
+import type { UrlImportPanelProps } from './url-import-panel.types'
 
 function props(overrides: Partial<UrlImportPanelProps> = {}): UrlImportPanelProps {
   return {

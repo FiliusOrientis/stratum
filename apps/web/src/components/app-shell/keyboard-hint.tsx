@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import { Kbd, KbdGroup } from '@/components/ui/kbd'
 
 export interface KeyboardHintProps {

@@ -1,7 +1,7 @@
 import { MotionConfig } from 'motion/react'
 import { useTheme } from 'next-themes'
-import { type ReactNode, useCallback } from 'react'
-import { ThemeToggle } from '@/components/theme-toggle'
+import type { ReactNode } from 'react'
+import { ThemeToggle } from '@/components/shared'
 import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut'
 
 interface AppLayoutProps {
@@ -10,11 +10,10 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ header, children }: AppLayoutProps) {
-  const { setTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
   const toggle = useCallback(() => {
-    const dark = document.documentElement.classList.contains('dark')
-    setTheme(dark ? 'light' : 'dark')
-  }, [setTheme])
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+  }, [resolvedTheme, setTheme])
 
   useKeyboardShortcut({ key: 'd' }, toggle)
 

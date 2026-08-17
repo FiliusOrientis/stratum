@@ -14,7 +14,7 @@ export type FabPosition =
   | 'bottom-center'
   | 'bottom-right'
 
-const POSITION_CLASSES: Record<FabPosition, string> = {
+const POSITION_CLASSES = {
   'top-left': 'top-4 left-4',
   'top-center': 'top-4 left-1/2 -translate-x-1/2',
   'top-right': 'top-4 right-4',
@@ -24,7 +24,7 @@ const POSITION_CLASSES: Record<FabPosition, string> = {
   'bottom-left': 'bottom-4 left-4',
   'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2',
   'bottom-right': 'bottom-4 right-4',
-}
+} satisfies Record<FabPosition, string>
 
 interface FabProps {
   icon: ReactNode

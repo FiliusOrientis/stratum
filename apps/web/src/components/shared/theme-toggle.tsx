@@ -1,8 +1,8 @@
 import { MoonStar, Sun } from 'lucide'
 import { MorphIcon } from 'morphicons/react'
 import { useTheme } from 'next-themes'
-import type { FabPosition } from '@/components/fab'
-import { Fab } from '@/components/fab'
+import type { FabPosition } from './fab'
+import { Fab } from './fab'
 
 interface ThemeToggleProps {
   position?: FabPosition

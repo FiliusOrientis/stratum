@@ -25,4 +25,5 @@ export const Positioned = () => (
   />
 )
 
+// noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
 export default { Default, Expanded, Positioned }

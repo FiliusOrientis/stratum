@@ -10,17 +10,21 @@ describe('PageNavigation', () => {
     onPageChange: vi.fn(),
   })
 
-  it('renders prev/next buttons, page input, and page count', () => {
-    const h = handlers()
+  const renderPage = (currentPage: number, pageCount: number, h = handlers()) => {
     render(
       <PageNavigation
-        currentPage={5}
-        pageCount={10}
+        currentPage={currentPage}
+        pageCount={pageCount}
         onPrev={h.onPrev}
         onNext={h.onNext}
         onPageChange={h.onPageChange}
       />,
     )
+    return h
+  }
+
+  it('renders prev/next buttons, page input, and page count', () => {
+    renderPage(5, 10)
     expect(screen.getByRole('button', { name: 'Previous page' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Next page' })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Page number' })).toHaveValue('5')
@@ -28,116 +32,83 @@ describe('PageNavigation', () => {
   })
 
   it('disables previous button on first page', () => {
-    const h = handlers()
-    render(
-      <PageNavigation
-        currentPage={1}
-        pageCount={10}
-        onPrev={h.onPrev}
-        onNext={h.onNext}
-        onPageChange={h.onPageChange}
-      />,
-    )
+    renderPage(1, 10)
     expect(screen.getByRole('button', { name: 'Previous page' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Next page' })).not.toBeDisabled()
   })
 
   it('disables next button on last page', () => {
-    const h = handlers()
-    render(
-      <PageNavigation
-        currentPage={10}
-        pageCount={10}
-        onPrev={h.onPrev}
-        onNext={h.onNext}
-        onPageChange={h.onPageChange}
-      />,
-    )
+    renderPage(10, 10)
     expect(screen.getByRole('button', { name: 'Next page' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Previous page' })).not.toBeDisabled()
   })
 
   it('calls onPrev when previous button is clicked', async () => {
-    const h = handlers()
-    render(
-      <PageNavigation
-        currentPage={5}
-        pageCount={10}
-        onPrev={h.onPrev}
-        onNext={h.onNext}
-        onPageChange={h.onPageChange}
-      />,
-    )
+    const h = renderPage(5, 10)
     await userEvent.click(screen.getByRole('button', { name: 'Previous page' }))
     expect(h.onPrev).toHaveBeenCalledOnce()
   })
 
   it('calls onNext when next button is clicked', async () => {
-    const h = handlers()
-    render(
-      <PageNavigation
-        currentPage={5}
-        pageCount={10}
-        onPrev={h.onPrev}
-        onNext={h.onNext}
-        onPageChange={h.onPageChange}
-      />,
-    )
+    const h = renderPage(5, 10)
     await userEvent.click(screen.getByRole('button', { name: 'Next page' }))
     expect(h.onNext).toHaveBeenCalledOnce()
   })
 
-  it('calls onPageChange with a valid typed page', () => {
-    const h = handlers()
-    render(
-      <PageNavigation
-        currentPage={5}
-        pageCount={10}
-        onPrev={h.onPrev}
-        onNext={h.onNext}
-        onPageChange={h.onPageChange}
-      />,
-    )
+  it('allows editing intermediate digits without committing', () => {
+    const h = renderPage(5, 100)
+    const input = screen.getByRole('textbox', { name: 'Page number' })
+    fireEvent.change(input, { target: { value: '52' } })
+    expect(h.onPageChange).not.toHaveBeenCalled()
+    expect(input).toHaveValue('52')
+  })
+
+  it('commits a valid typed page on blur', () => {
+    const h = renderPage(5, 10)
     const input = screen.getByRole('textbox', { name: 'Page number' })
     fireEvent.change(input, { target: { value: '7' } })
+    fireEvent.blur(input)
     expect(h.onPageChange).toHaveBeenCalledWith(7)
   })
 
-  it('ignores page numbers below 1', () => {
-    const h = handlers()
-    render(
-      <PageNavigation
-        currentPage={5}
-        pageCount={10}
-        onPrev={h.onPrev}
-        onNext={h.onNext}
-        onPageChange={h.onPageChange}
-      />,
-    )
+  it('commits a valid typed page on Enter', () => {
+    const h = renderPage(5, 10)
     const input = screen.getByRole('textbox', { name: 'Page number' })
-    fireEvent.change(input, { target: { value: '0' } })
-    expect(h.onPageChange).not.toHaveBeenCalled()
+    fireEvent.change(input, { target: { value: '7' } })
+    fireEvent.keyDown(input, { key: 'Enter' })
+    expect(h.onPageChange).toHaveBeenCalledWith(7)
   })
 
-  it('ignores page numbers above page count', () => {
-    const h = handlers()
-    render(
-      <PageNavigation
-        currentPage={5}
-        pageCount={10}
-        onPrev={h.onPrev}
-        onNext={h.onNext}
-        onPageChange={h.onPageChange}
-      />,
-    )
+  it('reverts out-of-range input on blur', () => {
+    const h = renderPage(5, 10)
     const input = screen.getByRole('textbox', { name: 'Page number' })
     fireEvent.change(input, { target: { value: '99' } })
+    fireEvent.blur(input)
     expect(h.onPageChange).not.toHaveBeenCalled()
+    expect(input).toHaveValue('5')
   })
 
-  it('ignores non-numeric input', () => {
+  it('reverts empty input on blur', () => {
+    const h = renderPage(5, 10)
+    const input = screen.getByRole('textbox', { name: 'Page number' })
+    fireEvent.change(input, { target: { value: '' } })
+    fireEvent.blur(input)
+    expect(h.onPageChange).not.toHaveBeenCalled()
+    expect(input).toHaveValue('5')
+  })
+
+  it('rejects non-numeric input on blur', () => {
+    const h = renderPage(5, 10)
+    const input = screen.getByRole('textbox', { name: 'Page number' })
+    fireEvent.change(input, { target: { value: '2abc' } })
+    fireEvent.blur(input)
+    expect(h.onPageChange).not.toHaveBeenCalled()
+    expect(input).toHaveValue('5')
+  })
+
+  it('syncs the draft when the current page changes externally', () => {
     const h = handlers()
-    render(
+    const { rerender } = render(
       <PageNavigation
         currentPage={5}
         pageCount={10}
@@ -147,7 +118,16 @@ describe('PageNavigation', () => {
       />,
     )
     const input = screen.getByRole('textbox', { name: 'Page number' })
-    fireEvent.change(input, { target: { value: 'abc' } })
-    expect(h.onPageChange).not.toHaveBeenCalled()
+    fireEvent.change(input, { target: { value: '8' } })
+    rerender(
+      <PageNavigation
+        currentPage={8}
+        pageCount={10}
+        onPrev={h.onPrev}
+        onNext={h.onNext}
+        onPageChange={h.onPageChange}
+      />,
+    )
+    expect(screen.getByRole('textbox', { name: 'Page number' })).toHaveValue('8')
   })
 })

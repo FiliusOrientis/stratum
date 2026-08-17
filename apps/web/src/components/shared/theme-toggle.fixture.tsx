@@ -12,4 +12,5 @@ export const Default = () => (
   </ThemeProvider>
 )
 
+// noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
 export default { Default }

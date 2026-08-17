@@ -1,5 +1,5 @@
 import type { ErrorInfo, ReactNode } from 'react'
-import { Component } from 'react'
+import { Component, Fragment } from 'react'
 import { Button } from '@/components/ui/button'
 
 interface ErrorBoundaryProps {
@@ -9,15 +9,16 @@ interface ErrorBoundaryProps {
 interface ErrorBoundaryState {
   hasError: boolean
   error: Error | null
+  resetKey: number
 }
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props)
-    this.state = { hasError: false, error: null }
+    this.state = { hasError: false, error: null, resetKey: 0 }
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     return { hasError: true, error }
   }
 
@@ -26,7 +27,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   resetErrorBoundary = () => {
-    this.setState({ hasError: false, error: null })
+    this.setState(s => ({ hasError: false, error: null, resetKey: s.resetKey + 1 }))
   }
 
   render() {
@@ -51,6 +52,6 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         </div>
       )
     }
-    return this.props.children
+    return <Fragment key={this.state.resetKey}>{this.props.children}</Fragment>
   }
 }

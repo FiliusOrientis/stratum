@@ -7,7 +7,6 @@ const mockUseTheme = vi.mocked(useTheme)
 
 describe('AppLayout', () => {
   beforeEach(() => {
-    document.documentElement.classList.remove('dark')
     mockUseTheme.mockReturnValue({
       theme: 'dark',
       setTheme: vi.fn(),
@@ -51,7 +50,6 @@ describe('AppLayout', () => {
       resolvedTheme: 'dark',
       themes: ['dark', 'light'],
     })
-    document.documentElement.classList.add('dark')
     render(
       <AppLayout>
         <div>content</div>
@@ -110,6 +108,24 @@ describe('AppLayout', () => {
       </AppLayout>,
     )
     fireEvent.keyDown(document, { key: 'x' })
+    expect(setTheme).not.toHaveBeenCalled()
+  })
+
+  it('ignores the d key when a modifier is held', () => {
+    const setTheme = vi.fn()
+    mockUseTheme.mockReturnValue({
+      theme: 'dark',
+      setTheme,
+      resolvedTheme: 'dark',
+      themes: ['dark', 'light'],
+    })
+    render(
+      <AppLayout>
+        <div>content</div>
+      </AppLayout>,
+    )
+    fireEvent.keyDown(document, { key: 'd', ctrlKey: true })
+    fireEvent.keyDown(document, { key: 'd', altKey: true })
     expect(setTheme).not.toHaveBeenCalled()
   })
 })

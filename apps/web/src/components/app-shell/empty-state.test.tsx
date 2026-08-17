@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { EmptyState } from './empty-state'
 
 const noop = () => undefined
@@ -8,10 +8,15 @@ const HELPER_TEXT_PATTERN = /example\.com\/document\.pdf/
 
 function getSubmitButton(): HTMLButtonElement {
   const buttons = screen.getAllByRole('button')
+  // SAFETY: the submit button is rendered by the URL panel in every tested state
   return buttons.find(btn => btn.getAttribute('type') === 'submit') as HTMLButtonElement
 }
 
 describe('EmptyState', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('renders the wordmark', () => {
     render(<EmptyState onImport={noop} onUrlImport={noop} />)
     expect(screen.getAllByAltText('Stratum')).toHaveLength(2)
@@ -101,7 +106,6 @@ describe('EmptyState', () => {
     expect(onUrlImport).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'doc.pdf', type: 'application/pdf' }),
     )
-    vi.restoreAllMocks()
   })
 
   it('shows error message on fetch failure', async () => {
@@ -111,7 +115,6 @@ describe('EmptyState', () => {
     await user.type(screen.getByPlaceholderText('Paste a PDF link'), 'https://example.com/doc.pdf')
     await user.click(getSubmitButton())
     expect(await screen.findByText('Could not reach this URL')).toBeInTheDocument()
-    vi.restoreAllMocks()
   })
 
   it('shows error for non-PDF content-type', async () => {
@@ -126,7 +129,6 @@ describe('EmptyState', () => {
     await user.type(screen.getByPlaceholderText('Paste a PDF link'), 'https://example.com/doc.pdf')
     await user.click(getSubmitButton())
     expect(await screen.findByText('URL does not point to a PDF')).toBeInTheDocument()
-    vi.restoreAllMocks()
   })
 
   it('clears error when user types after failed submission', async () => {
@@ -139,7 +141,6 @@ describe('EmptyState', () => {
     expect(await screen.findByText('Could not reach this URL')).toBeInTheDocument()
     await user.type(input, 'x')
     expect(screen.queryByText('Could not reach this URL')).not.toBeInTheDocument()
-    vi.restoreAllMocks()
   })
 
   it('calls onImport on Ctrl+O keyboard shortcut', () => {

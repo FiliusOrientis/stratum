@@ -1,6 +1,5 @@
 import { ArrowRight, Clipboard, Loader2, X } from 'lucide-react'
 import { motion } from 'motion/react'
-import type { RefObject, SubmitEvent } from 'react'
 import { FieldError } from '@/components/ui/field-error'
 import {
   InputGroup,
@@ -11,56 +10,75 @@ import {
 } from '@/components/ui/input-group'
 import { Label } from '@/components/ui/label'
 import { easeOut } from '@/lib/animation'
+import type { UrlImportPanelProps } from './url-import-panel.types'
 
-export interface UrlImportPanelProps {
-  scope: RefObject<HTMLDivElement | null>
-  urlValue: string
+interface UrlActionButtonProps {
   urlError: string | null
+  urlValue: string
   isLoading: boolean
-  handleUrlSubmit: (e: SubmitEvent<HTMLFormElement>) => Promise<void>
-  handlePaste: () => Promise<void>
   handleClear: () => void
-  setUrlValue: (value: string) => void
-  isUrlOpen: boolean
+  handlePaste: () => Promise<void>
 }
 
-function importAddonIcon(urlError: string | null, urlValue: string, isLoading: boolean) {
+function UrlActionButton({
+  urlError,
+  urlValue,
+  isLoading,
+  handleClear,
+  handlePaste,
+}: UrlActionButtonProps) {
+  const buttonClass = 'mr-[-0.5px]'
   if (urlError) {
-    return <X aria-hidden="true" />
+    return (
+      <InputGroupButton
+        className={buttonClass}
+        variant="ghost"
+        type="button"
+        aria-label="Clear input"
+        onPress={handleClear}
+      >
+        <X aria-hidden="true" />
+      </InputGroupButton>
+    )
   }
   if (isLoading) {
-    return <Loader2 aria-hidden="true" className="-mr-0.5 size-4 animate-spin" />
+    return (
+      <InputGroupButton
+        className={buttonClass}
+        variant="ghost"
+        type="submit"
+        aria-label="Submit URL"
+        isDisabled={true}
+      >
+        <Loader2 aria-hidden="true" className="-mr-0.5 size-4 animate-spin" />
+      </InputGroupButton>
+    )
   }
   if (urlValue.trim()) {
-    return <ArrowRight aria-hidden="true" />
+    return (
+      <InputGroupButton
+        className={buttonClass}
+        variant="ghost"
+        type="submit"
+        aria-label="Submit URL"
+      >
+        <ArrowRight aria-hidden="true" />
+      </InputGroupButton>
+    )
   }
-  return null
-}
-
-function buildActionProps(
-  urlError: string | null,
-  urlValue: string,
-  isLoading: boolean,
-  handleClear: () => void,
-  handlePaste: () => Promise<void>,
-) {
-  const addonIcon = importAddonIcon(urlError, urlValue, isLoading)
-  const showAction = !!(urlError || urlValue.trim() || isLoading)
-  if (showAction) {
-    return {
-      type: (urlError ? 'button' : 'submit') as 'button' | 'submit',
-      'aria-label': urlError ? 'Clear input' : 'Submit URL',
-      isDisabled: !urlError && (!urlValue.trim() || isLoading),
-      onPress: urlError ? handleClear : undefined,
-      children: addonIcon,
-    } as const
-  }
-  return {
-    size: 'xs' as const,
-    'aria-label': 'Paste URL from clipboard',
-    onPress: handlePaste,
-    children: <Clipboard aria-hidden="true" />,
-  } as const
+  return (
+    <InputGroupButton
+      className={buttonClass}
+      variant="ghost"
+      type="button"
+      aria-label="Paste URL from clipboard"
+      onPress={() => {
+        void handlePaste()
+      }}
+    >
+      <Clipboard aria-hidden="true" />
+    </InputGroupButton>
+  )
 }
 
 export function UrlImportPanel({
@@ -93,7 +111,11 @@ export function UrlImportPanel({
       className="overflow-hidden"
     >
       <div className="rounded-b-lg border border-border bg-card/50 p-4 pb-2 text-card-foreground text-xs/relaxed">
-        <form onSubmit={handleUrlSubmit} noValidate={true}>
+        <form
+          onSubmit={e => {
+            void handleUrlSubmit(e)
+          }}
+        >
           <Label htmlFor="url-input" className="sr-only">
             URL of a PDF document
           </Label>
@@ -115,10 +137,12 @@ export function UrlImportPanel({
                 <InputGroupText className="text-muted-foreground">https://</InputGroupText>
               </InputGroupAddon>
               <InputGroupAddon align="inline-end">
-                <InputGroupButton
-                  className="mr-[-0.5px]"
-                  variant="ghost"
-                  {...buildActionProps(urlError, urlValue, isLoading, handleClear, handlePaste)}
+                <UrlActionButton
+                  urlError={urlError}
+                  urlValue={urlValue}
+                  isLoading={isLoading}
+                  handleClear={handleClear}
+                  handlePaste={handlePaste}
                 />
               </InputGroupAddon>
             </InputGroup>

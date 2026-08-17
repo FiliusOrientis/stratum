@@ -2,7 +2,7 @@ import { motion } from 'motion/react'
 import { springPreset } from '@/lib/animation'
 import { cn } from '@/lib/utils'
 import { CollapseToggle } from '../collapse-toggle'
-import type { ToolbarAnimation } from './reader-toolbar.types'
+import type { ToolbarAnimation } from './reader-toolbar.helpers'
 
 interface TriggerProps {
   isTop: boolean
