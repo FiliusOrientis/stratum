@@ -6,19 +6,14 @@ Presentational row for a single keyboard shortcut: `Press [Ctrl] + [O] to open a
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `keys` | `string[]` | Key names rendered as keycaps, joined with `+` (e.g. `['Ctrl', 'O']`, `['D']`) |
-| `description` | `string` | Sentence tail describing the action (e.g. `'to open a file'`) |
+| Prop          | Type       | Description                                                                    |
+|---------------|------------|--------------------------------------------------------------------------------|
+| `keys`        | `string[]` | Key names rendered as keycaps, joined with `+` (e.g. `['Ctrl', 'O']`, `['D']`) |
+| `description` | `string`   | Sentence tail describing the action (e.g. `'to open a file'`)                  |
 
-## Structure
+## Styling
 
-```
-<p> ← flex, items-center, gap-1.5, text-xs
-  Press  [Ctrl] + [O]  to open a file
-  Press  [D]          to toggle dark mode
-```
-
+- Row: `flex items-center gap-1.5 text-xs`
 - `Kbd` / `KbdGroup` UI primitives render the keycaps (`Kbd variant="click"`)
 - Multi-key hints join keycaps with a non-italic `+` span
 

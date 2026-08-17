@@ -26,8 +26,8 @@ export const springPreset = {
 }
 
 export const toolbarAnimation = {
-  slideDir: 80,
-  triggerSlide: 40,
+  slideDir: 80, // px
+  triggerSlide: 40, // px
 } as const
 
 export const fadeUp = {

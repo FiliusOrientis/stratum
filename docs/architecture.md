@@ -2,23 +2,27 @@
 
 ## Monorepo Structure
 
-```
-stratum/
-├── apps/
-│   ├── web/          # React 19 SPA (Vite 8, React Router 8)
-│   │   └── src/
-│   │       ├── routes/        # Route-level components (Home, Catalog, etc.)
-│   │       ├── components/    # Feature components (app-shell, ui, shared)
-│   │       ├── stores/        # Zustand stores (viewer, toolbar, catalog, settings)
-│   │       └── lib/           # Utilities, helpers, types
-│   └── api/          # Vercel Serverless Functions
-├── packages/
-│   └── 3d-engine-vendor/  # Legacy DearFlip code (isolated)
-├── docs/             # Architecture & convention docs
-├── biome.json        # Linter/formatter config
-├── turbo.json        # Turborepo pipeline
-├── tsconfig.json     # Root TypeScript base config
-└── pnpm-workspace.yaml
+```mermaid
+flowchart TD
+    stratum["stratum/"]
+    stratum --> apps["apps/"]
+    apps --> web["web/ — React 19 SPA (Vite 8, React Router 8)"]
+    web --> src["src/"]
+    src --> routes["routes/ — route-level components (Catalog, Reader)"]
+    src --> components["components/ — feature components (app-shell, shared, ui)"]
+    src --> hooks["hooks/ — domain-logic hooks (import orchestration, shortcuts)"]
+    src --> stores["stores/ — Zustand stores (viewer, toolbar, catalog, settings)"]
+    src --> workers["workers/ — Comlink worker entries + main-thread clients"]
+    src --> lib["lib/ — utilities, helpers, types, storage"]
+    src --> styles["styles/ — global CSS (Tailwind v4, @theme)"]
+    src --> test["test/ — shared test setup"]
+    stratum --> packages["packages/"]
+    packages --> vendor["3d-engine-vendor/ — legacy DearFlip code (planned — not on disk yet)"]
+    stratum --> docs["docs/ — architecture & convention docs"]
+    stratum --> biome["biome.json — linter/formatter config"]
+    stratum --> turbo["turbo.json — Turborepo pipeline"]
+    stratum --> tsconfig["tsconfig.json — root TypeScript base config"]
+    stratum --> workspace["pnpm-workspace.yaml"]
 ```
 
 ## Isolation Boundary
@@ -27,16 +31,14 @@ stratum/
 
 ## Worker Architecture
 
-```
-┌─────────────┐    Comlink RPC    ┌──────────────┐
-│  apps/web   │ ◄───────────────► │  PDF Worker  │
-│  (main)     │    typed proxy    │ (web worker) │
-└─────────────┘                   └──────────────┘
+```mermaid
+flowchart LR
+    main["apps/web (main thread)"] <-->|"Comlink RPC — typed proxy"| worker["PDF Worker (web worker)"]
 ```
 
 Built — the PDF Worker lives in `apps/web/src/workers/`:
-- `pdf.worker.ts` — Comlink entry: `parsePdf(file)` extracts metadata, page count, and the page-1 thumbnail (OffscreenCanvas)
-- `pdf.import.ts` — main-thread typed proxy client (lazy singleton)
+- `pdf.worker.ts` — Comlink entry: `parsePdf(data: Uint8Array)` extracts metadata, page count, and the page-1 thumbnail (OffscreenCanvas). The main thread transfers the bytes (no clone); a page-render error never kills metadata; `task.destroy()` runs in `finally`, also for rejected loads
+- `pdf.import.ts` — main-thread typed proxy client (lazy singleton); a rejected call resets the singleton and terminates the worker so the next import starts a new one
 - `pdf.types.ts` — shared `PdfParseResult` contract
 - Comlink wraps worker communication as typed async function calls; no raw `postMessage` anywhere
 
@@ -44,12 +46,13 @@ Built — the PDF Worker lives in `apps/web/src/workers/`:
 
 ## State Architecture
 
-```
-Zustand stores (no context, no prop drilling):
-├── viewerStore    — current page, page count, zoom mode/level, cover type, fullscreen
-├── toolbarStore   — edge position (top/bottom/hidden), hide/show, drawer visibility
-├── catalogStore   — book list, import state
-└── settingsStore  — Gemini keys, dialog state
+```mermaid
+flowchart TD
+    stores["Zustand stores (no context, no prop drilling)"]
+    stores --> viewer["viewerStore — current page, page count, zoom mode/level, cover type, fullscreen"]
+    stores --> toolbar["toolbarStore — edge position (top/bottom/hidden), hide/show, drawer visibility"]
+    stores --> catalog["catalogStore — book list (upsert by id), import error (surfaced as toast in CatalogPage)"]
+    stores --> settings["settingsStore — Gemini keys, dialog state"]
 ```
 
 ## Styling Architecture
@@ -65,13 +68,12 @@ Zustand stores (no context, no prop drilling):
 
 ## Data Architecture
 
-Current: PDF import → OPFS (bytes) → PDF Worker (metadata + thumbnail) → in-memory catalog (no persistence layer yet).
+Current: PDF import → single `arrayBuffer()` read → `importPdf` (SHA-256 fingerprint + OPFS save) → PDF Worker (transferred bytes → metadata + thumbnail) → catalog upsert. On parse failure the hook calls `deletePdf(fingerprint)` and records the error; CatalogPage shows it as a toast. The hook ignores concurrent imports of the same file (in-flight guard).
 
-```
-┌──────────┐  raw bytes    ┌──────────┐  parsed   ┌───────────┐
-│   OPFS   │ ◄───────────► │  Worker  │ ────────► │  Dexie    │
-│  (PDFs)  │               │          │           │ (1 table) │
-└──────────┘               └──────────┘           └───────────┘
+```mermaid
+flowchart LR
+    opfs["OPFS (PDFs)"] <-->|"raw bytes"| worker["Worker"]
+    worker -->|"parsed"| dexie["Dexie (1 table)"]
 ```
 
 Target (Dexie not installed yet):
@@ -105,16 +107,16 @@ Finds unused files, dependencies, exports, and binaries. `knip.json` documents t
 
 ### Structure rules (dependency-cruiser — `.dependency-cruiser.cjs`)
 
-| Rule                                  | Enforces                                                                               |
-|---------------------------------------|----------------------------------------------------------------------------------------|
-| `not-to-unresolvable` / `no-circular` | No broken imports, no cycles                                                           |
-| `no-orphans`                          | Every file is imported (placeholders/ambient files exempted)                           |
-| `vendor-isolation`                    | `apps/web` never imports `packages/3d-engine-vendor` (isolation boundary)              |
-| `ui-primitives-self-contained`        | `components/ui/*` only imports ui siblings + `lib/utils`                               |
-| `lib-pure`                            | `lib/` never imports components/routes/stores/hooks/workers                            |
-| `stores-pure`                         | `stores/` never imports components/routes/hooks/workers                                |
+| Rule                                  | Enforces                                                                                                                                                         |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `not-to-unresolvable` / `no-circular` | No broken imports, no cycles                                                                                                                                     |
+| `no-orphans`                          | Every file is imported (placeholders/ambient files exempted)                                                                                                     |
+| `vendor-isolation`                    | `apps/web` never imports `packages/3d-engine-vendor` (isolation boundary)                                                                                        |
+| `ui-primitives-self-contained`        | `components/ui/*` only imports ui siblings + `lib/utils`                                                                                                         |
+| `lib-pure`                            | `lib/` never imports components/routes/stores/hooks/workers                                                                                                      |
+| `stores-pure`                         | `stores/` never imports components/routes/hooks/workers                                                                                                          |
 | `hooks-layer`                         | `hooks/` never imports components/routes (workers allowed — hooks orchestrate the PDF Worker; reverts to `hooks → services → workers` if a services layer lands) |
-| `workers-isolated`                    | `workers/` entries import only `lib`; clients import only comlink + shared types                   |
-| `routes-use-barrels`                  | `routes/` reaches components via barrels or root shared files, never feature internals |
+| `workers-isolated`                    | `workers/` entries import only `lib`; clients import only comlink + shared types                                                                                 |
+| `routes-use-barrels`                  | `routes/` reaches components via barrels or root shared files, never feature internals                                                                           |
 
 **TypeScript split**: dependency-cruiser cannot transpile TypeScript ≥7, so root `typescript` stays pinned at v6 and `apps/web` uses TS7 via the `npm:typescript@7.0.2` alias. `tsconfig.depcruise.json` maps `@/` for the audit run.

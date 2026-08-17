@@ -6,21 +6,21 @@ Visual divider line. ShadCN React Aria component with CVA variants. Renders a 1p
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Line direction |
-| `variant` | `'default' \| 'muted' \| 'soft' \| 'faint'` | `'default'` | Line opacity intensity |
+| Prop          | Type                                        | Default        | Description            |
+|---------------|---------------------------------------------|----------------|------------------------|
+| `orientation` | `'horizontal' \| 'vertical'`                | `'horizontal'` | Line direction         |
+| `variant`     | `'default' \| 'muted' \| 'soft' \| 'faint'` | `'default'`    | Line opacity intensity |
 
 Additional props are passed through to `SeparatorPrimitive` (React Aria).
 
 ## Variants
 
-| Variant | Opacity | Use case |
-|---------|---------|----------|
-| `default` | 100% | Default section dividers |
-| `muted` | 75% | Subtle separation |
-| `soft` | 50% | Light visual grouping |
-| `faint` | 25% | Barely visible dividers, decorative |
+| Variant   | Opacity | Use case                            |
+|-----------|---------|-------------------------------------|
+| `default` | 100%    | Default section dividers            |
+| `muted`   | 75%     | Subtle separation                   |
+| `soft`    | 50%     | Light visual grouping               |
+| `faint`   | 25%     | Barely visible dividers, decorative |
 
 ## Rendering
 

@@ -14,28 +14,30 @@ If any of these files don't exist, **proceed silently**. Don't flag their absenc
 
 Single-context repo (most repos):
 
-```
-/
-├── CONTEXT.md
-├── docs/adr/
-│   ├── 0001-event-sourced-orders.md
-│   └── 0002-postgres-for-write-model.md
-└── src/
+```mermaid
+flowchart TD
+    root["/"]
+    root --> context["CONTEXT.md"]
+    root --> adr["docs/adr/"]
+    adr --> a1["0001-event-sourced-orders.md"]
+    adr --> a2["0002-postgres-for-write-model.md"]
+    root --> src["src/"]
 ```
 
 Multi-context repo (presence of `CONTEXT-MAP.md` at the root):
 
-```
-/
-├── CONTEXT-MAP.md
-├── docs/adr/                          ← system-wide decisions
-└── src/
-    ├── ordering/
-    │   ├── CONTEXT.md
-    │   └── docs/adr/                  ← context-specific decisions
-    └── billing/
-        ├── CONTEXT.md
-        └── docs/adr/
+```mermaid
+flowchart TD
+    root["/"]
+    root --> map["CONTEXT-MAP.md"]
+    root --> adr["docs/adr/ — system-wide decisions"]
+    root --> src["src/"]
+    src --> ordering["ordering/"]
+    ordering --> o1["CONTEXT.md"]
+    ordering --> o2["docs/adr/ — context-specific decisions"]
+    src --> billing["billing/"]
+    billing --> b1["CONTEXT.md"]
+    billing --> b2["docs/adr/"]
 ```
 
 ## Use the glossary's vocabulary

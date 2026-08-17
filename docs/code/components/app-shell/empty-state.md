@@ -8,33 +8,17 @@ Full-page empty state shown when the catalog has no books. Features a clickable 
 
 ## Props
 
-| Prop          | Type                     | Default | Description                                               |
-|---------------|--------------------------|---------|-----------------------------------------------------------|
-| `onImport`    | `() => void`             | —       | Fired when the import card is clicked (opens file picker) |
-| `onUrlImport` | `(file: File) => void`   | —       | Fired when a PDF is successfully fetched from a URL       |
+| Prop          | Type                   | Default | Description                                               |
+|---------------|------------------------|---------|-----------------------------------------------------------|
+| `onImport`    | `() => void`           | —       | Fired when the import card is clicked (opens file picker) |
+| `onUrlImport` | `(file: File) => void` | —       | Fired when a PDF is successfully fetched from a URL       |
 
-## Layout
+## Styling
 
-```
-  [Stratum wordmark]             ← dual light/dark SVG swap
-
-┌──────────────────────────────────────────────┐
-│ 📖  Open a document             [⌄ toggle]   │  ← ButtonGroup: card (flex-1) + caret toggle (w-12)
-│     Drop a PDF or click here to browse       │
-└──────────────────────────────────────────────┘
-
-Toggle open (card bottom corners sharpened):
-
-┌──────────────────────────────────────────────┐
-│ 📖  Open a document             [⌃ toggle]   │  ← rounded-b-none border-b-0
-└──────────────────────────────────────────────┘
-┌──────────────────────────────────────────────┐
-│ https:// │ Paste a PDF link │ 📋/→           │  ← UrlImportPanel, rounded-b-lg (sharp top)
-│           e.g. example.com/document.pdf      │
-└──────────────────────────────────────────────┘
-```
-
-Container fits content width, centered via `mx-auto` (`w-fit max-w-full`). Padding: `px-4` → `md:px-10` → `lg:px-16`. Keyboard shortcut hints live behind a `?` FAB toggle at the page bottom-left (see `keyboard-shortcuts-fab.md`).
+- Container fits content width, centered via `mx-auto` (`w-fit max-w-full`)
+- Padding scales: `px-4` → `md:px-10` → `lg:px-16`
+- Vertical rhythm: `gap-8` between wordmark, import card, and any trailing content
+- Keyboard shortcut hints live behind a `?` FAB toggle at the page bottom-left (see `keyboard-shortcuts-fab.md`)
 
 ## Animation
 
@@ -51,7 +35,7 @@ Listens for `Ctrl+O` (or `Cmd+O` on Mac) via the `useKeyboardShortcut` hook. Cal
 
 `document-import.tsx` renders the card and the URL toggle as one `ButtonGroup` (no visual gap between them):
 
-- **Card button** — `variant="outline"`, `aria-label="Open or drop a PDF file"`. Left-aligned icon (`BookOpen`, `size-11`) + heading "Open a document" + subtext "Drop a PDF or click here to browse". `rounded-lg` when closed, `rounded-b-none border-b-0` when open (sharp bottom connects to the URL panel).
+- **Card button** — `variant="outline"`, `aria-label="Open or drop a PDF file"`. Left-aligned icon (`Library`, `size-11`) + heading "Open a document" + subtext "Drop a PDF or click here to browse". `rounded-lg` when closed, `rounded-b-none border-b-0` when open (sharp bottom connects to the URL panel).
 - **Toggle button** — `w-12 shrink-0`, `aria-label` `Import from URL` / `Hide URL input`, `aria-expanded` reflects state, tooltip matches the label. Caret icon is a `motion.create(ChevronDown)` that flips via `scaleY` (150ms, `easeInOut`).
 - **State** — `isUrlOpen` local state; the URL form logic (value, error, loading, submit, paste, clear) comes from the `useUrlImport` hook and is passed to `UrlImportPanel`.
 
@@ -100,7 +84,7 @@ import { EmptyState } from '@/components/app-shell'
 - `motion/react` — `motion` for staggered entrance animation
 - `@/lib/animation` — `fadeUp` entrance variant
 - `@/hooks/use-keyboard-shortcut` — `Ctrl+O` shortcut
-- `@/components/stratum-wordmark` — `StratumWordmark` (theme-aware logo, replaces the heading text)
+- `@/components/shared` — `StratumWordmark` (theme-aware logo, replaces the heading text)
 - `@/components/ui/button-group` — `ButtonGroup` (card + toggle as one unit)
 - `@/components/ui/tooltip` — toggle tooltip
 - `@/components/app-shell/document-import` — `DocumentImport` (card + toggle)
