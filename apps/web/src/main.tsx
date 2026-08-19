@@ -1,7 +1,8 @@
 import { ThemeProvider } from 'next-themes'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './app'
-import { ErrorBoundary } from './components/error-boundary'
+import { ErrorBoundary } from './components/shared'
 import { Toaster } from './components/ui/sonner'
 import './styles/globals.css'
 
@@ -11,15 +12,17 @@ if (!root) {
 }
 
 createRoot(root).render(
-  <ThemeProvider
-    attribute="class"
-    defaultTheme="system"
-    enableSystem={true}
-    disableTransitionOnChange={true}
-  >
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
-    <Toaster />
-  </ThemeProvider>,
+  <StrictMode>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem={true}
+      disableTransitionOnChange={true}
+    >
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+      <Toaster />
+    </ThemeProvider>
+  </StrictMode>,
 )

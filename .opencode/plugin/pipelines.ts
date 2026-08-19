@@ -24,6 +24,7 @@ const PIPELINE_SCOPES: Array<{ name: string; patterns: RegExp[] }> = [
       /^apps\/web\/src\/stores\//,
       /^apps\/web\/src\/hooks\//,
       /^apps\/web\/src\/lib\//,
+      /^apps\/web\/src\/workers\//,
       /^apps\/web\/src\/routes\//,
     ],
   },

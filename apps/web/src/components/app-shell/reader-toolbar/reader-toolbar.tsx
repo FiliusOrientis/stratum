@@ -3,7 +3,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { springPreset } from '@/lib/animation'
 import { cn } from '@/lib/utils'
 import { useToolbarStore } from '@/stores/toolbar.store'
-import { getAnimation } from './reader-toolbar.types'
+import { getAnimation } from './reader-toolbar.helpers'
 import { ToolbarControls } from './reader-toolbar-controls'
 import { ToolbarTrigger } from './reader-toolbar-trigger'
 

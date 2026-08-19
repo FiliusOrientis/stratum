@@ -72,17 +72,18 @@ module.exports = {
     },
     {
       name: 'hooks-layer',
-      comment: 'hooks/ may import lib, stores, and ui — not components, routes, or workers',
+      comment: 'hooks/ may import lib, stores, workers, and ui — not components or routes',
       severity: 'error',
       from: {
         path: '^apps/web/src/hooks',
         pathNot: '\\.(test|fixture)\\.tsx?$',
       },
-      to: { path: '^apps/web/src/(components|routes|workers)' },
+      to: { path: '^apps/web/src/(components|routes)' },
     },
     {
       name: 'workers-isolated',
-      comment: 'workers/ are Comlink islands — may only import lib',
+      comment:
+        'worker entries (*.worker.ts) are Comlink islands — may only import lib; clients (*.import.ts) are main-thread facades — comlink + shared types only',
       severity: 'error',
       from: {
         path: '^apps/web/src/workers',

@@ -17,6 +17,21 @@ export function PageNavigation({
   onNext,
   onPageChange,
 }: PageNavigationProps) {
+  const [draft, setDraft] = useState(String(currentPage))
+
+  useEffect(() => {
+    setDraft(String(currentPage))
+  }, [currentPage])
+
+  const commit = useCallback(() => {
+    const page = Number(draft)
+    if (Number.isInteger(page) && page >= 1 && page <= pageCount) {
+      onPageChange(page)
+    } else {
+      setDraft(String(currentPage))
+    }
+  }, [draft, pageCount, currentPage, onPageChange])
+
   return (
     <>
       <ToolbarButton
@@ -33,12 +48,13 @@ export function PageNavigation({
           type="text"
           inputMode="numeric"
           aria-label="Page number"
-          value={currentPage}
+          value={draft}
           className="h-7 w-12 text-center tabular-nums"
-          onChange={e => {
-            const v = Number.parseInt(e.target.value, 10)
-            if (v >= 1 && v <= pageCount) {
-              onPageChange(v)
+          onChange={e => setDraft(e.target.value)}
+          onBlur={commit}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              commit()
             }
           }}
         />

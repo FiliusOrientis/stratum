@@ -6,22 +6,17 @@ Top-level layout wrapper. Renders header (optional), main content, and the Theme
 
 ## Props
 
-| Prop | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| `header` | `ReactNode` | No | — | Content rendered in the top header bar |
-| `children` | `ReactNode` | Yes | — | Main page content |
+| Prop       | Type        | Required | Default | Description                            |
+|------------|-------------|----------|---------|----------------------------------------|
+| `header`   | `ReactNode` | No       | —       | Content rendered in the top header bar |
+| `children` | `ReactNode` | Yes      | —       | Main page content                      |
 
 ## Structure
 
-```
-<MotionConfig reducedMotion="user">
-  <div class="flex h-dvh w-full flex-col bg-background text-foreground">
-    {header && <header>...</header>}
-    <main>{children}</main>
-    <ThemeToggle />                          ← default top-right position
-  </div>
-</MotionConfig>
-```
+- Wraps the tree in `MotionConfig reducedMotion="user"` (app-wide motion preference)
+- Root div: `flex h-dvh w-full flex-col bg-background text-foreground`
+- Optional `header` bar renders first; `children` render inside `main` (relative, flex-1)
+- `ThemeToggle` renders with default `top-right` position
 
 ## Keyboard
 

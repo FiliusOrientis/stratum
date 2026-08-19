@@ -19,6 +19,7 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 })
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- external next-themes dependency mocked at the boundary
 vi.mock('next-themes', () => ({
   // biome-ignore lint/style/useNamingConvention: mock key must match next-themes PascalCase export
   ThemeProvider: ({ children }: { children: ReactNode }) => children,

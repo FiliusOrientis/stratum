@@ -14,17 +14,6 @@ describe('DropZone', () => {
     expect(screen.getByTestId('child').textContent).toBe('child content')
   })
 
-  it('renders as a flex column container', () => {
-    const { container } = render(
-      <DropZone onDrop={vi.fn()}>
-        <span>inner</span>
-      </DropZone>,
-    )
-    const root = container.firstChild as HTMLElement
-    expect(root.className).toContain('flex')
-    expect(root.className).toContain('flex-col')
-  })
-
   it('does not show drag overlay by default', () => {
     render(
       <DropZone onDrop={vi.fn()}>

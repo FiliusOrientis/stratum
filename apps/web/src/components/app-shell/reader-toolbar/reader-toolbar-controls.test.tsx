@@ -60,6 +60,7 @@ describe('ToolbarControls', () => {
 
   it('moves the position button via setPosition', async () => {
     render(<ToolbarControls isTop={true} />)
+    // SAFETY: the desktop toolbar renders one Move-to-bottom button for this state
     const move = screen.getAllByLabelText('Move to bottom')[0] as HTMLElement
     await move.click()
     expect(useToolbarStore.getState().position).toBe('bottom')

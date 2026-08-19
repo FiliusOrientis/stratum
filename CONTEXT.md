@@ -8,8 +8,8 @@ Shared language between developers and AI. Use these terms — never synonyms.
 - **3D Bookshelf** — R3F render of the user's book catalog (planned — deps not installed). Books as 3D meshes with cover textures.
 - **Projected Text Layer** — HTML overlay on top of the R3F canvas. Extracted pdfjs-dist text items positioned in screen-space (planned — deps not installed). Enables text selection, copying, and highlighting without interfering with canvas interaction.
 - **AI Assistant** — Gemini-powered chat with streaming, text-to-speech.
-- **Storage** — OPFS for binary PDFs; structured metadata is in-memory only (Dexie planned).
-- **PDF Worker** — Dedicated Web Worker (Comlink) for pdfjs-dist document parsing (planned — deps not installed).
+- **Storage** — OPFS for binary PDFs (`savePdf`/`deletePdf` by SHA-256 fingerprint). Structured metadata is in-memory only — Dexie is planned, not installed. `lib/storage/opfs.ts` + `lib/storage/types.ts`
+- **PDF Worker** — Dedicated Web Worker (Comlink) for pdfjs-dist document parsing: metadata (title, author), page count, and page-1 thumbnail. The main thread transfers the bytes (no clone); a page-render error never kills metadata.
 - **Search Worker** — Dedicated Web Worker (Comlink) for MiniSearch full-text indexing (planned — deps not installed).
 
 ## Viewer Model (3D-Only)
@@ -23,19 +23,19 @@ Shared language between developers and AI. Use these terms — never synonyms.
 
 ## Entities
 
-| Term                 | Definition                                                                  |
-|----------------------|-----------------------------------------------------------------------------|
-| Book                 | A loaded PDF rendered as a single-page 3D flipbook                          |
-| Page                 | A single sheet within a Book                                                |
-| Shelf                | The 3D bookshelf view showing the user's Book collection                    |
-| Viewer               | The R3F `<Canvas>` and scene graph rendering the Book                       |
-| Catalog              | The user's collection of Books (local-first; OPFS + in-memory catalog, Dexie planned)  |
-| Cover                | The 3D hardcover mesh (type: none/plain/basic/ridge)                        |
-| Page Turn            | The Bezier-curve page-flip animation between consecutive pages              |
-| Projected Text Layer | Transparent HTML overlay mapping extracted PDF text to 3D page screen-space |
-| Annotation           | Highlight, note, or drawing on a Page (future)                              |
-| Narration            | AI-generated text-to-speech reading of a Page (future)                      |
-| Key Slot             | One of 10 BYOK API key rotation slots for Gemini                            |
+| Term                 | Definition                                                                            |
+|----------------------|---------------------------------------------------------------------------------------|
+| Book                 | A loaded PDF rendered as a single-page 3D flipbook                                    |
+| Page                 | A single sheet within a Book                                                          |
+| Shelf                | The 3D bookshelf view showing the user's Book collection                              |
+| Viewer               | The R3F `<Canvas>` and scene graph rendering the Book                                 |
+| Catalog              | The user's collection of Books (local-first; OPFS + in-memory catalog, Dexie planned) |
+| Cover                | The 3D hardcover mesh (type: none/plain/basic/ridge)                                  |
+| Page Turn            | The Bezier-curve page-flip animation between consecutive pages                        |
+| Projected Text Layer | Transparent HTML overlay mapping extracted PDF text to 3D page screen-space           |
+| Annotation           | Highlight, note, or drawing on a Page (future)                                        |
+| Narration            | AI-generated text-to-speech reading of a Page (future)                                |
+| Key Slot             | One of 10 BYOK API key rotation slots for Gemini                                      |
 
 ## State (Zustand stores)
 
@@ -46,24 +46,23 @@ Shared language between developers and AI. Use these terms — never synonyms.
 
 ## Workers (Comlink RPC)
 
-Planned — deps not installed. Both workers live in `apps/web/src/workers/` when built.
-
-- **PDF Worker** (`pdf.worker.ts`) — Comlink RPC. Loads pdfjs-dist document, extracts metadata (title, page count, page labels), parses outline/TOC tree, renders page 1 thumbnail, extracts text content items with positions for the projected text layer.
-- **Search Worker** (`search.worker.ts`) — Comlink RPC. Maintains MiniSearch full-text index. Tokenizes extracted page text. Handles keyword queries and ranked search results.
+- **PDF Worker** (`pdf.worker.ts`) — Comlink RPC. Loads a PDF from bytes passed by the main thread, extracts metadata (title, author, page count), and renders the page-1 thumbnail via OffscreenCanvas. Client: `pdf.import.ts`.
+- **Search Worker** (`search.worker.ts`) — planned — deps not installed. Comlink RPC. Maintains a MiniSearch full-text index. Tokenizes extracted page text. Handles keyword queries and ranked search results.
 
 ## Data Flow
 
-Target architecture (current: import → OPFS → in-memory catalog):
+Target architecture (current: import → OPFS + PDF Worker → in-memory catalog):
 
-```
-PDF import → OPFS (binary bytes) → PDF Worker → thumbnail (Blob) + metadata + text items
-                                                        ↓
-                                                  Dexie (Book row)
-                                                        ↓
-Reader opens → Dexie (Book) → OPFS (PDF bytes) → PDF Worker → page textures → R3F mesh
-                                                              → text items → Projected Text Layer
-User search → Search Worker (MiniSearch) → ranked results → highlight matches
-Settings → settingsStore (in-memory, no Dexie persistence)
+```mermaid
+flowchart LR
+    subgraph current["Current"]
+        a[PDF import — single arrayBuffer read] --> b[OPFS — bytes keyed by SHA-256 fingerprint]
+        a --> c[PDF Worker — transferred bytes, thumbnail + metadata]
+        b --> d[catalogStore upsert — id = fingerprint]
+        c --> d
+    end
+    d -. parse failure .-> e[deletePdf fingerprint]
+    e --> f[error toast in CatalogPage]
 ```
 
 ## Responsiveness

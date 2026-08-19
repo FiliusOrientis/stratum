@@ -1,9 +1,13 @@
 import { CircleHelp } from 'lucide-react'
 import { AnimatePresence } from 'motion/react'
-import { useState } from 'react'
-import { Fab } from '@/components/fab'
+import { Fab } from '@/components/shared'
 import type { KeyboardHintProps } from './keyboard-hint'
 import { KeyboardShortcuts } from './keyboard-shortcuts'
+
+export const DEFAULT_SHORTCUTS: KeyboardHintProps[] = [
+  { keys: ['Ctrl', 'O'], description: 'to open a file' },
+  { keys: ['D'], description: 'to toggle dark mode' },
+]
 
 interface KeyboardShortcutsFabProps {
   shortcuts: KeyboardHintProps[]

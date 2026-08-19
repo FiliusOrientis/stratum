@@ -1,19 +1,21 @@
 import { act, renderHook } from '@testing-library/react'
-import type { SubmitEvent } from 'react'
 import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest'
-import { useUrlImport } from './use-url-import'
+import { type UrlFormSubmitLike, useUrlImport } from './use-url-import'
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- external motion/react dependency mocked at the boundary
 vi.mock('motion/react', () => ({
   useAnimate: () => [{ current: null }, vi.fn()],
 }))
 
-function pdfResponse(status = 200): Response {
-  return {
-    ok: status >= 200 && status < 300,
-    status,
-    headers: { get: () => 'application/pdf' },
-    blob: async () => new Blob(['pdf'], { type: 'application/pdf' }),
-  } as unknown as Response
+function pdfResponse(overrides: { status?: number; headers?: HeadersInit } = {}): Response {
+  return new Response('pdf', {
+    status: overrides.status ?? 200,
+    headers: overrides.headers ?? { 'content-type': 'application/pdf' },
+  })
+}
+
+function submitEvent(): UrlFormSubmitLike {
+  return { preventDefault: vi.fn() }
 }
 
 describe('useUrlImport', () => {
@@ -38,12 +40,11 @@ describe('useUrlImport', () => {
     act(() => result.current.setUrlValue('example.com/document.pdf'))
 
     await act(async () => {
-      await result.current.handleUrlSubmit({
-        preventDefault: vi.fn(),
-      } as unknown as SubmitEvent<HTMLFormElement>)
+      await result.current.handleUrlSubmit(submitEvent())
     })
 
     expect(onUrlImport).toHaveBeenCalledOnce()
+    // SAFETY: toBeInstanceOf(File) below validates the recorded argument
     const file = onUrlImport.mock.calls[0]?.[0] as File
     expect(file).toBeInstanceOf(File)
     expect(file.name).toBe('document.pdf')
@@ -56,57 +57,86 @@ describe('useUrlImport', () => {
     act(() => result.current.setUrlValue('example.com/document.pdf'))
 
     await act(async () => {
-      await result.current.handleUrlSubmit({
-        preventDefault: vi.fn(),
-      } as unknown as SubmitEvent<HTMLFormElement>)
+      await result.current.handleUrlSubmit(submitEvent())
     })
 
-    expect(fetchSpy).toHaveBeenCalledWith('https://example.com/document.pdf')
+    expect(fetchSpy).toHaveBeenCalledWith(
+      'https://example.com/document.pdf',
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    )
   })
 
-  it('does not fetch when the URL is empty', async () => {
+  it('reports an error and does not fetch when the URL is empty', async () => {
     const { result } = renderHook(() => useUrlImport(vi.fn()))
 
     await act(async () => {
-      await result.current.handleUrlSubmit({
-        preventDefault: vi.fn(),
-      } as unknown as SubmitEvent<HTMLFormElement>)
+      await result.current.handleUrlSubmit(submitEvent())
     })
 
     expect(fetchSpy).not.toHaveBeenCalled()
+    expect(result.current.urlError).toBe('Enter a URL')
   })
 
   it('reports server errors', async () => {
-    fetchSpy.mockResolvedValue(pdfResponse(500))
+    fetchSpy.mockResolvedValue(pdfResponse({ status: 500 }))
     const { result } = renderHook(() => useUrlImport(vi.fn()))
     act(() => result.current.setUrlValue('example.com/document.pdf'))
 
     await act(async () => {
-      await result.current.handleUrlSubmit({
-        preventDefault: vi.fn(),
-      } as unknown as SubmitEvent<HTMLFormElement>)
+      await result.current.handleUrlSubmit(submitEvent())
     })
 
     expect(result.current.urlError).toBe('Server responded with 500')
   })
 
   it('rejects non-PDF content types', async () => {
-    fetchSpy.mockResolvedValue({
-      ok: true,
-      status: 200,
-      headers: { get: () => 'text/html' },
-      blob: async () => new Blob(['<html></html>'], { type: 'text/html' }),
-    } as unknown as Response)
+    fetchSpy.mockResolvedValue(
+      pdfResponse({
+        headers: { 'content-type': 'text/html' },
+      }),
+    )
     const { result } = renderHook(() => useUrlImport(vi.fn()))
     act(() => result.current.setUrlValue('example.com/page'))
 
     await act(async () => {
-      await result.current.handleUrlSubmit({
-        preventDefault: vi.fn(),
-      } as unknown as SubmitEvent<HTMLFormElement>)
+      await result.current.handleUrlSubmit(submitEvent())
     })
 
     expect(result.current.urlError).toBe('URL does not point to a PDF')
+  })
+
+  it('rejects files larger than the size cap', async () => {
+    fetchSpy.mockResolvedValue(
+      pdfResponse({
+        headers: {
+          'content-type': 'application/pdf',
+          'content-length': String(101 * 1024 * 1024),
+        },
+      }),
+    )
+    const { result } = renderHook(() => useUrlImport(vi.fn()))
+    act(() => result.current.setUrlValue('example.com/document.pdf'))
+
+    await act(async () => {
+      await result.current.handleUrlSubmit(submitEvent())
+    })
+
+    expect(result.current.urlError).toBe('File is too large to import')
+  })
+
+  it('percent-decodes the filename from the URL', async () => {
+    fetchSpy.mockResolvedValue(pdfResponse())
+    const onUrlImport = vi.fn()
+    const { result } = renderHook(() => useUrlImport(onUrlImport))
+    act(() => result.current.setUrlValue('example.com/my%20report.pdf'))
+
+    await act(async () => {
+      await result.current.handleUrlSubmit(submitEvent())
+    })
+
+    // SAFETY: toBeInstanceOf(File) in the first import test validates the recorded argument shape
+    const file = onUrlImport.mock.calls[0]?.[0] as File
+    expect(file.name).toBe('my report.pdf')
   })
 
   it('reports unreachable URLs', async () => {
@@ -115,9 +145,7 @@ describe('useUrlImport', () => {
     act(() => result.current.setUrlValue('example.com/document.pdf'))
 
     await act(async () => {
-      await result.current.handleUrlSubmit({
-        preventDefault: vi.fn(),
-      } as unknown as SubmitEvent<HTMLFormElement>)
+      await result.current.handleUrlSubmit(submitEvent())
     })
 
     expect(result.current.urlError).toBe('Could not reach this URL')

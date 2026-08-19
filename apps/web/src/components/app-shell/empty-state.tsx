@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { StratumWordmark } from '@/components/stratum-wordmark'
+import { StratumWordmark } from '@/components/shared'
 import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut'
 import { fadeUp } from '@/lib/animation'
 import { DocumentImport } from './document-import'
@@ -11,7 +11,7 @@ const stagger = {
 }
 
 export function EmptyState({ onImport, onUrlImport }: EmptyStateProps) {
-  useKeyboardShortcut({ key: 'o', ctrlOrMeta: true }, onImport)
+  useKeyboardShortcut({ key: 'o', requiresModifier: true }, onImport)
 
   return (
     <motion.div

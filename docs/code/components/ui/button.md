@@ -33,27 +33,27 @@ CVA (class-variance-authority) variant configuration object. Reusable for custom
 
 ## Variants
 
-| Variant | Purpose | Visual |
-|---------|---------|--------|
-| `default` | Primary action | `bg-primary text-primary-foreground hover:bg-primary/80` |
-| `destructive` | Deletion/danger | `bg-destructive/10 text-destructive hover:bg-destructive/20` + `focus-visible:border-destructive/40 focus-visible:ring-destructive/20` (dark variants at /20 /30 /40) |
-| `ghost` | Minimal, no background | `hover:bg-muted hover:text-foreground` (+ `aria-expanded:bg-muted`) |
-| `outline` | Bordered secondary | `border-border hover:bg-input/50 hover:text-foreground` (+ `aria-expanded:bg-muted`, dark `bg-input/30`) |
-| `secondary` | Alternate primary | `bg-secondary text-secondary-foreground` + `hover:bg-[color-mix(...)]`, `aria-expanded` retained |
-| `link` | Hyperlink appearance | `text-primary underline-offset-4 hover:underline` |
+| Variant       | Purpose                | Visual                                                                                                                                                                |
+|---------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `default`     | Primary action         | `bg-primary text-primary-foreground hover:bg-primary/80`                                                                                                              |
+| `destructive` | Deletion/danger        | `bg-destructive/10 text-destructive hover:bg-destructive/20` + `focus-visible:border-destructive/40 focus-visible:ring-destructive/20` (dark variants at /20 /30 /40) |
+| `ghost`       | Minimal, no background | `hover:bg-muted hover:text-foreground` (+ `aria-expanded:bg-muted`)                                                                                                   |
+| `outline`     | Bordered secondary     | `border-border hover:bg-input/50 hover:text-foreground` (+ `aria-expanded:bg-muted`, dark `bg-input/30`)                                                              |
+| `secondary`   | Alternate primary      | `bg-secondary text-secondary-foreground` + `hover:bg-[color-mix(...)]`, `aria-expanded` retained                                                                      |
+| `link`        | Hyperlink appearance   | `text-primary underline-offset-4 hover:underline`                                                                                                                     |
 
 ## Sizes
 
-| Size | Height | Usage |
-|------|--------|-------|
-| `default` | 28px (h-7) | Standard buttons |
-| `xs` | 20px (h-5) | Compact/tight spaces |
-| `sm` | 24px (h-6) | Dense toolbars |
-| `lg` | 32px (h-8) | Primary/hero buttons |
-| `icon` | 28px (h-7) | Icon-only buttons |
-| `icon-xs` | 20px (h-5) | Tiny icon buttons |
-| `icon-sm` | 24px (h-6) | Small icon buttons |
-| `icon-lg` | 32px (h-8) | Large icon buttons |
+| Size      | Height     | Usage                |
+|-----------|------------|----------------------|
+| `default` | 28px (h-7) | Standard buttons     |
+| `xs`      | 20px (h-5) | Compact/tight spaces |
+| `sm`      | 24px (h-6) | Dense toolbars       |
+| `lg`      | 32px (h-8) | Primary/hero buttons |
+| `icon`    | 28px (h-7) | Icon-only buttons    |
+| `icon-xs` | 20px (h-5) | Tiny icon buttons    |
+| `icon-sm` | 24px (h-6) | Small icon buttons   |
+| `icon-lg` | 32px (h-8) | Large icon buttons   |
 
 ## Dependencies
 

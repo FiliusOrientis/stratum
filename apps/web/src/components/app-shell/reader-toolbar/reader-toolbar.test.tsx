@@ -106,6 +106,7 @@ describe('ReaderToolbar', () => {
     useViewerStore.setState({ currentPage: 1, pageCount: 5 })
     render(<ReaderToolbar />)
     const nextBtns = screen.getAllByLabelText('Next page')
+    // SAFETY: the desktop toolbar renders one Next page button for every rendered state
     await userEvent.click(nextBtns[0] as HTMLElement)
     expect(useViewerStore.getState().currentPage).toBe(2)
   })
@@ -114,6 +115,7 @@ describe('ReaderToolbar', () => {
     useViewerStore.setState({ currentPage: 3, pageCount: 5 })
     render(<ReaderToolbar />)
     const prevBtns = screen.getAllByLabelText('Previous page')
+    // SAFETY: the desktop toolbar renders one Previous page button for every rendered state
     await userEvent.click(prevBtns[0] as HTMLElement)
     expect(useViewerStore.getState().currentPage).toBe(2)
   })

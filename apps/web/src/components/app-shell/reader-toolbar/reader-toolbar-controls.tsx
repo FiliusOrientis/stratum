@@ -38,6 +38,13 @@ export function ToolbarControls({ isTop }: { isTop: boolean }) {
   const { setPosition, hide } = useToolbarStore(
     useShallow(s => ({ setPosition: s.setPosition, hide: s.hide })),
   )
+  const moveEdgeLabel = isTop ? 'Move to bottom' : 'Move to top'
+  const moveEdgeIcon = isTop ? (
+    <ArrowDownToLine aria-hidden="true" />
+  ) : (
+    <ArrowUpToLine aria-hidden="true" />
+  )
+  const moveToOppositeEdge = () => setPosition(isTop ? 'bottom' : 'top')
 
   return (
     <>
@@ -62,12 +69,12 @@ export function ToolbarControls({ isTop }: { isTop: boolean }) {
         </ToolbarButton>
         <Separator variant="soft" orientation="vertical" className="h-7" />
         <ToolbarButton
-          label={isTop ? 'Move to bottom' : 'Move to top'}
+          label={moveEdgeLabel}
           size="icon"
           variant="ghost"
-          onPress={() => setPosition(isTop ? 'bottom' : 'top')}
+          onPress={moveToOppositeEdge}
         >
-          {isTop ? <ArrowDownToLine aria-hidden="true" /> : <ArrowUpToLine aria-hidden="true" />}
+          {moveEdgeIcon}
         </ToolbarButton>
         <ToolbarButton label="Hide toolbar" size="icon" variant="ghost" onPress={hide}>
           <EyeOff aria-hidden="true" />
@@ -103,13 +110,9 @@ export function ToolbarControls({ isTop }: { isTop: boolean }) {
               Zoom out
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onAction={() => setPosition(isTop ? 'bottom' : 'top')}>
-              {isTop ? (
-                <ArrowDownToLine aria-hidden="true" />
-              ) : (
-                <ArrowUpToLine aria-hidden="true" />
-              )}
-              {isTop ? 'Move to bottom' : 'Move to top'}
+            <DropdownMenuItem onAction={moveToOppositeEdge}>
+              {moveEdgeIcon}
+              {moveEdgeLabel}
             </DropdownMenuItem>
             <DropdownMenuItem onAction={hide}>
               <EyeOff aria-hidden="true" />

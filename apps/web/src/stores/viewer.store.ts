@@ -3,6 +3,23 @@ import { create } from 'zustand'
 type ZoomMode = 'fit' | 'width' | 'custom'
 type CoverType = 'none' | 'plain' | 'basic' | 'ridge'
 
+const ZOOM_MIN = 0.5
+const ZOOM_MAX = 5
+const ZOOM_STEP = 0.25
+const ZOOM_INITIAL_IN = 1.25
+const ZOOM_INITIAL_OUT = 0.75
+
+function clampPage(page: number, pageCount: number): number {
+  if (pageCount < 1) {
+    return 1
+  }
+  return Math.min(pageCount, Math.max(1, page))
+}
+
+function clampZoom(level: number): number {
+  return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, level))
+}
+
 interface ViewerState {
   currentPage: number
   pageCount: number
@@ -35,10 +52,11 @@ export const useViewerStore = create<ViewerState & ViewerActions>((set, get) => 
   coverType: 'none',
   isFullscreen: false,
   isReady: false,
-  setPage: page => set({ currentPage: page }),
-  setPageCount: pageCount => set({ pageCount }),
+  setPage: page => set(s => ({ currentPage: clampPage(page, s.pageCount) })),
+  setPageCount: pageCount =>
+    set(s => ({ pageCount, currentPage: clampPage(s.currentPage, pageCount) })),
   setZoomMode: zoomMode => set({ zoomMode }),
-  setZoomLevel: zoomLevel => set({ zoomLevel }),
+  setZoomLevel: zoomLevel => set({ zoomLevel: clampZoom(zoomLevel) }),
   setCoverType: coverType => set({ coverType }),
   toggleFullscreen: () => set(s => ({ isFullscreen: !s.isFullscreen })),
   setReady: isReady => set({ isReady }),
@@ -57,17 +75,17 @@ export const useViewerStore = create<ViewerState & ViewerActions>((set, get) => 
   zoomIn: () => {
     const { zoomMode, zoomLevel } = get()
     if (zoomMode === 'custom') {
-      set({ zoomLevel: Math.min(5, +(zoomLevel + 0.25).toFixed(2)) })
+      set({ zoomLevel: clampZoom(+(zoomLevel + ZOOM_STEP).toFixed(2)) })
     } else {
-      set({ zoomMode: 'custom', zoomLevel: 1.25 })
+      set({ zoomMode: 'custom', zoomLevel: ZOOM_INITIAL_IN })
     }
   },
   zoomOut: () => {
     const { zoomMode, zoomLevel } = get()
     if (zoomMode === 'custom') {
-      set({ zoomLevel: Math.max(0.5, +(zoomLevel - 0.25).toFixed(2)) })
+      set({ zoomLevel: clampZoom(+(zoomLevel - ZOOM_STEP).toFixed(2)) })
     } else {
-      set({ zoomMode: 'custom', zoomLevel: 0.75 })
+      set({ zoomMode: 'custom', zoomLevel: ZOOM_INITIAL_OUT })
     }
   },
 }))

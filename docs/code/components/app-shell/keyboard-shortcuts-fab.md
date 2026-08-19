@@ -6,20 +6,11 @@ Floating action button (`?` question icon, ghost) that toggles the `KeyboardShor
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop        | Type                  | Description                                                      |
+|-------------|-----------------------|------------------------------------------------------------------|
 | `shortcuts` | `KeyboardHintProps[]` | Ordered list of hints: `{ keys: string[], description: string }` |
 
-## Structure
-
-```
-<div> ← flex-col, items-start, gap-2, pointer-events-auto
-  <AnimatePresence>
-    {isOpen && <KeyboardShortcuts shortcuts={shortcuts} />}   ← pops up above the FAB
-  </AnimatePresence>
-  <Fab label="Keyboard shortcuts" aria-expanded={isOpen} onPress={toggle} icon={<CircleHelp aria-hidden="true" />} />
-</div>
-```
+## Behavior
 
 - **Default closed**: panel mounts only on first open — no render cost, no layout impact
 - **Animation**: panel entrance/exit driven by `KeyboardShortcuts` `fadeUp` variants (280ms in, 150ms out, `easeOut`), orchestrated via `AnimatePresence`
@@ -48,6 +39,6 @@ The page wraps the FAB in an `absolute bottom-0` container (`main` is `relative`
 
 - `lucide-react` — CircleHelp
 - `motion/react` — `AnimatePresence` for pop-up/close
-- `@/components/fab` — generic `Fab` (ghost icon button)
+- `@/components/shared` — generic `Fab` (ghost icon button)
 - `./keyboard-shortcuts` — `KeyboardShortcuts` panel
 - `./keyboard-hint` — `KeyboardHintProps` type

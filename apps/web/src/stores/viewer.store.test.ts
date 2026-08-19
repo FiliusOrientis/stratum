@@ -24,8 +24,27 @@ describe('viewerStore', () => {
   })
 
   it('sets page', () => {
+    useViewerStore.getState().setPageCount(10)
     useViewerStore.getState().setPage(5)
     expect(useViewerStore.getState().currentPage).toBe(5)
+  })
+
+  it('clamps page above page count', () => {
+    useViewerStore.getState().setPageCount(10)
+    useViewerStore.getState().setPage(99)
+    expect(useViewerStore.getState().currentPage).toBe(10)
+  })
+
+  it('clamps page below 1', () => {
+    useViewerStore.getState().setPageCount(10)
+    useViewerStore.getState().setPage(0)
+    expect(useViewerStore.getState().currentPage).toBe(1)
+  })
+
+  it('clamps current page when page count shrinks', () => {
+    useViewerStore.setState({ currentPage: 5, pageCount: 10 })
+    useViewerStore.getState().setPageCount(3)
+    expect(useViewerStore.getState().currentPage).toBe(3)
   })
 
   it('sets page count', () => {
@@ -75,6 +94,18 @@ describe('viewerStore', () => {
     const state = useViewerStore.getState()
     expect(state.zoomMode).toBe('custom')
     expect(state.zoomLevel).toBe(0.75)
+  })
+
+  it('zoom in caps at the maximum level', () => {
+    useViewerStore.setState({ zoomMode: 'custom', zoomLevel: 5 })
+    useViewerStore.getState().zoomIn()
+    expect(useViewerStore.getState().zoomLevel).toBe(5)
+  })
+
+  it('zoom out floors at the minimum level', () => {
+    useViewerStore.setState({ zoomMode: 'custom', zoomLevel: 0.5 })
+    useViewerStore.getState().zoomOut()
+    expect(useViewerStore.getState().zoomLevel).toBe(0.5)
   })
 
   it('toggles fullscreen', () => {
